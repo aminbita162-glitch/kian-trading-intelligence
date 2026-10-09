@@ -1,0 +1,1163 @@
+# KIAN TRADING INTELLIGENCE
+# MASTER ENGINEERING DIRECTIVE
+Version: 1.0 — Final Review Draft (Owner Approved for Manual Transfer)
+Canonical Filename: DIRECTIVE.TXT
+Project Root: KIAN-TRADING-INTELLIGENCE
+Status: EXECUTION LOCKED — EXPLICIT PHASE AUTHORIZATION REQUIRED
+Architecture Decisions: AD-001 through AD-033
+Implementation Phases: 10
+Document Language: English
+Implementation-Agent Identity: Neutral
+
+SECTION 00 — MASTER AUTHORITY AND EXECUTION LOCK
+
+00.1 Purpose
+This document is the single master engineering directive for Kian Trading Intelligence, a multi-tenant, cloud-executed cryptocurrency trading and mining intelligence platform.
+It defines the approved product scope and architecture; all 33 architecture decisions; four specialized agents and independent Risk & Safety Kernel; trading, mining, financial, security, cloud, and client requirements; engineering contracts and non-negotiable invariants; ten controlled development phases; mandatory testing, Git commit, push, and remote verification; human approval gates and release restrictions.
+This document must remain independent of any specific development agent, model, vendor, or AI coding assistant.
+
+00.2 Execution Authorization
+The presence of this file in a repository does not authorize development.
+Implementation requires an explicit instruction from the human project owner specifying the authorized phase, permitted scope, approved configuration decisions, and additional restrictions.
+Without explicit authorization, the implementation agent may inspect the directive and report readiness but must not modify the project.
+
+00.3 Authority and Conflict Resolution
+Applicable law, provider restrictions, mandatory security controls, and explicit owner approvals govern implementation.
+The approved architecture must not be silently changed.
+If the directive, a phase instruction, existing code, or an external tool recommendation conflicts with a higher-priority requirement, the conflicting action must stop and be reported.
+The implementation agent may recommend alternatives but must not independently authorize architecture changes, financial activity, production spending, or sensitive operations.
+
+00.4 Absolute Prohibitions
+- No unauthorized phase progression.
+- No unapproved live trading or real mining operations.
+- No direct LLM-controlled financial execution.
+- No bypass of the independent Risk Kernel.
+- No autonomous withdrawals.
+- No plaintext secrets in source code, Git, or ordinary logs.
+- No cross-tenant data access.
+- No blind retries of uncertain exchange orders.
+- No automatic trading restart after critical failure.
+- No force-push, history rewrite, or destructive file operations without approval.
+- No fabricated test, benchmark, deployment, legal, or Git evidence.
+- No silent removal or reinterpretation of approved requirements.
+- No claiming phase completion when mandatory verification fails.
+
+SECTION 01 — PRODUCT MISSION AND OPERATING MODES
+
+01.1 Mission
+Build a secure, auditable, scalable, cost-aware trading and mining intelligence platform combining deterministic execution, validated quantitative intelligence, specialized agents, and human-controlled operational authority.
+
+01.2 Initial Product Scope
+The initial platform shall support:
+1. Cryptocurrency spot-market intelligence and trading.
+2. Simulation and paper trading.
+3. Mining profitability simulation.
+4. Controlled future mining hardware and pool integration.
+5. MacBook desktop application.
+6. iPhone-compatible remote dashboard.
+7. Cloud-based trading execution and scheduling.
+8. Multi-tenant user and profile management.
+9. Financial accounting, profit policies, and notifications.
+10. Independent safety, security, audit, and compliance controls.
+The architecture shall support future expansion into additional financial markets, but stocks, forex, derivatives, leverage, and other products are not authorized for initial live operation.
+
+01.3 Operating Modes
+SIMULATION: Historical or synthetic data without real financial orders.
+PAPER: Simulated trading using approved market data or sandbox environments.
+LIVE: Real financial execution through explicitly authorized providers after all technical, security, legal, and human approval gates pass.
+All interfaces, records, and audit events must clearly identify the active mode. A mode change must never silently enable real-money trading.
+
+01.4 Scale Objective
+The platform shall be designed for multi-tenant operation from inception.
+The target of 10,000 users is a capacity-planning objective, not a verified claim of concurrent trading capacity. Performance and infrastructure requirements must be validated through realistic workload modeling and benchmark evidence.
+
+SECTION 02 — APPROVED ARCHITECTURE DECISION REGISTER
+
+All decisions below are binding at the level of their stated requirements.
+
+AD-001 — Initial Domain Scope
+Cryptocurrency spot trading and mining are the initial domains. Future markets require separate approval.
+
+AD-002 — Multi-Tenant Foundation
+Tenant isolation, authorization, quotas, and scalable service boundaries must be designed from the beginning.
+
+AD-003 — Hybrid Low-Token Intelligence
+Routine financial processing shall use deterministic algorithms and validated quantitative methods. LLM usage must remain bounded and nonauthoritative for execution.
+
+AD-004 — Four Agents and Independent Safety Kernel
+Implement exactly four primary specialized agents plus a separate deterministic Risk & Safety Kernel. The kernel is not a fifth agent.
+
+AD-005 — Multi-Provider Financial Connectivity
+Use approved provider adapters for exchange, wallet, and relevant financial connections. Maintain non-custodial boundaries, reconciliation, scoped credentials, and manual recovery after critical failures.
+
+AD-006 — Cloud Execution and Calendar Sessions
+Cloud services execute and control scheduled sessions independently of the MacBook or iPhone. Every session requires authorization and preflight checks.
+
+AD-007 — Profit and Financial Governance
+Support realized net-profit calculations, configurable profit thresholds, profit reservations, and controlled withdrawal-request workflows.
+
+AD-008 — User Onboarding and Profiles
+Support identity, jurisdiction, timezone, language, exchange connections, trading capital, risk policies, strategy configuration, and security preferences. User-entered profile information is not equivalent to provider KYC.
+
+AD-009 — Notifications and Mobile Monitoring
+Provide a unified notification hub, auditable transaction history, configurable profit alerts, and secure iPhone monitoring.
+
+AD-010 — Zero-Trust Security
+Use strong authentication, MFA, least privilege, secure credentials, tenant isolation, and independently enforced safety policies.
+
+AD-011 — Quantitative and Validated ML Intelligence
+Use deterministic market calculations, validated ML, and limited LLM analysis. LLM output must not directly authorize or execute orders.
+
+AD-012 — Strategy Validation Pipeline
+Require historical testing, realistic execution assumptions, out-of-sample analysis, walk-forward validation, paper trading, and controlled live-release gates.
+
+AD-013 — Dynamic Risk Management
+Enforce hard limits for exposure, daily loss, drawdown, concentration, volatility, liquidity, and correlated positions.
+
+AD-014 — Deterministic Execution and Reconciliation
+Use durable order state, unique identifiers, idempotency, explicit partial-fill handling, and reconciliation of uncertain exchange outcomes.
+
+AD-015 — Mining Simulation and Integration
+Begin with simulation and profitability validation. Real hardware and pool integration require explicit approval and safety controls.
+
+AD-016 — Event-Driven Multi-Tenant Cloud
+Use durable asynchronous processing, horizontally scalable workers, tenant isolation, and independent safety services.
+
+AD-017 — Fault-Tolerant Infrastructure and Controlled Recovery
+Services must recover without creating duplicate financial effects. Critical trading failures require SAFE_HALT, reconciliation, and human authorization before resumption.
+
+AD-018 — Financial Event History and Multi-Level Profit Governance
+Use durable, auditable financial records, balanced journal postings, exact decimal arithmetic, idempotent accounting, and configurable profit policies.
+Full event sourcing across every service is not mandatory; the financial architecture must provide equivalent auditability and correctness guarantees.
+
+AD-019 — Non-Custodial Credential Vault
+Protect financial credentials through managed encryption, least privilege, tenant isolation, rotation, revocation, and audited access. Withdrawal-enabled trading credentials are prohibited by default.
+
+AD-020 — Policy-Governed Agent Orchestration
+Use typed agent contracts, explicit permissions, deterministic cross-verification, and independent risk authorization. Agent failures must not expand privileges.
+
+AD-021 — Shared Market Data and Deterministic Signals
+Normalize, validate, and reuse eligible public market data while isolating tenant-specific decisions and credentials. Reject stale or invalid market data from live execution.
+
+AD-022 — Observability, Audit, and SRE Gates
+Provide structured logs, distributed traces, operational metrics, tamper-evident audit records, incident evidence, and measurable service reliability objectives.
+
+AD-023 — Digital Twin and Continuous Verification
+Use deterministic simulation, exchange emulation, replay, fault injection, mining simulation, and repeatable verification before live operations.
+
+AD-024 — Progressive Delivery and Safe Rollback
+Use versioned artifacts, pinned dependencies, compatible migrations, staged releases, health gates, and safe rollback procedures. Rollback must not blindly reverse external financial effects.
+
+AD-025 — Cost-Aware Orchestration
+Enforce bounded LLM usage, tenant quotas, shared eligible data processing, rate limits, and infrastructure cost controls without weakening safety.
+
+AD-026 — Centralized Identity and Step-Up Authorization
+Enforce tenant-scoped identity, revocable sessions, MFA, and stronger authentication for sensitive operations.
+
+AD-027 — Verified Remote Commands
+Remote commands require typed action contracts, valid authorization, expiry, idempotency, and auditable outcomes.
+
+AD-028 — Disaster Recovery
+Provide multi-AZ resilience, tested backups, point-in-time recovery, execution ownership controls, and reconciliation before trading resumes.
+
+AD-029 — Jurisdiction-Aware Compliance
+Live functionality must be gated by provider eligibility, jurisdiction, product restrictions, and applicable legal obligations.
+
+AD-030 — Unified MacBook and iPhone Experience
+Provide consistent trading, mining, financial, scheduling, security, and incident-management interfaces backed by cloud authorization.
+
+AD-031 — Technology Direction
+Use Python/FastAPI for the core backend, React/TypeScript for interfaces, Tauri for the MacBook application, PostgreSQL for durable records, and managed cloud infrastructure. Specific messaging and cloud providers remain subject to evaluation.
+
+AD-032 — Contract-First Human-Gated Development
+Implement only authorized phases, verify outcomes, commit and push approved changes, produce evidence, and stop for human approval.
+
+AD-033 — Architecture Audit and Readiness Gates
+Architecture consistency, financial correctness, security, performance, compliance, and release readiness must be reviewed before production activation.
+
+Decision Integrity
+Every approved decision must map to implementation requirements, tests, and release evidence. No approved decision may be silently removed or contradicted.
+
+SECTION 03 — SYSTEM ARCHITECTURE
+
+03.1 Client Layer
+The MacBook application and iPhone dashboard provide monitoring, configuration, user authorization, and secure command submission. Clients are not trusted financial execution authorities.
+
+03.2 Cloud Control Plane
+Responsible for identity and tenant management; profiles and configuration; compliance eligibility; calendar and session scheduling; secure remote commands; strategy and policy version management; administrative and audit controls.
+
+03.3 Cloud Execution Plane
+Responsible for market-data processing; strategy evaluation; independent risk authorization; order submission and reconciliation; financial ledger posting; mining coordination.
+
+03.4 Data Plane
+Responsible for durable relational state; financial journals; event history; audit evidence; market-data storage; backup and recovery records; encrypted secret references.
+
+03.5 Deployment Principle
+Logical service separation does not automatically require a separate deployment for every module. Choose deployment boundaries based on security, reliability, operational cost, and measured scaling requirements.
+
+SECTION 04 — FOUR SPECIALIZED AGENTS
+
+04.1 Market Intelligence Agent
+Responsibilities: Market observations; feature computation; market-condition analysis; bounded research summaries.
+Prohibited: Direct trade execution.
+
+04.2 Strategy & Portfolio Agent
+Responsibilities: Strategy evaluation; portfolio analysis; position proposals; versioned trade intents.
+Prohibited: Risk override or self-authorized execution.
+
+04.3 Execution & Supervisor Agent
+Responsibilities: Authorized order lifecycle coordination; exchange adapter orchestration; execution-state monitoring; reconciliation coordination.
+Prohibited: Bypassing independent risk authorization.
+
+04.4 Mining Operations Agent
+Responsibilities: Mining simulation; profitability assessment; pool/hardware integration coordination; safety telemetry and reporting.
+Prohibited: Unrestricted trading-account access.
+
+04.5 Independent Risk & Safety Kernel
+The Risk Kernel is a deterministic safety service, not an agent.
+It validates tenant and profile authorization; session state; venue and instrument eligibility; capital and exposure; daily loss and drawdown; concentration and correlation; liquidity and volatility; market-data freshness; emergency-stop state; risk policy version; order-specific authorization validity.
+Invariant: No exposure-increasing order may reach an exchange adapter without valid risk authorization.
+
+SECTION 05 — TRADING EXECUTION CONTRACT
+
+05.1 Mandatory Execution Pipeline
+1. Validate market data.
+2. Generate trade intent.
+3. Verify tenant and session authorization.
+4. Verify provider and compliance eligibility.
+5. Reserve risk capacity.
+6. Issue bounded risk authorization.
+7. Persist the authorized order intent.
+8. Submit through an approved exchange adapter.
+9. Record acknowledgement or uncertain outcome.
+10. Reconcile exchange execution.
+11. Post confirmed financial effects.
+12. Update audit and notifications.
+
+05.2 Order States
+CREATED; VALIDATED; RISK_APPROVED; SUBMISSION_PENDING; SUBMITTED; PARTIALLY_FILLED; FILLED; CANCELLED; REJECTED; EXPIRED; UNKNOWN_OUTCOME; RECONCILIATION_REQUIRED; SAFE_HALT.
+All legal transitions must be defined and tested.
+
+05.3 Idempotency
+Every trade intent, order submission, fill, and financial posting must have a stable identity.
+Timeouts must not trigger blind order resubmission. Unknown outcomes require exchange reconciliation. If safe reconciliation is impossible, new exposure-increasing operations must stop.
+
+05.4 Risk Reservation and Concurrency
+Concurrent strategies and sessions must not spend the same risk budget. Risk reservations must be concurrency-safe and tied to specific order parameters. Expired or materially changed authorizations must be rejected.
+
+05.5 Exchange Adapters
+Each approved adapter must define supported products and operations; authentication scopes; order submission and cancellation; order status and partial fills; client order identifiers; rate limits; protective order capabilities; recovery and reconciliation behavior; provider restrictions.
+No exchange is automatically approved for live use.
+
+05.6 Emergency Stop
+Emergency stop must block new exposure-increasing orders; prevent automatic trading restart; preserve order and financial evidence; initiate reconciliation; apply only preauthorized protective actions; report actual exchange-side outcomes.
+An accepted emergency command is not proof that all external orders were cancelled.
+
+SECTION 06 — CLOUD SCHEDULER AND SESSION CONTROL
+
+06.1 Scheduling
+Support recurring and one-time sessions with explicit timezone handling.
+Every session must specify tenant and profile; strategy version; exchange and instruments; capital allocation; risk policy; start and stop conditions; preflight requirements; end-of-session position policy.
+
+06.2 Session States
+DRAFT; SCHEDULED; PREFLIGHT; AWAITING_USER_APPROVAL; RUNNING; DEGRADED; SAFE_HALT; RECONCILING; COMPLETED; CANCELLED.
+
+06.3 Session Safety
+Scheduled events must not bypass authorization, compliance, or risk checks.
+At normal session end, the default policy is to stop new entries and maintain approved protections for existing positions. Alternative closing policies require explicit authorization and risk validation.
+Critical failures require reconciliation and human approval before resumption.
+
+SECTION 07 — FINANCIAL LEDGER AND PROFIT MANAGEMENT
+
+07.1 Ledger Principles
+- Durable transactional records.
+- Balanced financial postings.
+- Exact decimal arithmetic.
+- Asset-specific precision.
+- Idempotent processing.
+- Explicit correction entries.
+- Reconciliation checkpoints.
+- Traceable event provenance.
+
+07.2 Financial Reporting
+Distinguish realized net P&L; unrealized P&L; available trading balance; reserved capital; profit-lock reservations; provider-reported withdrawable balance; open liabilities and unsettled amounts.
+
+07.3 Profit Policies
+Support multiple configurable thresholds for profit alerts; profit reservations; trading stop conditions; withdrawal-request preparation; financial review.
+Thresholds must not trigger duplicate financial effects.
+Profit reservation is not a withdrawal. Actual withdrawals require separate authorization and provider/legal eligibility.
+
+07.4 Reconciliation
+Exchange-reported executions and balances must be reconciled with internal financial records. Discrepancies must produce explicit incidents or correction workflows. Silent ledger mutation is prohibited.
+
+SECTION 08 — MARKET DATA AND INTELLIGENCE
+
+08.1 Market Data Requirements
+Approved provider adapters; normalized schemas; timestamp validation; freshness checks; duplicate detection; ordering controls; reconnection behavior; historical storage; deterministic replay; data provenance.
+
+08.2 Shared Processing
+Eligible public market data may be shared across tenants where provider terms permit. Tenant-specific strategies, credentials, positions, and decisions must remain isolated.
+
+08.3 Intelligence Rules
+Routine indicators and risk calculations must not depend on LLM availability. Validated ML may support research and market classification. LLM outputs must never be authoritative for prices, balances, order status, or financial permissions.
+
+08.4 Strategy Validation
+1. Research specification.
+2. Historical data quality checks.
+3. Realistic backtesting.
+4. Out-of-sample evaluation.
+5. Walk-forward testing.
+6. Stress testing.
+7. Paper trading.
+8. Security and risk verification.
+9. Limited live approval.
+10. Continuous monitoring.
+No strategy may be represented as guaranteed profitable.
+
+SECTION 09 — MINING OPERATIONS
+
+09.1 Simulation
+Model hash rate; network difficulty; expected rewards; pool fees; electricity costs; equipment efficiency; hardware depreciation; temperature; downtime; net profitability and uncertainty.
+
+09.2 Hardware and Pool Integration
+Physical integration requires approved adapter; verified operator authority; safety limits; reliable telemetry; failure handling; explicit authorization.
+The MacBook is a control interface, not the assumed mining hardware. Mining financial records must remain distinguishable from trading records.
+
+SECTION 10 — SECURITY AND ZERO TRUST
+
+10.1 Identity
+Use strong authentication, appropriate MFA, revocable sessions, device controls, and tenant-scoped permissions. Sensitive operations require step-up authentication.
+
+10.2 Secrets
+Use managed encryption and secrets infrastructure. Never store plaintext financial credentials in source code, Git, or ordinary logs. Default trading API credentials must not permit withdrawals.
+
+10.3 Tenant Isolation
+Enforce isolation at API boundary; service authorization; database access; event processing; secret access; financial records; agent context.
+Cross-tenant access attempts must be tested and rejected.
+
+10.4 Remote Action Contracts
+Sensitive commands require actor identity; tenant and profile; target resource; operation; authorization scope; contract version; idempotency key; expiry; authentication assurance.
+Remote emergency stop must use a deterministic path independent of LLM processing.
+
+SECTION 11 — DATA, EVENTS, AND INFRASTRUCTURE
+
+11.1 Preferred Technology
+- Backend: Python / FastAPI.
+- Interfaces: React / TypeScript.
+- MacBook: Tauri.
+- iPhone: Responsive PWA.
+- Primary database: PostgreSQL.
+- Cache: Redis for nonauthoritative state.
+- Messaging: Durable event bus, selected after testing.
+- Secrets: Managed KMS and secrets service.
+- Observability: OpenTelemetry-compatible stack.
+- Deployment: Managed cloud infrastructure.
+
+11.2 Repository Structure
+Preferred monorepo: apps/; services/; agents/; packages/; infrastructure/; tests/; docs/; .github/workflows/; DIRECTIVE.TXT.
+
+11.3 Event Contracts
+Critical events must include event identifier; event type; schema version; tenant context; aggregate identifier; correlation identifier; causation identifier; timestamp; producer identity; payload or secure reference.
+
+11.4 Messaging Reliability
+Use durable delivery; idempotent consumers; bounded retries; dead-letter handling; transactional outbox/inbox where appropriate; explicit ordering requirements; schema compatibility checks.
+Messaging infrastructure alone does not guarantee exactly-once financial effects.
+
+11.5 Database Integrity
+Use versioned migrations, explicit constraints, transactional financial posting, and tested recovery procedures. Row-level security may provide additional defense in depth.
+
+SECTION 12 — DISASTER RECOVERY AND OPERATIONAL RESILIENCE
+
+Required capabilities: Multi-AZ resilience; protected backups; point-in-time recovery; backup restoration tests; execution ownership controls; split-brain protection; incident state management; exchange reconciliation; human-controlled trading recovery.
+Critical principle: Infrastructure recovery does not authorize trading recovery.
+Cloud restart, worker restart, or scheduler restart must never silently restore live trading after a critical failure.
+
+SECTION 13 — OBSERVABILITY AND AUDIT
+
+Implement structured logs; distributed traces; operational metrics; financial reconciliation metrics; risk decision records; policy version tracking; security audit events; incident records; release records; alerting.
+Audit evidence must be tamper-evident and access-controlled. Sensitive values must be redacted. Critical financial evidence loss must trigger the defined safety policy.
+
+SECTION 14 — PERFORMANCE, COST, AND CAPACITY
+
+14.1 Capacity
+Design for a target of 10,000 users. Actual supported concurrency, order throughput, latency, and availability must be established through measured benchmarks.
+
+14.2 Provisional Performance Targets
+The following are planning targets, not verified achievements:
+- API read p95: 300 ms under defined reference workload.
+- API write p95: 500 ms, excluding external exchange latency.
+- Internal risk decision p99: 100 ms for approved reference scenarios.
+- Critical service recovery target: 30 minutes, subject to scenario definition.
+- Financial data loss objective: minimized through durable persistence, replication, and reconciliation.
+These values require explicit workload assumptions and approval before becoming release obligations.
+
+14.3 Cost Governance
+Use deterministic-first processing; bounded LLM calls; tenant quotas; rate limits; shared eligible public-data processing; noncritical asynchronous jobs; cost monitoring; resource budgets.
+Cost optimization must never disable mandatory safety or financial controls.
+
+SECTION 15 — COMPLIANCE AND LIVE-ACTIVATION GATES
+
+Live functionality must respect jurisdiction; provider eligibility; account permissions; product restrictions; applicable KYC/AML requirements; sanctions restrictions; privacy and data protection; required financial-services authorization; human approval.
+User-entered profile information does not replace exchange KYC. Non-custodial design does not automatically remove regulatory obligations.
+If legal eligibility is unresolved, live activation remains disabled.
+
+SECTION 16 — MACBOOK AND IPHONE PRODUCT EXPERIENCE
+
+Provide:
+1. Overview dashboard.
+2. Trading center.
+3. Mining center.
+4. Financial center.
+5. Strategy and intelligence center.
+6. Calendar and session controls.
+7. Notification hub.
+8. Connected accounts.
+9. Security settings.
+10. Incident and recovery status.
+Clearly distinguish simulation, paper, and live; realized and unrealized P&L; submitted and filled orders; requested and completed commands; healthy, degraded, and halted operations; available and reserved capital.
+The interface must never claim an external operation succeeded without authoritative confirmation.
+
+SECTION 17 — TEN-PHASE DEVELOPMENT PROGRAM
+
+All development is divided into exactly ten controlled phases. Each phase has a fixed scope, acceptance requirements, mandatory testing, Git evidence, and a hard human approval gate.
+
+PHASE 01 — REPOSITORY AND ENGINEERING FOUNDATION
+Objective: Establish the secure, reproducible engineering foundation.
+Required deliverables:
+1. Repository identity and remote verification.
+2. Approved branch strategy.
+3. Structured monorepo.
+4. Python/FastAPI foundation.
+5. TypeScript foundation.
+6. Shared contracts.
+7. Dependency management.
+8. Formatting, linting, and type checking.
+9. Unit-test framework.
+10. CI configuration.
+11. Secret-handling rules.
+12. Initial architecture documentation.
+Mandatory acceptance: Reproducible local setup; passing baseline checks; clean secret scan; working CI; validated Git commit and push; verified remote SHA.
+Prohibited: Live trading, real financial credentials, unauthorized cloud spending, or Phase 02 implementation.
+
+PHASE 02 — IDENTITY AND MULTI-TENANT SECURITY
+Required deliverables:
+1. Tenant and user models.
+2. Authentication.
+3. Authorization policies.
+4. Profile management.
+5. MFA and step-up contracts.
+6. Session and device controls.
+7. Credential-vault interfaces.
+8. Tenant isolation.
+9. Security audit events.
+10. Database migrations.
+11. Adversarial access-control tests.
+Mandatory acceptance: Tenant isolation, privilege escalation, authentication, and security tests pass.
+
+PHASE 03 — MARKET DATA FOUNDATION
+Required deliverables:
+1. Market-data contracts.
+2. Simulated data provider.
+3. Provider adapter interfaces.
+4. Normalized events.
+5. Timestamp and freshness checks.
+6. Duplicate handling.
+7. Historical storage.
+8. Replay engine.
+9. Deterministic indicators.
+10. Rate-limit handling.
+11. Reconnection behavior.
+Mandatory acceptance: Replay, integrity, stale-data, and recovery tests pass.
+
+PHASE 04 — RISK KERNEL AND TRADING EXECUTION
+Required deliverables:
+1. Independent Risk Kernel.
+2. Risk policy versioning.
+3. Risk reservations.
+4. Trading session state machine.
+5. Trade-intent contracts.
+6. Order state machine.
+7. Exchange simulator.
+8. Idempotency.
+9. Partial-fill handling.
+10. Unknown-outcome reconciliation.
+11. Emergency stop.
+12. Concurrency and race-condition tests.
+Mandatory acceptance: No risk bypass, duplicate order, unsafe retry, or unauthorized live execution.
+
+PHASE 05 — FINANCIAL LEDGER AND PROFIT POLICIES
+Required deliverables:
+1. Financial account model.
+2. Balanced journal.
+3. Fill-to-ledger mapping.
+4. Decimal precision.
+5. Fee accounting.
+6. Realized and unrealized P&L.
+7. Profit thresholds.
+8. Profit reservations.
+9. Reconciliation.
+10. Withdrawal-request contracts.
+11. Financial invariant tests.
+Mandatory acceptance: Balanced accounting, idempotent postings, correct corrections, and successful reconciliation tests.
+
+PHASE 06 — FOUR-AGENT INTELLIGENCE
+Required deliverables:
+1. Four specialized agent contracts.
+2. Agent permission boundaries.
+3. Deterministic orchestration.
+4. Strategy versioning.
+5. Backtesting.
+6. Out-of-sample testing.
+7. Walk-forward validation.
+8. Paper trading.
+9. Validated ML interfaces.
+10. Limited LLM gateway.
+11. Token budgets.
+12. Decision traceability.
+Mandatory acceptance: Agents cannot bypass risk controls; strategy results are reproducible; token limits are enforced.
+
+PHASE 07 — MINING SIMULATION AND SAFETY
+Required deliverables:
+1. Mining simulator.
+2. Hash-rate and reward models.
+3. Electricity cost.
+4. Depreciation.
+5. Pool interfaces.
+6. Hardware telemetry contracts.
+7. Temperature policies.
+8. Mining financial integration.
+9. Failure simulation.
+10. Controlled adapter interfaces.
+Mandatory acceptance: Simulation and safety tests pass; physical operations remain separately authorized.
+
+PHASE 08 — MACBOOK AND IPHONE APPLICATIONS
+Required deliverables:
+1. Tauri MacBook application.
+2. Responsive iPhone PWA.
+3. Onboarding.
+4. Trading dashboard.
+5. Mining dashboard.
+6. Financial dashboard.
+7. Calendar scheduler.
+8. Secure remote commands.
+9. Notification hub.
+10. Connected-account settings.
+11. Incident and recovery interface.
+12. End-to-end simulated workflows.
+Mandatory acceptance: User journeys, authorization, remote commands, and state presentation tests pass.
+
+PHASE 09 — SECURITY, RESILIENCE, AND SCALE
+Required deliverables:
+1. Threat-model review.
+2. Security scanning.
+3. Tenant-isolation testing.
+4. Risk stress tests.
+5. Financial stress tests.
+6. Backup restoration.
+7. Disaster recovery.
+8. Split-brain simulation.
+9. Fault injection.
+10. Load testing.
+11. Observability verification.
+12. Cost and token evaluation.
+Mandatory acceptance: Critical findings resolved or release blocked; recovery and performance evidence recorded.
+
+PHASE 10 — RELEASE ENGINEERING AND CONTROLLED LAUNCH
+Required deliverables:
+1. Final architecture review.
+2. Dependency verification.
+3. Release artifact integrity.
+4. Migration verification.
+5. Staging deployment.
+6. Shadow/canary readiness.
+7. Rollback testing.
+8. Operational runbooks.
+9. User documentation.
+10. Administrator documentation.
+11. Release evidence package.
+12. Final readiness report.
+Mandatory acceptance: Reproducible release candidate, verified rollback, passing technical gates, and complete documentation.
+Important: Completion of Phase 10 does not automatically authorize live trading or physical mining operations.
+
+SECTION 18 — UNIVERSAL PHASE EXECUTION PROTOCOL
+
+Every phase must follow this sequence.
+
+STEP 1 — PREFLIGHT
+Before implementation:
+1. Read this directive.
+2. Confirm explicit phase authorization.
+3. Confirm the correct project root.
+4. Inspect repository contents.
+5. Inspect Git status.
+6. Verify branch and remote.
+7. Record starting commit SHA.
+8. Identify uncommitted changes.
+9. Verify prerequisites.
+10. Identify unresolved blocking decisions.
+11. Stop if execution cannot proceed safely.
+
+STEP 2 — IMPLEMENTATION
+1. Implement only approved tasks.
+2. Preserve unrelated files.
+3. Follow approved contracts.
+4. Add relevant tests.
+5. Document limitations.
+6. Avoid speculative refactoring.
+7. Never bypass security or risk controls.
+8. Never expose secrets.
+9. Maintain auditability.
+10. Stop on critical conflicts.
+
+STEP 3 — TEST AND REVIEW
+1. Run formatting checks.
+2. Run lint checks.
+3. Run type checks.
+4. Run unit tests.
+5. Run integration tests.
+6. Run contract tests.
+7. Run mandatory safety tests.
+8. Run secret and dependency scans.
+9. Inspect the full diff.
+10. Verify acceptance criteria.
+A skipped mandatory test is not a passing test.
+
+STEP 4 — COMMIT
+1. Verify the approved branch.
+2. Verify the intended file changes.
+3. Confirm no unrelated files are staged.
+4. Confirm no secrets are staged.
+5. Create a phase-specific commit.
+6. Record the commit SHA.
+
+STEP 5 — PUSH
+1. Push to the approved remote.
+2. Verify the remote branch.
+3. Verify the expected commit SHA.
+4. Check CI results where available.
+5. Record remote evidence.
+A local commit alone is insufficient.
+Never force-push or merge into protected branches without explicit authorization.
+
+STEP 6 — COMPLETION REPORT
+The report must contain:
+- Phase ID and objective.
+- Authorized scope.
+- Completed deliverables.
+- Changed files.
+- Architecture decisions covered.
+- Tests executed.
+- Test results.
+- Security findings.
+- Known limitations.
+- Outstanding issues.
+- Starting SHA.
+- Final SHA.
+- Branch.
+- Remote.
+- Commit message.
+- Push result.
+- Remote verification.
+- CI status.
+- Acceptance evidence.
+- Final technical status.
+- Explicit statement: NEXT PHASE NOT AUTHORIZED.
+
+STEP 7 — HARD STOP
+After reporting:
+STOP ALL DEVELOPMENT.
+Do not begin the next phase.
+Do not perform unrelated improvements.
+Do not silently modify this directive.
+Wait for the human project owner to review GitHub, verify the evidence, and explicitly authorize the next phase.
+
+SECTION 19 — PHASE STATUS MODEL
+
+NOT_STARTED: No authorized implementation.
+IN_PROGRESS: Approved phase underway.
+BLOCKED: Mandatory work or verification cannot be completed.
+TECHNICALLY_COMPLETE: Required technical checks, commit, push, and remote verification succeeded; human approval pending.
+OWNER_APPROVED: Human owner explicitly approved the phase.
+REOPENED: Previously completed work requires correction or revalidation.
+Only the human project owner may approve phase progression. The implementation agent must never claim OWNER_APPROVED independently.
+
+SECTION 20 — GIT GOVERNANCE
+
+20.1 Repository Safety
+Before changing files, confirm correct project; correct repository; correct remote; correct branch; clean or understood working tree; approved phase scope.
+
+20.2 Branch Strategy
+Preferred:
+- main — protected approved baseline.
+- phase/01-foundation through phase/10-release — controlled development branches.
+The actual branch and merge strategy must be verified against the repository and approved before use.
+
+20.3 Mandatory Git Rules
+- No unauthorized force-push.
+- No destructive history rewrite.
+- No silent branch changes.
+- No unrelated commits.
+- No committed credentials.
+- No automatic merge into protected branches.
+- No claim of successful push without remote verification.
+
+20.4 Human Review
+The owner and reviewing assistant will inspect the GitHub state and phase evidence. Only after explicit approval may the next phase begin.
+
+SECTION 21 — CHANGE CONTROL
+
+Any change to the master directive requires:
+1. Documented reason.
+2. Affected architecture decisions.
+3. Financial and security impact review.
+4. Dependency analysis.
+5. Test-plan impact.
+6. Explicit human approval.
+7. Version increment.
+8. Traceable repository evidence after authorized implementation.
+No implementation agent may unilaterally rewrite the master directive.
+
+SECTION 22 — OPEN ENGINEERING DECISIONS
+
+OPEN-01: Actual GitHub repository URL and branch.
+OPEN-02: Cloud provider and region.
+OPEN-03: Durable event-bus selection.
+OPEN-04: Detailed database schemas and API contracts.
+OPEN-05: Final workload assumptions, SLO, RPO, and RTO.
+OPEN-06: Initial approved exchange providers.
+OPEN-07: Exact emergency position-management policies.
+OPEN-08: Legal classification and commercial-release eligibility.
+OPEN-09: Notification delivery providers.
+OPEN-10: Final CI commands and phase-specific test thresholds.
+OPEN-11: Exact risk-reservation and execution-ownership protocols.
+OPEN-12: Final reconciliation and recovery acceptance scenarios.
+Unresolved items do not authorize arbitrary implementation decisions.
+Where a decision is required, present options, risks, trade-offs, and a recommendation; then request approval.
+
+SECTION 23 — FINAL RELEASE GATES
+
+GATE 1 — FUNCTIONAL CORRECTNESS
+Required: Validated contracts, state machines, accounting, and order lifecycle.
+
+GATE 2 — SECURITY
+Required: Verified access control, secrets protection, tenant isolation, and security testing.
+
+GATE 3 — FINANCIAL SAFETY
+Required: Risk invariants, emergency stop, reconciliation, and recovery tests.
+
+GATE 4 — PERFORMANCE AND RELIABILITY
+Required: Measured latency, throughput, resilience, and cost evidence.
+
+GATE 5 — CONTROLLED LIVE READINESS
+Required: Provider eligibility, legal readiness, security controls, monitoring, and explicit human authorization.
+Passing simulation gates does not imply guaranteed profitability or regulatory approval.
+
+SECTION 24 — FINAL NON-NEGOTIABLE COMMAND
+
+BUILD ONLY WHAT IS AUTHORIZED.
+NEVER SACRIFICE FINANCIAL CORRECTNESS, SECURITY, OR COMPLIANCE FOR SPEED OR COST.
+NEVER CLAIM SUCCESS WITHOUT EVIDENCE.
+COMPLETE ONE PHASE. TEST IT. REVIEW IT. COMMIT IT. PUSH IT. VERIFY IT. REPORT IT. STOP.
+THE NEXT PHASE BEGINS ONLY AFTER EXPLICIT HUMAN APPROVAL.
+
+END OF KIAN TRADING INTELLIGENCE — MASTER ENGINEERING DIRECTIVE V1.0
+
+==========================================================================
+OWNER-APPROVED ADDENDUM — V1.1 GOVERNANCE AND PROJECT PRESENTATION
+==========================================================================
+Addendum status: OWNER-REQUESTED REQUIREMENTS; REVIEW BEFORE EXECUTION.
+Document lineage: V1.0 original text is preserved byte-for-byte above.
+Authority: Where this addendum expressly changes workflow, sequencing,
+commit cadence, or presentation requirements, this addendum takes precedence
+for those topics only. All unrelated V1.0 rules remain in effect.
+Interpretation: Removal of development phase locks does NOT remove mandatory
+financial risk checks, security measures, legal/provider constraints, or
+explicit authorization for real trades, withdrawals, mining hardware, or
+production-impacting actions.
+
+ADDENDUM A01 — ENGLISH-ONLY PROJECT STANDARD
+
+1. English is the canonical project language, without exception for source
+   artifacts. Repository text, source comments, identifiers, configuration,
+   user-facing copy, documentation, API documentation, commit messages,
+   release notes, changelogs, diagrams, testing evidence, and onboarding must
+   all use professional, consistent English.
+2. User-facing internationalization may be architecturally prepared for
+   future localization, but the initial delivered product and canonical
+   documentation are English-only.
+3. Human discussions with the owner may use another language, but nothing
+   non-English is to be committed as the canonical project material unless
+   an explicit approved exception is recorded.
+4. Use consistent technical terminology and correct spelling. Do not invent
+   or advertise features that are not implemented and verified.
+
+ADDENDUM A02 — INTELLECTUAL PROPERTY, OWNERSHIP, AND LICENSE AT INCEPTION
+
+1. Create an actual root-level LICENSE file at repository inception, before
+   implementation work begins, and make its presence a mandatory repository
+   bootstrap acceptance criterion. The owner must review and approve the
+   license wording before publishing or granting rights to third parties.
+2. The default licensing model is PROPRIETARY / ALL RIGHTS RESERVED, NOT an
+   automatic open-source or permissive license. A public GitHub repository
+   does not itself license copying, resale, redistribution, or modification.
+3. Identify the project copyright holder as the actual legally authorized
+   rights holder, provisionally shown in project branding as:
+      Amin Azimi
+      AI Architect
+      End-to-End System Development Business Challenge
+      Azimi Innovation Lab
+   Confirm the appropriate legal relationship among the natural person,
+   brand, and any later registered legal entity before final legal execution.
+4. Distinguish these three separate matters:
+   (a) Ownership of original project intellectual property;
+   (b) Permission granted to other parties to use the project;
+   (c) The owner's freedom, subject to applicable law and third-party rights,
+       to sell, assign, gift, exclusively license, nonexclusively license,
+       commercialize, or transfer their own rights through separate lawful
+       instruments.
+5. Do not inadvertently grant third parties broad rights through an MIT,
+   Apache-2.0, GPL, Creative Commons, or other standard license chosen for
+   convenience. No license is irrevocably granted without informed owner
+   approval and review of consequences.
+6. A LICENSE file alone is not a universal ownership-transfer contract.
+   Sales, assignments, sublicenses, gifts, source access, commercial licenses,
+   warranties, support, governing law, and liability allocation require
+   separate appropriately drafted agreements where relevant.
+7. The LICENSE must accurately state scope of reserved rights, treatment of
+   authorized use, ownership notice, third-party component exception, and
+   contact / permission process without misleading claims. Avoid fictitious
+   legal guarantees or statements that conflict with mandatory law.
+8. Do not assert that all third-party code, data, models, libraries, logos,
+   design assets, or API responses are owned by the project owner. Track and
+   honor every applicable license, attribution duty, data-provider contract,
+   and redistribution restriction. Maintain a third-party notices and SBOM
+   workflow as appropriate.
+9. Review ownership of generated material, contractors' contributions,
+   contributor agreements, trademarks, trade secrets, and relevant employment
+   or work-authorization constraints before any external commercialization.
+10. Do not imply that copyright notices eliminate mandatory authorship or
+    moral rights under applicable jurisdictions. Do not promise unrestricted
+    transferability where law, contractual restrictions, provider terms, or
+    rights of third parties could limit it.
+11. Maintain a LICENSE_CHANGELOG or an appropriate recorded approval trail
+    for changes affecting rights. The owner must explicitly authorize any
+    license replacement, outbound permission, or rights transfer.
+12. Required license-header branding in README, releases and relevant legal
+    or product documents: "Amin Azimi | AI Architect | End-to-End System
+    Development Business Challenge | Azimi Innovation Lab".
+13. This addendum is an engineering requirement and not a completed legal
+    opinion. Before commercial sale, gifting, assignment, or publishing an
+    outbound commercial license, obtain jurisdiction-appropriate legal review.
+
+ADDENDUM A03 — ROOT TEST HOUSE AND EVIDENCE RETENTION
+
+1. Establish a repository-root directory named exactly: test-house/
+   Its purpose is a durable, human-auditable evidence library for development
+   testing, separate from executable source tests.
+2. Keep automated test code in conventional locations such as tests/ and
+   relevant package-level __tests__/ directories. The test-house/ is not a
+   replacement for executable test suites or CI artifact storage.
+3. Adopt a structured test-house/ design, adjusted to actual codebase needs:
+      test-house/README.md
+      test-house/index.md
+      test-house/phase-01/ ... test-house/phase-10/
+      test-house/security/
+      test-house/financial-safety/
+      test-house/performance/
+      test-house/reliability/
+      test-house/release-verification/
+   Create only necessary real subdirectories; do not fabricate results.
+4. Each meaningful test cycle produces a dated, traceable evidence record:
+   unique run ID, ISO-8601 UTC time, Git commit SHA, branch, environment,
+   tested component/contract, exact reproducible command, expected result,
+   observed result, PASS/FAIL/BLOCKED/SKIPPED, failure reference, corrective
+   action, and link to CI artifacts or sanitized logs.
+5. Record skipped tests as SKIPPED with reason. Never describe a missing test,
+   unverifiable run, or mock response as passing production evidence.
+6. Preserve historically meaningful results and do not overwrite past
+   failures as if they never occurred. Document re-runs and fixes explicitly.
+7. Do not check in passwords, API keys, account details, customer trading
+   activity, regulated personal data, proprietary market data without rights,
+   oversized binaries, or sensitive logs. Use redacted summaries, checksums,
+   artifact retention policies, and secure external storage when appropriate.
+8. Update test-house/index.md and link the latest evidence from README and
+   release notes when development milestones are verified.
+9. Require appropriate evidence for unit, integration, security, financial,
+   end-to-end, performance, deployment, and recovery testing.
+
+ADDENDUM A04 — HONEST, PROGRESSIVE PRODUCTION-GRADE README
+
+1. Create and maintain a root README.md from the beginning. It is a truthful,
+   public-facing engineering evidence center, not a marketing promise.
+2. The long-term target is PRODUCTION-GRADE. Never claim that a new repository,
+   scaffold, simulated integration, passing unit test, or attractive README is
+   already production-grade. Production readiness requires evidence against
+   explicit gates. State present maturity honestly.
+3. Keep a visible "Current Development Status" section using evidence-based
+   states such as PLANNED, IN PROGRESS, IMPLEMENTED, TESTED, VALIDATED, BLOCKED,
+   and PRODUCTION-READY (only when justified). Explain what is not yet built.
+4. Track architectural, engineering, security, testing, deployment, and
+   documentation progress. Every significant merged or pushed development
+   unit must update relevant README status, roadmap and test references.
+5. Distinguish project vision, supported features, simulated capabilities,
+   integration readiness, tested features, and real-money availability.
+6. Keep architecture diagrams aligned with implementation. Describe all four
+   specialized agents AND the independent deterministic Risk & Safety Kernel.
+   Do not mislabel the kernel as a fifth agent.
+7. Explain the project problem, intended users, scope, boundaries, modes,
+   key flows, limitations, responsible operation, security controls,
+   technology stack, contribution/licensing constraints, tests, deployment,
+   releases, and documented next work.
+8. Include a substantive "Engineering Integrity / Truthfulness Policy" that
+   prohibits fabricated metrics, screenshots, security certifications, backtest
+   returns, test reports, claims of production readiness, fictitious features,
+   or concealed limitations.
+9. For meaningful features, link tests or evidence, relevant release, and
+   implementation references where disclosure is safe. Distinguish measured
+   quantities from aspirations.
+10. Do not publish confidential details, secrets, nonpublic vulnerabilities,
+    or unlicensed assets merely to make the README more impressive.
+
+ADDENDUM A05 — CINEMATIC README: ACTUAL PRESENTATION STANDARD
+
+The README must meet a polished, accessible, technically credible visual
+standard. The term "cinematic" must correspond to actual deliverables:
+
+1. Strong visual hierarchy, consistent typographic rhythm, curated color
+   palette, professional spacing, carefully designed section dividers, and
+   cohesive brand identity.
+2. Branded hero area with the full personal/innovation-lab attribution,
+   distinctive visual system, and clear one-sentence product description.
+3. High-quality architectural diagrams, including a four-agent flow and
+   independently enforced Risk Kernel. Show trust boundaries and transitions.
+4. An actual animated architecture asset (e.g., optimized GIF or animated
+   WebP supported by the selected GitHub presentation path) explaining the
+   four agents' responsibilities, hand-offs and risk checks. Provide a static
+   accessible alternative and accurate text description. Animation must not
+   falsely suggest features have been built.
+5. GitHub-renderable Mermaid diagrams for editable flowcharts, clear product
+   diagrams, progress/timeline visualizations, and thoughtfully chosen icons.
+6. Design assets in an appropriate repository directory, e.g. docs/assets/,
+   with readable filenames, legal provenance, source attribution and size
+   optimization. Prefer repository-local verified assets over fragile remote
+   image dependencies.
+7. Use GitHub-compatible Markdown, verified assets, and progressive rendering.
+   GitHub strips unsafe HTML and scripts; do not rely on JavaScript inside
+   README, unsupported animation, or guaranteed playback in every client.
+8. Respect accessibility: alt text, contrast, reduced-motion/static fallback,
+   responsive widths, comprehensible structure without animation, and mobile
+   legibility.
+9. Avoid distracting visual clutter, misleading status shields, fake live
+   metrics, speculative integrations, or cinematic effects that damage the
+   professional credibility of an engineering repository.
+10. As the application develops, update animations and diagrams when their
+    depicted system behavior changes. Track visual asset provenance and tests.
+11. Include a product maturity timeline whose stages are linked to real
+    commits, releases and verifiable tests rather than invented dates.
+12. If sophisticated motion is too expensive to create in an early milestone,
+    state "visual asset planned" and implement it as a tracked deliverable;
+    do not present placeholder assets as finished work.
+
+ADDENDUM A06 — MANDATORY README AUTHOR SECTION AT THE END
+
+1. The FINAL visible section of README.md must be an elegant boxed or clearly
+   bounded "AUTHOR" / "PROJECT AUTHORSHIP" panel compatible with GitHub.
+2. It must identify:
+      Amin Azimi
+      AI Architect
+      End-to-End System Development Business Challenge
+      Azimi Innovation Lab
+      Project: Kian Trading Intelligence
+      Master Engineering Directive: V1.0 (with this addendum)
+      Current software version: dynamically updated per actual releases
+3. It must contain at least 100 meaningful English words explaining what
+   Kian Trading Intelligence is, what it is NOT, what it does or intends to
+   do, what business/technical problem it addresses, and the distinction
+   between planned functionality and implemented functionality.
+4. Include clear disclaimers: no guaranteed returns, no unsupported real-
+   trading claims, not an automatic authorization for third-party use, and no
+   misrepresentation of project maturity or regulatory status.
+5. Keep this AUTHOR panel at the absolute end of the README as other sections
+   are added. Avoid invented credentials, affiliation, trademarks or contacts.
+
+ADDENDUM A07 — RELEASE-FIRST VERSIONING AND PROFESSIONAL RELEASE NOTES
+
+1. Adopt explicit semantic software versions and meaningful Git tags, with
+   prerelease identifiers where appropriate. Master Directive V1.0 is NOT
+   automatically software release v1.0.0.
+2. Use prerelease versions (e.g., 0.x.y) until evidence supports a stable
+   software release. Never label an implementation "production" by version
+   name alone.
+3. Maintain CHANGELOG.md, release documentation, and GitHub releases as
+   appropriate. Connect every release to an immutable commit SHA, verified
+   build artifact, supported features, important fixes, known limitations,
+   tests, compatibility, migrations and rollback guidance.
+4. Use clear attribution in release notes and relevant documentation:
+   "Amin Azimi | AI Architect | End-to-End System Development Business
+   Challenge | Azimi Innovation Lab".
+5. Publish only verified claims. Clearly distinguish mock, simulation, paper,
+   staging, beta and live-enabled readiness.
+6. No agent may invent a release, falsify a CI badge, or promote a milestone
+   that has not passed its declared acceptance criteria.
+7. Keep README, CHANGELOG, release tags, architecture documents, and test-house
+   references consistent. Record breaking changes and deprecations.
+8. Creating a Git tag or release does not independently authorize live trading.
+
+ADDENDUM A08 — CONTINUOUS MEANINGFUL COMMITS AND PUSHES
+
+1. Replace the interpretation "one commit only at the end of each phase" with
+   continuous, meaningful, reviewable, atomic commits throughout development.
+2. Each completed coherent implementation unit, fix, test improvement,
+   migration, documentation update, or other substantial change should be
+   independently tested as appropriate, committed with a descriptive message,
+   and pushed to the approved development branch promptly after verification.
+3. Do not create artificial commits for every keystroke. Do not push broken,
+   failing, unreviewed, or secret-containing changes merely to maximize commit
+   count. Multi-file logically indivisible changes may be one atomic commit.
+4. Prefer consistent descriptive English commit messages, e.g.:
+      feat(risk): add tenant-scoped reservation validation
+      test(execution): cover unknown-order reconciliation
+      docs(readme): update verified phase-two capabilities
+      fix(ledger): prevent duplicate fill posting
+5. Each meaningful unit should run its relevant tests before commit, followed
+   by push and remote-SHA / CI verification where configured; failures are
+   reported truthfully. Run comprehensive checks at major milestones.
+6. Preserve human approval for protected-branch merges, license changes,
+   release promotions, live activation, secret access and destructive actions.
+7. In a read-only or local/offline development situation, report the inability
+   to push instead of asserting success. Never use force-push to hide history.
+8. Make commits useful evidence of engineering progress, not vanity metrics.
+
+ADDENDUM A09 — FLEXIBLE PHASES WITHOUT DEVELOPMENT SEQUENCING LOCKS
+
+1. The ten phases in V1.0 are an engineering roadmap and traceability model,
+   NOT a rigid chronological lock. Authorized development may work across
+   phases, split deliverables, revisit earlier work, or develop independent
+   components in parallel when dependencies and contracts are respected.
+2. A phase need not be formally closed or marked OWNER_APPROVED before work
+   begins in another phase. This specifically supersedes V1.0 statements
+   requiring strict previous-phase completion or a hard stop as a technical
+   dependency for unrelated development.
+3. Do NOT introduce arbitrary feature flags, architecture gates, artificial
+   dependencies, or agent workflow restrictions whose only purpose is to
+   prevent project development before a named phase closes.
+4. Human oversight remains: the owner authorizes development tasks or scopes,
+   significant design changes, repository protection changes, expenditures,
+   external integrations and release promotion. Autonomous scope expansion
+   beyond the authorized work is not permitted.
+5. Development status and milestone review can proceed continuously rather
+   than as forced stops after every phase. The agent must regularly report
+   progress, evidence, blockers and Git status and ask for a decision when an
+   owner-only decision is needed.
+6. Safety gates are NOT development locks and shall not be removed: enforce
+   identity, tenancy, secrets, risk authorization, trading-mode separation,
+   ledger integrity, provider compliance, real-money authorization, and
+   production migration/release controls wherever needed.
+7. Missing dependencies block only the affected task, never unrelated safe
+   work. Explicitly identify the blocked task and continue other authorized
+   tasks where safe and feasible.
+8. A development task that can run safely without a completed previous phase
+   is allowed. A live financial operation that cannot demonstrate mandatory
+   risk and compliance controls is not allowed.
+9. This clause overrides the literal V1.0 final sentence: "THE NEXT PHASE
+   BEGINS ONLY AFTER EXPLICIT HUMAN APPROVAL" insofar as it imposed a rigid
+   phase-to-phase sequencing lock. It does not override the requirement for
+   owner authorization of the actual scope or sensitive actions.
+10. Maintain transparent phase/task status, dependency edges, and evidence,
+    rather than treating ten phases as exactly ten commits or ten immutable
+    execution gates.
+
+ADDENDUM A10 — GITHUB AND RENDER DELIVERY INTEGRATION
+
+1. The source repository host is GitHub. Establish the verified remote and
+   branch policy and configure a secure GitHub Actions CI pipeline.
+2. Render is the planned cloud deployment service. Use Render services or
+   compatible managed infrastructure only after reviewing deployment region,
+   reliability, pricing, secrets, database, worker availability, network
+   boundaries, and the needs of continuous execution.
+3. Do not imply that a static web service or sleeping/free instance is
+   suitable for uninterrupted real-money order execution. Validate hosting
+   characteristics and costs before relying on live execution.
+4. Model required web/API/background worker, scheduler, messaging, database,
+   secrets and monitoring components according to actual Render capabilities
+   and approved external dependencies.
+5. Provide secure environment-specific deployment configuration (e.g.,
+   render.yaml when approved), secret references, health/readiness checks,
+   CI/CD hooks, tested migrations and documented rollback processes.
+6. Never copy actual environment secrets, payment details, API tokens or
+   account credentials into GitHub or test-house evidence.
+7. GitHub commits, pushes and deployments must remain traceable to releases,
+   tests, README maturity status and relevant change-log entries.
+
+ADDENDUM A11 — OPENAPI / SWAGGER DOCUMENTATION
+
+1. FastAPI APIs must maintain accurate OpenAPI 3.x schemas aligned with
+   implemented request/response contracts, auth methods and error responses.
+2. Provide Swagger UI (typically /docs), ReDoc (/redoc), and the machine-
+   readable OpenAPI document (typically /openapi.json) in approved development
+   environments. Production exposure requires security review and policy.
+3. Document tenant scoping, pagination, idempotency, authorization failures,
+   validation rules, rate limits, and state transitions as appropriate.
+4. Add contract tests that compare documented API operations with implemented
+   behavior. Do not publish pretend endpoints or mark unsafe APIs as live.
+5. Protect sensitive endpoints and avoid exposing secrets, customer data,
+   internal administrative schemas or attack-relevant configurations.
+
+ADDENDUM A12 — APPLE DEVELOPER PROGRAM AS OPTIONAL RESOURCE
+
+1. The owner reports having an Apple Developer Program subscription used for
+   another project. Treat it as a POTENTIALLY AVAILABLE resource only, not as
+   proof of current membership status, transferability, permitted use, active
+   organization/team scope, or project signing entitlement.
+2. The initial iPhone experience remains a responsive PWA; native iOS app
+   packaging, Apple signing, TestFlight, push entitlements and App Store
+   submission are separately evaluated options, not mandatory assumptions.
+3. If Apple distribution is approved, verify current subscription/team status,
+   applicable agreements, entitlements, account access, privacy disclosures,
+   financial-app rules, and distribution eligibility before integration.
+4. Never reuse or reveal Apple certificates, keys, App Store credentials or
+   unrelated project secrets without explicit authorization.
+
+ADDENDUM A13 — REPOSITORY BOOTSTRAP / OPENING DELIVERABLES
+
+At the first OWNER-AUTHORIZED repository setup activity, before any product
+implementation is committed, prepare the following correctly and honestly:
+
+- LICENSE (proprietary notice pending owner/legal review).
+- README.md (cinematic-ready structure with real, verified initial status).
+- CHANGELOG.md (initial truthful release history, no invented releases).
+- test-house/README.md and test-house/index.md.
+- Standard executable test framework(s) as applicable.
+- docs/assets/ with appropriate visual assets when they genuinely exist.
+- .gitignore suited to the actual toolchain.
+- .github/workflows/ for approved CI.
+- The preserved original master directive and its addendum.
+- Third-party notices/license tracking requirements.
+- GitHub + Render/OpenAPI deployment plan aligned with actual architecture.
+
+The owner must approve the outbound project license text before it is used as
+an external legal permission instrument. Until then, reserve rights and do
+not accidentally publish a permissive license. Do not claim completion of
+assets, animations, integrations, or tests that do not yet exist.
+
+ADDENDUM A14 — INTEGRITY AND PRIORITY OF THIS AMENDMENT
+
+1. The entire V1.0 master directive above remains byte-for-byte preserved.
+2. This addendum augments and, only where explicitly stated, supersedes its
+   phase-sequencing, reporting cadence, and project-presentation mechanics.
+3. Existing financial and legal safety requirements remain mandatory.
+4. No license transfer, real-money trading, wallet withdrawal, production
+   deployment, mining hardware control, or spending is authorized merely by
+   attaching this addendum or creating the GitHub repository.
+5. Future development agents must read both the complete original directive
+   and this addendum; they must not truncate or reinterpret either section.
+6. If any earlier instruction conflicts with the flexible sequencing policy,
+   apply A09; if any proposed acceleration conflicts with mandatory financial
+   protection, security, compliance, or user authorization, retain the safety
+   control and request clarification if needed.
+7. Changes to this directive or license require traceability and specific
+   owner approval. Do not rewrite prior text to hide an amendment.
+8. Project repository visibility defaults to PRIVATE during initial setup
+   until owner-approved disclosure and license/privacy review.
+
+END OF OWNER-APPROVED ADDENDUM — V1.1 REVIEW COPY
