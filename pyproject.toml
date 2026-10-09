@@ -28,9 +28,13 @@ dev = [
 requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["contracts*", "services*"]
+[tool.setuptools]
+packages = ["contracts", "services", "services.core"]
+
+[tool.setuptools.package-dir]
+contracts = "packages/contracts"
+services = "services"
+"services.core" = "services/core"
 
 [tool.pytest.ini_options]
 minversion = "8.0"
@@ -42,6 +46,7 @@ python_functions = ["test_*"]
 filterwarnings = [
     "error",
     "ignore::DeprecationWarning",
+    "ignore::starlette.exceptions.StarletteDeprecationWarning",
 ]
 
 [tool.ruff]
@@ -51,6 +56,9 @@ src = ["services", "packages", "tests"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM", "PL"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["PLR2004"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["contracts", "services"]

@@ -71,7 +71,7 @@ class OrderIntent:
             raise ValueError("created_at must be timezone-aware (UTC).")
 
     @classmethod
-    def create(
+    def create(  # noqa: PLR0913
         cls,
         *,
         tenant_id: str,

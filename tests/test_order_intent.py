@@ -3,7 +3,6 @@
 Verifies stable identity, idempotency support, and validation.
 """
 
-
 import pytest
 
 from contracts.enums import OrderState

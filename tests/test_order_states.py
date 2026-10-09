@@ -4,7 +4,6 @@ Verifies that all legal transitions are defined and that illegal
 transitions are rejected.
 """
 
-
 from contracts.enums import LEGAL_ORDER_TRANSITIONS, OrderState
 
 
