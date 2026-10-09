@@ -1,0 +1,83 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# .gitignore — Kian Trading Intelligence
+# ──────────────────────────────────────────────────────────────────────────────
+
+# ── Python ──
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+*.egg
+MANIFEST
+
+# ── Virtual environments ──
+.venv/
+venv/
+env/
+ENV/
+
+# ── Testing / Coverage ──
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+.tox/
+.mypy_cache/
+.ruff_cache/
+
+# ── Environment & secrets ──
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+secrets.json
+credentials.json
+
+# ── Node / TypeScript / React ──
+node_modules/
+dist/
+build/
+*.tsbuildinfo
+.eslintcache
+.next/
+out/
+
+# ── IDE / Editor ──
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# ── OS ──
+Thumbs.db
+desktop.ini
+
+# ── Database ──
+*.sqlite3
+*.db
+
+# ── Logs ──
+*.log
+logs/
+
+# ── Render / Deployment ──
+render.yaml.local

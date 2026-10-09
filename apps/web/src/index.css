@@ -1,0 +1,85 @@
+:root {
+  --bg: #0f1117;
+  --fg: #e4e7eb;
+  --muted: #8b90a0;
+  --accent: #4787ed;
+  --border: #2a2d3a;
+  --card: #181b24;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.6;
+}
+
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.app__header {
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+}
+
+.app__title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.app__subtitle {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.status-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.status-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.25rem;
+}
+
+.status-card__label {
+  color: var(--muted);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.status-card__value {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.badge--simulation {
+  background: rgba(71, 135, 237, 0.15);
+  color: var(--accent);
+}
