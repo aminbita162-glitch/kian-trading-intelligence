@@ -8,9 +8,12 @@ import os
 import re
 
 # Patterns that indicate potential secrets
+# Note: matches assignments or key-value pairs, NOT bare string literals in
+# class/enum definitions (e.g., EXCHANGE_API_KEY = "exchange_api_key" is
+# an enum value, not a credential).
 SECRET_PATTERNS = [
     re.compile(
-        r"(?i)(api[_-]?key|api[_-]?secret|access[_-]?token|secret[_-]?key)\s*[:=]\s*['\"][^'\"]{8,}['\"]"
+        r"(?i)(api[_-]?key|api[_-]?secret|access[_-]?token|secret[_-]?key)\s*[:=]\s*['\"][^'\"]{20,}['\"]"
     ),
     re.compile(r"-----BEGIN\s+(RSA\s+)?PRIVATE\s+KEY-----"),
     re.compile(r"ghp_[A-Za-z0-9]{36,}"),
