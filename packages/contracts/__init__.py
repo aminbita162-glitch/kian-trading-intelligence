@@ -8,6 +8,20 @@ AD-004 (Four Agents + Risk Kernel), AD-014 (Deterministic Execution),
 AD-021 (Shared Market Data).
 """
 
+from contracts.agents import (
+    AGENT_PERMISSIONS,
+    AGENT_PROHIBITIONS,
+    ALL_AGENT_TYPES,
+    AgentContext,
+    AgentId,
+    AgentPermission,
+    AgentProhibition,
+    AgentResult,
+    AgentType,
+    DecisionTrace,
+    DecisionTraceEntry,
+    DecisionTraceId,
+)
 from contracts.enums import OperatingMode, OrderState, SessionState
 from contracts.exchange import (
     ClientOrderId,
@@ -75,6 +89,19 @@ from contracts.ledger import (
 from contracts.ledger import (
     ReservationStatus as LedgerReservationStatus,
 )
+from contracts.llm_gateway import (
+    FORBIDDEN_LLM_USES,
+    LLMGateway,
+    LLMGatewayError,
+    LLMRequest,
+    LLMRequestId,
+    LLMRequestStatus,
+    LLMRequestType,
+    LLMResponse,
+    TokenBudget,
+    TokenBudgetConfig,
+    TokenBudgetExceededError,
+)
 from contracts.market_data import (
     Candle,
     DataStatus,
@@ -105,12 +132,33 @@ from contracts.risk import (
     RiskPolicyStatus,
     RiskReservation,
 )
+from contracts.strategy import (
+    LEGAL_STRATEGY_TRANSITIONS,
+    StrategyId,
+    StrategyParameters,
+    StrategyStatus,
+    StrategyVersion,
+    StrategyVersionId,
+)
 from contracts.trading import (
     LEGAL_SESSION_TRANSITIONS as TRADING_SESSION_TRANSITIONS,
 )
 from contracts.trading import (
     SessionId,
     TradingSession,
+)
+from contracts.validation import (
+    BacktestResult,
+    PaperTradeResult,
+    ValidationRunId,
+    ValidationStage,
+    ValidationStatus,
+    WalkForwardResult,
+    WalkForwardWindow,
+    run_backtest,
+    run_out_of_sample,
+    run_paper_trading,
+    run_walk_forward,
 )
 
 __all__ = [
@@ -206,6 +254,47 @@ __all__ = [
     "WithdrawalStatus",
     "get_precision",
     "quantize",
+    # Phase 06 — Four-Agent Intelligence
+    "AGENT_PERMISSIONS",
+    "AGENT_PROHIBITIONS",
+    "ALL_AGENT_TYPES",
+    "AgentContext",
+    "AgentId",
+    "AgentProhibition",
+    "AgentPermission",
+    "AgentResult",
+    "AgentType",
+    "BacktestResult",
+    "DecisionTrace",
+    "DecisionTraceEntry",
+    "DecisionTraceId",
+    "FORBIDDEN_LLM_USES",
+    "LLMGateway",
+    "LLMGatewayError",
+    "LLMRequest",
+    "LLMRequestId",
+    "LLMRequestStatus",
+    "LLMRequestType",
+    "LLMResponse",
+    "LEGAL_STRATEGY_TRANSITIONS",
+    "PaperTradeResult",
+    "StrategyId",
+    "StrategyParameters",
+    "StrategyStatus",
+    "StrategyVersion",
+    "StrategyVersionId",
+    "TokenBudget",
+    "TokenBudgetConfig",
+    "TokenBudgetExceededError",
+    "ValidationRunId",
+    "ValidationStage",
+    "ValidationStatus",
+    "WalkForwardResult",
+    "WalkForwardWindow",
+    "run_backtest",
+    "run_out_of_sample",
+    "run_paper_trading",
+    "run_walk_forward",
 ]
 
-__version__ = "0.5.0"
+__version__ = "0.6.0"
