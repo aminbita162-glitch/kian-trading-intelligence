@@ -29,13 +29,14 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-packages = ["contracts", "services", "services.core", "services.identity"]
+packages = ["contracts", "services", "services.core", "services.identity", "services.market_data"]
 
 [tool.setuptools.package-dir]
 contracts = "packages/contracts"
 services = "services"
 "services.core" = "services/core"
 "services.identity" = "services/identity"
+"services.market_data" = "services/market_data"
 
 [tool.pytest.ini_options]
 minversion = "8.0"

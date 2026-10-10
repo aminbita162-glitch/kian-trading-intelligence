@@ -192,3 +192,129 @@ export interface LoginResponse {
   role: UserRole;
   mfaRequired: boolean;
 }
+
+// ── Market Data (Phase 03, AD-021) ──
+
+export type MarketDataEventType =
+  | "ticker"
+  | "trade"
+  | "order_book_snapshot"
+  | "order_book_update"
+  | "candle"
+  | "disconnection"
+  | "reconnection";
+
+export type ProviderType = "simulated" | "exchange" | "aggregator";
+
+export type DataStatus = "fresh" | "stale" | "invalid" | "duplicate";
+
+export type Timeframe =
+  | "1m"
+  | "5m"
+  | "15m"
+  | "1h"
+  | "4h"
+  | "1d"
+  | "1w";
+
+export interface Symbol {
+  base: string;
+  quote: string;
+  pair: string;
+}
+
+export interface OrderBookLevel {
+  price: string;
+  amount: string;
+}
+
+export interface OrderBookSnapshot {
+  symbol: Symbol;
+  bids: OrderBookLevel[];
+  asks: OrderBookLevel[];
+  timestamp: string;
+  sequence: number;
+}
+
+export interface Trade {
+  tradeId: string;
+  symbol: Symbol;
+  price: string;
+  amount: string;
+  side: OrderSide;
+  timestamp: string;
+}
+
+export interface Candle {
+  symbol: Symbol;
+  timeframe: Timeframe;
+  open: string;
+  high: string;
+  low: string;
+  close: string;
+  volume: string;
+  openTime: string;
+  closeTime: string;
+}
+
+export interface Ticker {
+  symbol: Symbol;
+  lastPrice: string;
+  bid: string;
+  ask: string;
+  high24h: string;
+  low24h: string;
+  volume24h: string;
+  timestamp: string;
+}
+
+export interface MarketDataEvent {
+  eventId: string;
+  eventType: MarketDataEventType;
+  symbol: Symbol;
+  provider: ProviderType;
+  timestamp: string;
+  receivedAt: string;
+  sequence: number;
+  payload: Ticker | Trade | Candle | OrderBookSnapshot | null;
+  provenance: string;
+}
+
+export interface MarketDataHealth {
+  provider: string;
+  connected: boolean;
+  rateLimitRemaining: number;
+  storedEvents: number;
+  freshnessMaxAge: string;
+}
+
+export interface TickerResponse {
+  symbol: string;
+  lastPrice: string;
+  bid: string;
+  ask: string;
+  high24h: string;
+  low24h: string;
+  volume24h: string;
+  timestamp: string;
+}
+
+export interface OrderBookResponse {
+  symbol: string;
+  bids: [string, string][];
+  asks: [string, string][];
+  timestamp: string;
+  sequence: number;
+}
+
+export interface CandleResponse {
+  symbol: string;
+  timeframe: string;
+  open: string;
+  high: string;
+  low: string;
+  close: string;
+  volume: string;
+  openTime: string;
+  closeTime: string;
+}
