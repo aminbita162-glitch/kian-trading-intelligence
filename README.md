@@ -32,7 +32,7 @@
 | Architecture Documentation | ✅ IMPLEMENTED | `docs/architecture.md` |
 | Test House Evidence | ✅ IMPLEMENTED | `test-house/phase-01/` |
 
-> **Production readiness**: This project is in active development (Phase 09 of 10). It is NOT production-ready. No live trading, real mining, or real financial operations are enabled or authorized.
+> **Production readiness**: This project is in active development (Phase 10 of 10 — all phases implemented). It is NOT production-ready. No live trading, real mining, or real financial operations are enabled or authorized. F-SEC-02 (XOR encryption) and F-SEC-03 (in-memory identity store) remain unresolved release blockers.
 
 ---
 
@@ -258,7 +258,7 @@ Third-party components retain their original licenses; this project's proprietar
 >
 > **Project**: Kian Trading Intelligence
 > **Master Engineering Directive**: V1.0 with V1.1 addendum
-> **Current software version**: 0.9.0-dev (Phase 09 — Security, Resilience, and Scale)
+> **Current software version**: 0.10.0-dev (Phase 10 — Release Engineering and Controlled Launch)
 >
 > Kian Trading Intelligence is a secure, auditable, cost-aware cryptocurrency trading and mining intelligence platform. It combines deterministic execution, validated quantitative intelligence, four specialized AI agents, and an independent deterministic Risk & Safety Kernel to provide human-controlled operational authority over trading and mining activities. The platform is designed for multi-tenant cloud operation with support for MacBook desktop and iPhone mobile interfaces.
 >

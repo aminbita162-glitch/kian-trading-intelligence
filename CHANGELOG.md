@@ -61,6 +61,24 @@ with prerelease identifiers during development.
 - 109 new Python tests (`tests/test_security_contracts.py`, `tests/test_security_services.py`) — 933 total
 - Test-house evidence in `test-house/phase-09/evidence.md`
 
+### Added — Phase 10: Release Engineering and Controlled Launch
+- Final architecture review with `ReviewItem`, `ReviewCategory` (6 categories), `ReviewStatus`, `ArchitectureReviewService` with 5 gates (AD-033)
+- Dependency verification with `DependencyRecord`, `DependencyStatus`, `DependencyVerificationService` — 8 pinned standard dependencies (AD-024)
+- Release artifact integrity with `ReleaseArtifact`, `ArtifactType` (6 types), `IntegrityStatus`, SHA-256 checksum computation, `ReleaseArtifactService` (AD-024)
+- Migration verification with `MigrationRecord`, `MigrationStatus`, `MigrationVerificationService` — applied/reversible/rollback-tested tracking (AD-024)
+- Staging deployment with `StagingDeployment`, `DeploymentStatus`, `HealthCheckResult`, `StagingDeploymentService` (AD-024)
+- Shadow/canary readiness with `CanaryDeployment`, `CanaryStatus` (5-stage: PENDING→SHADOW→CANARY_10→CANARY_50→CANARY_100→PROMOTED), `CanaryMetrics`, `CanaryService` with auto-abort on bad metrics (AD-024)
+- Rollback testing with `RollbackTest`, `RollbackStatus` (PENDING is NOT blocking), `RollbackTestingService` — data integrity + financial-effects-preserved checks (AD-024)
+- 8 operational runbooks with `OperationalRunbook`, `RunbookCategory`, `RunbookStep`, `RunbookService` — emergency stop, disaster recovery, split-brain, financial reconciliation, security incident, deployment, rollback, live activation — all with human-approval gates (AD-017, AD-028)
+- User documentation with `DocumentationRecord`, `DocType`, `DocumentationService` — 3 user guides (AD-030)
+- Administrator documentation — 3 admin guides + API reference + architecture doc + runbooks + release notes + compliance doc (AD-022)
+- Release evidence package with `ReleaseEvidencePackage`, `EvidenceRecord`, `EvidenceType` (9 mandatory types), `ReleaseEvidenceService` (AD-032)
+- Final readiness report with `FinalReadinessReport`, `ReadinessDecision` (GO/NO_GO/CONDITIONAL_GO), `ReadinessReportService.generate_report()` — 5 Section-23 gates, never sets `live_authorized` (AD-033)
+- `services.release` package registered in `pyproject.toml`
+- Phase 10 API endpoints in `services/core/app.py`
+- 138 new Python tests (`tests/test_release_contracts.py`, `tests/test_release_services.py`) — 1071 total
+- Test-house evidence in `test-house/phase-10/evidence.md`
+
 ### Security
 - No secrets, credentials, or API keys committed to the repository
 - `.gitignore` configured to prevent accidental secret commits
@@ -68,6 +86,8 @@ with prerelease identifiers during development.
 - Critical threat-model findings block release (`has_blocking_findings`)
 - Disaster recovery requires human authorization before resumption (AD-017)
 - Backup restoration verifies SHA-256 checksums (AD-028)
+- `generate_report()` never sets `live_authorized` — verified by test
+- F-SEC-02 (XOR encryption) and F-SEC-03 (in-memory identity store) remain unresolved release blockers for live operations
 
 ---
 
