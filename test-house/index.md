@@ -29,3 +29,16 @@
 | F-04 | `test-house/index.md` empty — no Phase 01 evidence records | Fixed: populated with actual run results |
 | F-05 | CI workflow does not run `mypy` type checking | Fixed: added mypy step to `ci.yml` |
 | F-06 | Frontend `App.test.tsx` produces React `act()` warning | Fixed: wrapped state update in `act()` / `waitFor` |
+
+## Phase 02 — Identity and Multi-Tenant Security
+
+| Run ID | Phase | Date (UTC) | Commit SHA | Branch | Component | Command | Expected | Observed | Status |
+|--------|-------|------------|------------|--------|-----------|---------|----------|----------|--------|
+| PH02-001 | 02 | 2026-10-10 | (pre-commit) 90ba841 | phase/02-identity-security | Python format check | `ruff format --check services/ packages/ tests/` | 0 errors | 0 errors | PASS |
+| PH02-002 | 02 | 2026-10-10 | (pre-commit) 90ba841 | phase/02-identity-security | Python lint | `ruff check services/ packages/ tests/` | 0 errors | 0 errors | PASS |
+| PH02-003 | 02 | 2026-10-10 | (pre-commit) 90ba841 | phase/02-identity-security | mypy strict type check | `mypy services/ packages/ tests/` | 0 errors | 0 errors | PASS |
+| PH02-004 | 02 | 2026-10-10 | (pre-commit) 90ba841 | phase/02-identity-security | Python unit tests | `pytest -v` | 127 pass, 0 fail | 127 passed | PASS |
+| PH02-005 | 02 | 2026-10-10 | (pre-commit) 90ba841 | phase/02-identity-security | Secret scan | `pytest tests/test_secret_scan.py -v` | 0 findings | 0 findings | PASS |
+| PH02-006 | 02 | 2026-10-10 | (pre-commit) 90ba841 | phase/02-identity-security | Frontend type check | `npx tsc --noEmit` | 0 errors | 0 errors | PASS |
+| PH02-007 | 02 | 2026-10-10 | (pre-commit) 90ba841 | phase/02-identity-security | Frontend lint | `npm run lint` | 0 errors | 0 errors | PASS |
+| PH02-008 | 02 | 2026-10-10 | (pre-commit) 90ba841 | phase/02-identity-security | Frontend tests | `npm test -- --run` | 29 pass, 0 fail | 29 passed | PASS |

@@ -9,6 +9,25 @@ AD-021 (Shared Market Data).
 """
 
 from contracts.enums import OperatingMode, OrderState, SessionState
+from contracts.identity import (
+    ROLE_PRIVILEGE_LEVEL,
+    AuditEvent,
+    AuditEventId,
+    AuditEventType,
+    AuthSession,
+    CredentialType,
+    Device,
+    DeviceStatus,
+    MFAMethod,
+    SessionStatus,
+    Tenant,
+    TenantId,
+    TradingProfile,
+    User,
+    UserId,
+    UserRole,
+    can_manage_role,
+)
 from contracts.mode import OperatingModeConfig
 from contracts.order import OrderIntent, OrderIntentId
 
@@ -19,6 +38,23 @@ __all__ = [
     "OperatingModeConfig",
     "OrderIntent",
     "OrderIntentId",
+    "AuditEvent",
+    "AuditEventId",
+    "AuditEventType",
+    "AuthSession",
+    "CredentialType",
+    "Device",
+    "DeviceStatus",
+    "MFAMethod",
+    "ROLE_PRIVILEGE_LEVEL",
+    "SessionStatus",
+    "Tenant",
+    "TenantId",
+    "TradingProfile",
+    "User",
+    "UserId",
+    "UserRole",
+    "can_manage_role",
 ]
 
 __version__ = "0.1.0"
