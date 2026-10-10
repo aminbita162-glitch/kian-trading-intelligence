@@ -9,6 +9,16 @@ AD-021 (Shared Market Data).
 """
 
 from contracts.enums import OperatingMode, OrderState, SessionState
+from contracts.exchange import (
+    ClientOrderId,
+    ExchangeOrder,
+    ExchangeOrderId,
+    ExchangeSubmissionResult,
+    FillResult,
+    FillStatus,
+    OrderSide,
+    OrderType,
+)
 from contracts.identity import (
     ROLE_PRIVILEGE_LEVEL,
     AuditEvent,
@@ -53,6 +63,26 @@ from contracts.market_data import (
 )
 from contracts.mode import OperatingModeConfig
 from contracts.order import OrderIntent, OrderIntentId
+from contracts.risk import (
+    LEGAL_SESSION_TRANSITIONS,
+    AuthorizationStatus,
+    ReservationId,
+    ReservationStatus,
+    RiskAssessment,
+    RiskAuthorization,
+    RiskAuthorizationId,
+    RiskPolicy,
+    RiskPolicyId,
+    RiskPolicyStatus,
+    RiskReservation,
+)
+from contracts.trading import (
+    LEGAL_SESSION_TRANSITIONS as TRADING_SESSION_TRANSITIONS,
+)
+from contracts.trading import (
+    SessionId,
+    TradingSession,
+)
 
 __all__ = [
     "OperatingMode",
@@ -98,6 +128,29 @@ __all__ = [
     "relative_strength_index",
     "simple_moving_average",
     "volatility",
+    # Phase 04 — Risk Kernel and Trading Execution
+    "AuthorizationStatus",
+    "ClientOrderId",
+    "ExchangeOrder",
+    "ExchangeOrderId",
+    "ExchangeSubmissionResult",
+    "FillResult",
+    "FillStatus",
+    "LEGAL_SESSION_TRANSITIONS",
+    "OrderSide",
+    "OrderType",
+    "ReservationId",
+    "ReservationStatus",
+    "RiskAssessment",
+    "RiskAuthorization",
+    "RiskAuthorizationId",
+    "RiskPolicy",
+    "RiskPolicyId",
+    "RiskPolicyStatus",
+    "RiskReservation",
+    "SessionId",
+    "TradingSession",
+    "TRADING_SESSION_TRANSITIONS",
 ]
 
-__version__ = "0.1.0"
+__version__ = "0.4.0"
