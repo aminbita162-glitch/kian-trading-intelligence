@@ -59,19 +59,23 @@ from services.identity.tenant import (
 from services.market_data.processor import EventProcessor
 from services.market_data.simulated import SimulatedMarketDataProvider
 from services.market_data.storage import HistoricalStorage
+from services.security import SecurityService
 
 # ── Phase 08 — Client Application Services ──
 _remote_command_service = RemoteCommandService()
 _notification_service = NotificationService()
 _incident_service = IncidentService()
 
-__version__ = "0.8.0"
+# ── Phase 09 — Security, Resilience, and Scale ──
+_security_service = SecurityService()
+
+__version__ = "0.9.0"
 
 app = FastAPI(
     title="Kian Trading Intelligence API",
     description=(
         "Secure, auditable, cost-aware cryptocurrency trading and mining "
-        "intelligence platform. Phase 08 — MacBook and iPhone Applications."
+        "intelligence platform. Phase 09 — Security, Resilience, and Scale."
     ),
     version=__version__,
     docs_url="/docs",
