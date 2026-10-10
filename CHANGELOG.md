@@ -12,7 +12,7 @@ with prerelease identifiers during development.
 ### Added — Phase 01: Repository & Engineering Foundation
 - Repository identity and remote verification (GitHub: aminbita162-glitch/kian-trading-intelligence)
 - Structured monorepo layout (`apps/`, `services/`, `agents/`, `packages/`, `infrastructure/`, `tests/`, `docs/`, `test-house/`)
-- Python 3.12+ / FastAPI backend foundation with health endpoint and OpenAPI documentation
+- Python 3.11+ / FastAPI backend foundation with health endpoint and OpenAPI documentation
 - TypeScript 5.6+ / React / Vite frontend foundation with strict type checking
 - Shared contracts package (`packages/contracts/`) with Pydantic models for operating modes and order states
 - Dependency management with `pyproject.toml` (backend) and `package.json` (frontend)

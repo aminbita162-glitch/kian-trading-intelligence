@@ -126,7 +126,7 @@ Kian Trading Intelligence is a multi-tenant, cloud-executed cryptocurrency tradi
 
 | Layer | Technology |
 |-------|-----------|
-| Backend | Python 3.12+, FastAPI |
+| Backend | Python 3.11+, FastAPI |
 | Interfaces | React, TypeScript 5.6+ |
 | MacBook | Tauri |
 | iPhone | Responsive PWA |
