@@ -1,0 +1,21 @@
+[package]
+name = "kian-trading-intelligence"
+version = "0.8.0"
+description = "Kian Trading Intelligence — Tauri MacBook application"
+edition = "2021"
+license = "Proprietary"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[lib]
+name = "kian_trading_intelligence_lib"
+crate-type = ["staticlib", "cdylib", "lib"]
+
+[features]
+default = []

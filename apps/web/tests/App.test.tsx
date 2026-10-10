@@ -39,7 +39,7 @@ describe("App", () => {
       render(<App />);
     });
     await waitFor(() => {
-      expect(screen.getByText("SIMULATION")).toBeTruthy();
+      expect(screen.getAllByText("SIMULATION").length).toBeGreaterThan(0);
     });
   });
 

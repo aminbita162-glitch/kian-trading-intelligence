@@ -1,0 +1,34 @@
+{
+  "productName": "Kian Trading Intelligence",
+  "version": "0.8.0",
+  "identifier": "com.azimi-innovation-lab.kian-trading-intelligence",
+  "build": {
+    "beforeDevCommand": "cd ../web && npm run dev",
+    "beforeBuildCommand": "cd ../web && npm run build",
+    "devUrl": "http://localhost:5173",
+    "frontendDist": "../web/dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Kian Trading Intelligence",
+        "width": 1280,
+        "height": 800,
+        "minWidth": 1024,
+        "minHeight": 600,
+        "resizable": true,
+        "fullscreen": false
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; img-src 'self' data: https:; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' http://localhost:8000"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["app", "dmg"],
+    "category": "Finance",
+    "shortDescription": "Secure cryptocurrency trading and mining intelligence platform",
+    "longDescription": "Kian Trading Intelligence — secure, auditable, cost-aware cryptocurrency trading and mining intelligence platform."
+  }
+}
