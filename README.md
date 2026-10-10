@@ -216,7 +216,7 @@ This project enforces an honest, evidence-based engineering standard:
 | 05 | Financial Ledger & Profit Policies | PLANNED |
 | 06 | Four-Agent Intelligence | PLANNED |
 | 07 | Mining Simulation & Safety | PLANNED |
-| 08 | MacBook & iPhone Applications | PLANNED |
+| 08 | MacBook & iPhone Applications | ✅ COMPLETE (branch `phase/08-client-apps`) |
 | 09 | Security, Resilience & Scale | PLANNED |
 | 10 | Release Engineering & Controlled Launch | PLANNED |
 

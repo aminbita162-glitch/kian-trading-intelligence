@@ -25,6 +25,24 @@ with prerelease identifiers during development.
 - Test house evidence library (`test-house/`) with structured phase directories
 - Engineering integrity policy in README.md
 
+### Added — Phase 08: MacBook & iPhone Applications
+- Tauri MacBook application shell (`apps/macbook/src-tauri/`) with `tauri.conf.json`, `Cargo.toml`, Rust entry points
+- Responsive iPhone PWA (`apps/web/public/manifest.json`, PWA meta tags in `index.html`)
+- Onboarding flow with 8-step wizard (`OnboardingStep` enum)
+- Trading, mining, and financial dashboard views
+- Calendar scheduler view for trading session scheduling
+- Secure remote command service (AD-027) with step-up authentication, idempotency, and expiry for 5 high-risk commands
+- Notification hub (AD-009) with `NotificationCreateRequest` Pydantic model, preferences, and priority levels
+- Connected-account settings with withdrawal prohibition (AD-019)
+- Incident and recovery interface (AD-017) with `IncidentCreateRequest` Pydantic model, severity levels, and human-approval gate for critical incidents
+- End-to-end simulated workflow (`run_simulated_workflow`) exercising all dashboard areas
+- Phase 08 API endpoints in `services/core/app.py`
+- Client service module `services/client/__init__.py` with `RemoteCommandService`, `NotificationService`, `IncidentService`
+- Frontend client contracts (`client-contracts.ts`, `remote-commands.ts`, `notifications.ts`, `navigation.ts`)
+- 11 dashboard view components in `apps/web/src/views/`
+- Python tests (`tests/test_client_contracts.py`, ~40 tests) and frontend tests (4 new test files, 91 total)
+- Test-house evidence in `test-house/phase-08/evidence.md`
+
 ### Security
 - No secrets, credentials, or API keys committed to the repository
 - `.gitignore` configured to prevent accidental secret commits
