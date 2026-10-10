@@ -84,7 +84,7 @@ async def readiness() -> JSONResponse:
 
 
 @app.get("/")
-async def root() -> dict:
+async def root() -> dict[str, str]:
     """Root endpoint with API metadata."""
     return {
         "name": "Kian Trading Intelligence API",

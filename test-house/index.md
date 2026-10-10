@@ -1,5 +1,31 @@
 # Test House — Evidence Index
 
-| Run ID | Phase | Date (UTC) | Commit SHA | Branch | Component | Command | Result |
-|--------|-------|------------|------------|--------|-----------|---------|--------|
-| (evidence runs will be recorded here as tests are executed) | | | | | | | |
+| Run ID | Phase | Date (UTC) | Commit SHA | Branch | Component | Command | Expected | Observed | Status |
+|--------|-------|------------|------------|--------|-----------|---------|----------|----------|--------|
+| PH01-001 | 01 | 2025-10-10 | (pre-fix) acecfe9 | main | Python format/lint/tests | `ruff format --check services/ packages/ tests/` | 0 errors | 0 errors | PASS |
+| PH01-002 | 01 | 2025-10-10 | (pre-fix) acecfe9 | main | Python format/lint/tests | `ruff check services/ packages/ tests/` | 0 errors | 0 errors | PASS |
+| PH01-003 | 01 | 2025-10-10 | (pre-fix) acecfe9 | main | Python unit tests | `pytest -v` | 36 pass, 0 fail | 36 passed | PASS |
+| PH01-004 | 01 | 2025-10-10 | (pre-fix) acecfe9 | main | mypy strict type check | `mypy services/ packages/ tests/` | 0 errors | 1 error: bare `dict` return in app.py:87 | FAIL |
+| PH01-005 | 01 | 2025-10-10 | (pre-fix) acecfe9 | main | Frontend type check | `npx tsc --noEmit` | 0 errors | 0 errors | PASS |
+| PH01-006 | 01 | 2025-10-10 | (pre-fix) acecfe9 | main | Frontend lint | `npm run lint` | 0 errors | 0 errors | PASS |
+| PH01-007 | 01 | 2025-10-10 | (pre-fix) acecfe9 | main | Frontend tests | `npm test -- --run` | 14 pass, 0 fail | 14 passed (1 act() warning) | PASS |
+| PH01-008 | 01 | 2025-10-10 | (pre-fix) acecfe9 | main | Secret scan | `pytest tests/test_secret_scan.py -v` | 0 findings | 0 findings | PASS |
+| PH01-009 | 01 | 2025-10-10 | (post-fix) | fix/phase-01-audit-findings | Python format/lint/tests | `ruff format --check services/ packages/ tests/` | 0 errors | 0 errors | PASS |
+| PH01-010 | 01 | 2025-10-10 | (post-fix) | fix/phase-01-audit-findings | Python format/lint/tests | `ruff check services/ packages/ tests/` | 0 errors | 0 errors | PASS |
+| PH01-011 | 01 | 2025-10-10 | (post-fix) | fix/phase-01-audit-findings | Python unit tests | `pytest -v` | 36 pass, 0 fail | 36 passed | PASS |
+| PH01-012 | 01 | 2025-10-10 | (post-fix) | fix/phase-01-audit-findings | mypy strict type check | `mypy services/ packages/ tests/` | 0 errors | 0 errors | PASS |
+| PH01-013 | 01 | 2025-10-10 | (post-fix) | fix/phase-01-audit-findings | Frontend type check | `npx tsc --noEmit` | 0 errors | 0 errors | PASS |
+| PH01-014 | 01 | 2025-10-10 | (post-fix) | fix/phase-01-audit-findings | Frontend lint | `npm run lint` | 0 errors | 0 errors | PASS |
+| PH01-015 | 01 | 2025-10-10 | (post-fix) | fix/phase-01-audit-findings | Frontend tests | `npm test -- --run` | 14 pass, 0 fail, 0 warnings | 14 passed, 0 warnings | PASS |
+| PH01-016 | 01 | 2025-10-10 | (post-fix) | fix/phase-01-audit-findings | Secret scan | `pytest tests/test_secret_scan.py -v` | 0 findings | 0 findings | PASS |
+
+## Audit Findings (Phase 01)
+
+| ID | Finding | Resolution |
+|----|---------|------------|
+| F-01 | mypy --strict fails: bare `dict` return type in `services/core/app.py:87` | Fixed: `dict` → `dict[str, str]` |
+| F-02 | `docs/architecture.md` and `CHANGELOG.md` state "Python 3.12+" but pyproject.toml requires >=3.11 | Fixed: corrected to "Python 3.11+" |
+| F-03 | Repository is PUBLIC (should be PRIVATE per Addendum A14) | Owner decision — visibility preserved per owner instruction |
+| F-04 | `test-house/index.md` empty — no Phase 01 evidence records | Fixed: populated with actual run results |
+| F-05 | CI workflow does not run `mypy` type checking | Fixed: added mypy step to `ci.yml` |
+| F-06 | Frontend `App.test.tsx` produces React `act()` warning | Fixed: wrapped state update in `act()` / `waitFor` |
