@@ -29,7 +29,7 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-packages = ["contracts", "services", "services.core", "services.identity", "services.market_data"]
+packages = ["contracts", "services", "services.core", "services.identity", "services.market_data", "services.risk_kernel", "services.execution"]
 
 [tool.setuptools.package-dir]
 contracts = "packages/contracts"
@@ -37,6 +37,8 @@ services = "services"
 "services.core" = "services/core"
 "services.identity" = "services/identity"
 "services.market_data" = "services/market_data"
+"services.risk_kernel" = "services/risk_kernel"
+"services.execution" = "services/execution"
 
 [tool.pytest.ini_options]
 minversion = "8.0"
