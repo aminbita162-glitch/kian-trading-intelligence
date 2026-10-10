@@ -16,6 +16,10 @@ from pydantic import BaseModel, Field
 
 from contracts import OperatingMode, OperatingModeConfig
 from contracts.identity import MFAMethod, TenantId
+from contracts.market_data import (
+    Symbol,
+    Timeframe,
+)
 from services.identity.auth import (
     AccountInactiveError,
     AccountLockedError,
@@ -30,14 +34,17 @@ from services.identity.tenant import (
     create_tenant,
     get_tenant,
 )
+from services.market_data.processor import EventProcessor
+from services.market_data.simulated import SimulatedMarketDataProvider
+from services.market_data.storage import HistoricalStorage
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 
 app = FastAPI(
     title="Kian Trading Intelligence API",
     description=(
         "Secure, auditable, cost-aware cryptocurrency trading and mining "
-        "intelligence platform. Phase 02 — Identity and Multi-Tenant Security."
+        "intelligence platform. Phase 03 — Market Data Foundation."
     ),
     version=__version__,
     docs_url="/docs",
@@ -362,3 +369,211 @@ async def validate_session_endpoint(req: SessionValidateRequest) -> SessionRespo
         has_step_up=session.has_step_up,
         is_expired=session.is_expired,
     )
+
+
+# ── Market Data Endpoints (Phase 03) ──
+
+# Singletons for Phase 03 — in-memory (production needs PostgreSQL + Redis)
+_market_storage = HistoricalStorage()
+_market_provider = SimulatedMarketDataProvider()
+_market_processor = EventProcessor(storage=_market_storage)
+
+# Provider is connected in SIMULATION mode (no real exchange)
+if not _mode_config.is_live:
+    import asyncio as _asyncio
+
+    _loop = _asyncio.new_event_loop()
+    _loop.run_until_complete(_market_provider.connect())
+    _loop.close()
+
+
+class TickerResponse(BaseModel):
+    """Market data ticker response."""
+
+    symbol: str
+    last_price: str
+    bid: str
+    ask: str
+    high_24h: str
+    low_24h: str
+    volume_24h: str
+    timestamp: str
+
+
+class OrderBookResponse(BaseModel):
+    """Order book snapshot response."""
+
+    symbol: str
+    bids: list[list[str]]
+    asks: list[list[str]]
+    timestamp: str
+    sequence: int
+
+
+class CandleResponse(BaseModel):
+    """OHLCV candle response."""
+
+    symbol: str
+    timeframe: str
+    open: str
+    high: str
+    low: str
+    close: str
+    volume: str
+    open_time: str
+    close_time: str
+
+
+class MarketDataHealthResponse(BaseModel):
+    """Market data service health response."""
+
+    provider: str
+    connected: bool
+    rate_limit_remaining: int
+    stored_events: int
+    freshness_max_age: str
+
+
+@app.get("/market-data/health", response_model=MarketDataHealthResponse)
+async def market_data_health() -> MarketDataHealthResponse:
+    """Market data service health and status.
+
+    Per AD-021: market data infrastructure health.
+    Per AD-003: operating mode is always identified.
+    """
+    return MarketDataHealthResponse(
+        provider=_market_provider.provider_type.value,
+        connected=_market_provider.connection.connected,
+        rate_limit_remaining=_market_provider.rate_limiter.remaining(),
+        stored_events=_market_storage.count,
+        freshness_max_age=f"{_market_processor.freshness.max_age}",
+    )
+
+
+@app.get("/market-data/ticker/{symbol_pair:path}", response_model=TickerResponse)
+async def get_ticker_endpoint(symbol_pair: str) -> TickerResponse:
+    """Get the current ticker for a symbol pair.
+
+    Per AD-021: normalized market data.
+    Per Section 08.1: approved provider adapters with normalized schemas.
+    """
+    try:
+        symbol = Symbol.parse(symbol_pair)
+    except ValueError:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Invalid symbol format: {symbol_pair}. Expected 'BASE/QUOTE'.",
+        ) from None
+
+    try:
+        ticker = await _market_provider.get_ticker(symbol)
+    except Exception as exc:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=f"Market data provider error: {exc}",
+        ) from None
+
+    return TickerResponse(
+        symbol=ticker.symbol.pair,
+        last_price=ticker.last_price,
+        bid=ticker.bid,
+        ask=ticker.ask,
+        high_24h=ticker.high_24h,
+        low_24h=ticker.low_24h,
+        volume_24h=ticker.volume_24h,
+        timestamp=ticker.timestamp.isoformat(),
+    )
+
+
+@app.get("/market-data/orderbook/{symbol_pair:path}", response_model=OrderBookResponse)
+async def get_orderbook_endpoint(
+    symbol_pair: str,
+    depth: int = 10,
+) -> OrderBookResponse:
+    """Get the current order book snapshot for a symbol pair.
+
+    Per Section 08.1: order book with ordering controls.
+    """
+    try:
+        symbol = Symbol.parse(symbol_pair)
+    except ValueError:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Invalid symbol format: {symbol_pair}. Expected 'BASE/QUOTE'.",
+        ) from None
+
+    try:
+        book = await _market_provider.get_order_book(symbol, depth=depth)
+    except Exception as exc:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=f"Market data provider error: {exc}",
+        ) from None
+
+    return OrderBookResponse(
+        symbol=book.symbol.pair,
+        bids=[[lvl.price, lvl.amount] for lvl in book.bids],
+        asks=[[lvl.price, lvl.amount] for lvl in book.asks],
+        timestamp=book.timestamp.isoformat(),
+        sequence=book.sequence,
+    )
+
+
+@app.get("/market-data/candles/{symbol_pair:path}", response_model=list[CandleResponse])
+async def get_candles_endpoint(
+    symbol_pair: str,
+    timeframe: str = "1m",
+    limit: int = 100,
+) -> list[CandleResponse]:
+    """Get historical candles for a symbol pair.
+
+    Per Section 08.1: historical storage and deterministic replay.
+    Per AD-003: deterministic, no LLM dependency.
+    """
+    try:
+        symbol = Symbol.parse(symbol_pair)
+    except ValueError:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Invalid symbol format: {symbol_pair}. Expected 'BASE/QUOTE'.",
+        ) from None
+
+    try:
+        tf = Timeframe(timeframe)
+    except ValueError:
+        supported = ", ".join(t.value for t in Timeframe)
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Invalid timeframe: {timeframe}. Supported: {supported}",
+        ) from None
+
+    MAX_CANDLE_LIMIT = 1000
+
+    if limit < 1 or limit > MAX_CANDLE_LIMIT:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="limit must be between 1 and 1000.",
+        )
+
+    try:
+        candles = await _market_provider.get_candles(symbol, tf, limit=limit)
+    except Exception as exc:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=f"Market data provider error: {exc}",
+        ) from None
+
+    return [
+        CandleResponse(
+            symbol=c.symbol.pair,
+            timeframe=c.timeframe.value,
+            open=c.open,
+            high=c.high,
+            low=c.low,
+            close=c.close,
+            volume=c.volume,
+            open_time=c.open_time.isoformat(),
+            close_time=c.close_time.isoformat(),
+        )
+        for c in candles
+    ]

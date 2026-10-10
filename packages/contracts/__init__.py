@@ -28,6 +28,29 @@ from contracts.identity import (
     UserRole,
     can_manage_role,
 )
+from contracts.indicators import (
+    CandleSeries,
+    IndicatorResult,
+    exponential_moving_average,
+    relative_strength_index,
+    simple_moving_average,
+    volatility,
+)
+from contracts.market_data import (
+    Candle,
+    DataStatus,
+    EventId,
+    FreshnessConfig,
+    MarketDataEvent,
+    MarketDataEventType,
+    OrderBookLevel,
+    OrderBookSnapshot,
+    ProviderType,
+    Symbol,
+    Ticker,
+    Timeframe,
+    Trade,
+)
 from contracts.mode import OperatingModeConfig
 from contracts.order import OrderIntent, OrderIntentId
 
@@ -55,6 +78,26 @@ __all__ = [
     "UserId",
     "UserRole",
     "can_manage_role",
+    # Phase 03 — Market Data
+    "Candle",
+    "CandleSeries",
+    "DataStatus",
+    "EventId",
+    "FreshnessConfig",
+    "IndicatorResult",
+    "MarketDataEvent",
+    "MarketDataEventType",
+    "OrderBookLevel",
+    "OrderBookSnapshot",
+    "ProviderType",
+    "Symbol",
+    "Timeframe",
+    "Ticker",
+    "Trade",
+    "exponential_moving_average",
+    "relative_strength_index",
+    "simple_moving_average",
+    "volatility",
 ]
 
 __version__ = "0.1.0"
