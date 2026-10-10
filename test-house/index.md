@@ -55,3 +55,16 @@
 | PH03-006 | 03 | 2026-10-10 | (pre-commit) 8967988 | phase/03-market-data | Frontend type check | `npx tsc --noEmit` | 0 errors | 0 errors | PASS |
 | PH03-007 | 03 | 2026-10-10 | (pre-commit) 8967988 | phase/03-market-data | Frontend lint | `npm run lint` | 0 errors | 0 errors | PASS |
 | PH03-008 | 03 | 2026-10-10 | (pre-commit) 8967988 | phase/03-market-data | Frontend tests | `npm test -- --run` | 29 pass, 0 fail | 29 passed (3 test files) | PASS |
+
+## Phase 09 — Security, Resilience, and Scale
+
+| Run ID | Phase | Date (UTC) | Commit SHA | Branch | Component | Command | Expected | Observed | Status |
+|--------|-------|------------|------------|--------|-----------|---------|----------|----------|--------|
+| PH09-001 | 09 | 2026-10-10 | (pre-commit) 5710611 | phase/09-security-resilience-scale | Python format check | `ruff format --check services/ packages/ tests/` | 0 errors | 88 files already formatted | PASS |
+| PH09-002 | 09 | 2026-10-10 | (pre-commit) 5710611 | phase/09-security-resilience-scale | Python lint | `ruff check services/ packages/ tests/` | 0 errors | All checks passed | PASS |
+| PH09-003 | 09 | 2026-10-10 | (pre-commit) 5710611 | phase/09-security-resilience-scale | mypy strict type check | `mypy services/ packages/ tests/` | 0 errors | Success: no issues found in 88 source files | PASS |
+| PH09-004 | 09 | 2026-10-10 | (pre-commit) 5710611 | phase/09-security-resilience-scale | Python unit tests | `pytest -v` | 933 pass, 0 fail | 933 passed in 4.42s | PASS |
+| PH09-005 | 09 | 2026-10-10 | (pre-commit) 5710611 | phase/09-security-resilience-scale | Secret scan | `pytest tests/test_secret_scan.py -v` | 0 findings | 2 passed (0 findings) | PASS |
+| PH09-006 | 09 | 2026-10-10 | (pre-commit) 5710611 | phase/09-security-resilience-scale | Frontend type check | `npx tsc --noEmit` | 0 errors | 0 errors | PASS |
+| PH09-007 | 09 | 2026-10-10 | (pre-commit) 5710611 | phase/09-security-resilience-scale | Frontend lint | `npm run lint` | 0 errors | 0 errors (7 react-refresh warnings) | PASS |
+| PH09-008 | 09 | 2026-10-10 | (pre-commit) 5710611 | phase/09-security-resilience-scale | Frontend tests | `npm test -- --run` | 91 pass, 0 fail | 91 passed (7 test files) | PASS |

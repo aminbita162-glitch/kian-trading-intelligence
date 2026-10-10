@@ -6,7 +6,7 @@
 
 **Amin Azimi · AI Architect · End-to-End System Development Business Challenge · Azimi Innovation Lab**
 
-[![Phase](https://img.shields.io/badge/Phase-01%20Foundation-blue)]()
+[![Phase](https://img.shields.io/badge/Phase-09%20Security%2C%20Resilience%20%26%20Scale-blue)]()
 [![Status](https://img.shields.io/badge/Status-IN%20PROGRESS-orange)]()
 [![License](https://img.shields.io/badge/License-Proprietary-red)]()
 [![Python](https://img.shields.io/badge/Python-3.11%2B-blue)]()
@@ -32,7 +32,7 @@
 | Architecture Documentation | ✅ IMPLEMENTED | `docs/architecture.md` |
 | Test House Evidence | ✅ IMPLEMENTED | `test-house/phase-01/` |
 
-> **Production readiness**: This project is in active development (Phase 01 of 10). It is NOT production-ready. No live trading, real mining, or real financial operations are enabled or authorized.
+> **Production readiness**: This project is in active development (Phase 09 of 10). It is NOT production-ready. No live trading, real mining, or real financial operations are enabled or authorized.
 
 ---
 
@@ -209,15 +209,15 @@ This project enforces an honest, evidence-based engineering standard:
 
 | Phase | Objective | Status |
 |-------|----------|--------|
-| 01 | Repository & Engineering Foundation | ✅ IN PROGRESS |
-| 02 | Identity & Multi-Tenant Security | PLANNED |
-| 03 | Market Data Foundation | PLANNED |
-| 04 | Risk Kernel & Trading Execution | PLANNED |
-| 05 | Financial Ledger & Profit Policies | PLANNED |
-| 06 | Four-Agent Intelligence | PLANNED |
-| 07 | Mining Simulation & Safety | PLANNED |
-| 08 | MacBook & iPhone Applications | ✅ COMPLETE (branch `phase/08-client-apps`) |
-| 09 | Security, Resilience & Scale | PLANNED |
+| 01 | Repository & Engineering Foundation | ✅ COMPLETE |
+| 02 | Identity & Multi-Tenant Security | ✅ COMPLETE |
+| 03 | Market Data Foundation | ✅ COMPLETE |
+| 04 | Risk Kernel & Trading Execution | ✅ COMPLETE |
+| 05 | Financial Ledger & Profit Policies | ✅ COMPLETE |
+| 06 | Four-Agent Intelligence | ✅ COMPLETE |
+| 07 | Mining Simulation & Safety | ✅ COMPLETE |
+| 08 | MacBook & iPhone Applications | ✅ COMPLETE |
+| 09 | Security, Resilience & Scale | ✅ IN PROGRESS (branch `phase/09-security-resilience-scale`) |
 | 10 | Release Engineering & Controlled Launch | PLANNED |
 
 ---
@@ -258,7 +258,7 @@ Third-party components retain their original licenses; this project's proprietar
 >
 > **Project**: Kian Trading Intelligence
 > **Master Engineering Directive**: V1.0 with V1.1 addendum
-> **Current software version**: 0.1.0-dev (Phase 01 — Engineering Foundation)
+> **Current software version**: 0.9.0-dev (Phase 09 — Security, Resilience, and Scale)
 >
 > Kian Trading Intelligence is a secure, auditable, cost-aware cryptocurrency trading and mining intelligence platform. It combines deterministic execution, validated quantitative intelligence, four specialized AI agents, and an independent deterministic Risk & Safety Kernel to provide human-controlled operational authority over trading and mining activities. The platform is designed for multi-tenant cloud operation with support for MacBook desktop and iPhone mobile interfaces.
 >

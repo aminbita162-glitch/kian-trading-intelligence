@@ -43,10 +43,31 @@ with prerelease identifiers during development.
 - Python tests (`tests/test_client_contracts.py`, ~40 tests) and frontend tests (4 new test files, 91 total)
 - Test-house evidence in `test-house/phase-08/evidence.md`
 
+### Added — Phase 09: Security, Resilience, and Scale
+- Threat-model review with `ThreatFinding`, `ThreatModelReport`, `SecurityService` — critical/high findings block release (AD-010, AD-022)
+- Security scanning with `ScanResult`, `ScanType` (static, dependency, secret, infrastructure, license) (AD-010)
+- Tenant-isolation testing with `TenantIsolationTester` — cross-tenant access denied (AD-002, AD-010)
+- Risk stress tests with `RiskStressTester` — exposure, daily-loss, concentration, emergency-stop, concurrent authorization (AD-013)
+- Financial stress tests with `FinancialStressTester` — double-entry balance, decimal precision, idempotent posting (AD-018)
+- Backup restoration with `BackupService` — full/incremental backups, SHA-256 checksums, integrity verification (AD-028)
+- Disaster recovery with `DisasterRecoveryState` — 5-phase state machine (DETECT → ASSESS → ISOLATE → RESTORE → VERIFY), human authorization mandatory (AD-017, AD-028)
+- Split-brain simulation with `SplitBrainSimulator` — leader/follower roles, quorum detection, partition evidence (AD-016, AD-028)
+- Fault injection with `FaultInjector` — 6 fault types (network, latency, crash, disk-full, corruption, timeout) (AD-023)
+- Load testing with `LoadTestRunner` — p50/p95/p99 latency, throughput, error rate (AD-016)
+- Observability verification with `ObservabilityVerifier`, `ObservabilityMetric`, `MetricType` — structured logs, traces, metrics, SLO compliance (AD-022)
+- Cost and token evaluation with `CostEvaluator`, `CostEvaluation` — per-request cost, deterministic-first ratio (AD-025)
+- `services.security` package registered in `pyproject.toml`
+- Phase 09 API import in `services/core/app.py`, version bumped to `0.9.0`
+- 109 new Python tests (`tests/test_security_contracts.py`, `tests/test_security_services.py`) — 933 total
+- Test-house evidence in `test-house/phase-09/evidence.md`
+
 ### Security
 - No secrets, credentials, or API keys committed to the repository
 - `.gitignore` configured to prevent accidental secret commits
 - Repository visibility noted as PUBLIC (see addendum A14 — default should be PRIVATE)
+- Critical threat-model findings block release (`has_blocking_findings`)
+- Disaster recovery requires human authorization before resumption (AD-017)
+- Backup restoration verifies SHA-256 checksums (AD-028)
 
 ---
 
