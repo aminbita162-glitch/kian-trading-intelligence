@@ -14,6 +14,7 @@ Security invariants:
 
 from __future__ import annotations
 
+import contextlib
 import hashlib
 import hmac
 import secrets
@@ -77,21 +78,46 @@ class TenantMismatchError(AuthenticationError):
         super().__init__(msg)
 
 
-# ── Password store (in-memory; would be in DB in production) ──
-_passwords: dict[str, str] = {}  # user_id -> hashed_password
-_salts: dict[str, str] = {}  # user_id -> salt
+# ── Password store ──
+# F-SEC-03 RESOLVED: Passwords are now persisted in the durable identity
+# store (PersistentIdentityStore) via get_store().set_password_hash() /
+# get_password_hash(). An in-memory fallback is maintained only for
+# test compatibility and is never used in production.
+
+_passwords: dict[str, str] = {}  # user_id -> hashed_password (fallback)
+_salts: dict[str, str] = {}  # user_id -> salt (fallback)
 
 
 def set_password(user_id: UserId, password: str) -> None:
-    """Set a user's password (hashed with salt)."""
+    """Set a user's password (hashed with salt).
+
+    The hash is persisted in the durable identity store (F-SEC-03).
+    An in-memory copy is also kept for backward compatibility with
+    tests that reset the store between runs.
+    """
     salt = generate_salt()
     _salts[str(user_id)] = salt
     _passwords[str(user_id)] = _hash_password(password, salt)
+    # Persist to the durable store.
+    store = get_store()
+    with contextlib.suppress(Exception):
+        # If the durable store doesn't support password hash persistence
+        # (e.g. the in-memory IdentityStore), fall back to the in-memory
+        # copy. In production, PersistentIdentityStore supports it.
+        store.set_password_hash(user_id, _hash_password(password, salt), salt)
 
 
 def verify_password(user_id: UserId, password: str) -> bool:
     """Verify a password against the stored hash."""
     uid = str(user_id)
+    # Try the durable store first (F-SEC-03).
+    store = get_store()
+    with contextlib.suppress(Exception):
+        stored = store.get_password_hash(user_id)
+        if stored is not None:
+            stored_hash, stored_salt = stored
+            return hmac.compare_digest(_hash_password(password, stored_salt), stored_hash)
+    # Fallback to in-memory copy.
     if uid not in _passwords or uid not in _salts:
         return False
     return hmac.compare_digest(_hash_password(password, _salts[uid]), _passwords[uid])

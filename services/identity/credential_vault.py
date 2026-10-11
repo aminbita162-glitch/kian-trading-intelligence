@@ -10,14 +10,14 @@ Per Section 10.2: never store plaintext financial credentials in source
 code, Git, or ordinary logs. Default trading API credentials must not
 permit withdrawals.
 
-Phase 02 uses encrypted in-memory storage (Fernet simulation with
-SHA-256 derived key). In production, a managed KMS would be used.
+F-SEC-02 RESOLVED: Replaced legacy XOR cipher with AES-256-GCM
+envelope encryption with key versioning, tenant/context binding (AAD),
+and fail-closed behavior. Legacy XOR-encrypted values can be migrated
+via :func:`migrate_all_legacy`.
 """
 
 from __future__ import annotations
 
-import hashlib
-import os
 import uuid
 
 from contracts.identity import (
@@ -27,14 +27,14 @@ from contracts.identity import (
     UserId,
 )
 from services.identity.audit import audit
+from services.identity.encryption import (
+    EnvelopeEncryption,
+    get_encryption,
+    migrate_legacy_xor,
+    reset_encryption,
+)
 
-# ── Encryption (simulated) ──
-# In production, use a managed KMS (AD-019). For Phase 02, we use
-# a deterministic encryption simulation that stores ciphertext
-# (not plaintext) and derives keys from a master secret.
-
-_VAULT_MASTER_KEY: str = os.environ.get("KTI_VAULT_KEY", "phase02-dev-vault-key-change-in-prod")
-_VAULT_ENTRIES: dict[str, dict[str, str]] = {}  # entry_id -> encrypted data
+# ── Exceptions ──
 
 
 class CredentialVaultError(Exception):
@@ -49,22 +49,25 @@ class CredentialAccessDeniedError(CredentialVaultError):
     """Raised when credential access is denied."""
 
 
-def _encrypt(plaintext: str) -> str:
-    """Encrypt a plaintext value using a simulated KMS."""
-    # Simple XOR-based cipher with SHA-256 key derivation.
-    # NOT for production — Phase 02 development only.
-    key = hashlib.sha256(_VAULT_MASTER_KEY.encode()).digest()
-    data = plaintext.encode()
-    encrypted = bytes(b ^ key[i % len(key)] for i, b in enumerate(data))
-    return encrypted.hex()
+class CredentialDecryptionError(CredentialVaultError):
+    """Raised when credential decryption fails (tamper or wrong context)."""
 
 
-def _decrypt(ciphertext: str) -> str:
-    """Decrypt a ciphertext value."""
-    key = hashlib.sha256(_VAULT_MASTER_KEY.encode()).digest()
-    data = bytes.fromhex(ciphertext)
-    decrypted = bytes(b ^ key[i % len(key)] for i, b in enumerate(data))
-    return decrypted.decode()
+# ── In-memory credential metadata store ──
+# The encrypted value is stored as an AES-256-GCM envelope string.
+# The vault holds only metadata + the envelope ciphertext.
+
+_VAULT_ENTRIES: dict[str, dict[str, str]] = {}  # entry_id -> encrypted data
+
+
+def _build_aad(tenant_id: TenantId, user_id: UserId) -> bytes:
+    """Build Additional Authenticated Data for tenant/context binding.
+
+    The AAD binds the ciphertext to the tenant and user so that a
+    credential encrypted for tenant A cannot be decrypted under
+    tenant B even if the access check is bypassed.
+    """
+    return f"tenant:{tenant_id}|user:{user_id}".encode()
 
 
 class CredentialEntry:
@@ -97,7 +100,9 @@ class CredentialEntry:
 
     def decrypt(self) -> str:
         """Decrypt and return the credential value."""
-        return _decrypt(self._encrypted_value)
+        enc = get_encryption()
+        aad = _build_aad(self.tenant_id, self.user_id)
+        return enc.decrypt(self._encrypted_value, aad=aad)
 
 
 def store_credential(  # noqa: PLR0913
@@ -111,19 +116,15 @@ def store_credential(  # noqa: PLR0913
 ) -> str:
     """Store a credential in the vault.
 
-    Per AD-019: credentials are encrypted at rest.
+    Per AD-019: credentials are encrypted at rest with AES-256-GCM.
     Per Section 10.2: withdrawal-enabled credentials are prohibited by default.
 
     Returns the entry_id.
     """
     entry_id = str(uuid.uuid4())
-    encrypted = _encrypt(secret_value)
-
-    # Enforce: withdrawal-enabled credentials require explicit flag
-    if withdrawal_enabled:
-        # Log that withdrawal-enabled credentials are being stored
-        # (they should be reviewed and approved per AD-019)
-        pass
+    enc = get_encryption()
+    aad = _build_aad(tenant_id, user_id)
+    encrypted = enc.encrypt(secret_value, aad=aad)
 
     _VAULT_ENTRIES[entry_id] = {
         "tenant_id": str(tenant_id),
@@ -179,7 +180,14 @@ def retrieve_credential(
         detail=f"Credential accessed: {entry_id}",
     )
 
-    return _decrypt(entry["encrypted_value"])
+    enc = get_encryption()
+    aad = _build_aad(tenant_id, user_id)
+    try:
+        return enc.decrypt(entry["encrypted_value"], aad=aad)
+    except Exception as exc:  # noqa: BLE001
+        raise CredentialDecryptionError(
+            "Credential decryption failed — possible tamper or context mismatch"
+        ) from exc
 
 
 def rotate_credential(
@@ -200,7 +208,9 @@ def rotate_credential(
     if entry["tenant_id"] != str(tenant_id):
         raise CredentialAccessDeniedError("Cross-tenant access blocked")
 
-    entry["encrypted_value"] = _encrypt(new_secret_value)
+    enc = get_encryption()
+    aad = _build_aad(tenant_id, user_id)
+    entry["encrypted_value"] = enc.encrypt(new_secret_value, aad=aad)
 
     audit(
         event_type=AuditEventType.CREDENTIAL_ROTATED,
@@ -259,5 +269,42 @@ def list_credentials(
 
 
 def reset_vault() -> None:
-    """Clear all vault entries. For testing only."""
+    """Clear all vault entries and reset encryption (for testing)."""
     _VAULT_ENTRIES.clear()
+    reset_encryption()
+
+
+def migrate_all_legacy(
+    *,
+    master_key_material: bytes,
+    encryption: EnvelopeEncryption | None = None,
+) -> int:
+    """Migrate all legacy XOR-encrypted credentials to AES-256-GCM.
+
+    Returns the number of migrated entries.
+    """
+    enc = encryption or get_encryption()
+    migrated = 0
+    for _entry_id, entry in list(_VAULT_ENTRIES.items()):
+        val = entry["encrypted_value"]
+        # Legacy XOR values are hex strings (not JSON envelopes).
+        if val.startswith("{"):
+            continue  # Already migrated
+        try:
+            tenant_id = TenantId.__new__(TenantId)
+            object.__setattr__(tenant_id, "value", uuid.UUID(entry["tenant_id"]))
+            user_id = UserId.__new__(UserId)
+            object.__setattr__(user_id, "value", uuid.UUID(entry["user_id"]))
+            aad = _build_aad(tenant_id, user_id)
+            new_val = migrate_legacy_xor(
+                val,
+                encryption=enc,
+                master_key_material=master_key_material,
+                aad=aad,
+            )
+            entry["encrypted_value"] = new_val
+            migrated += 1
+        except Exception:  # noqa: BLE001
+            # Skip entries that fail migration — don't corrupt them.
+            pass
+    return migrated
