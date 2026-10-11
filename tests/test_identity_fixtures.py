@@ -1,7 +1,10 @@
 """Test fixtures for Phase 02 identity and security tests.
 
-Provides a clean IdentityStore, password store, and credential vault
-reset for each test to avoid state leakage.
+The autouse fixture in ``tests/conftest.py`` now handles resetting all
+identity-related state (including disposing SQLAlchemy engines) before
+and after each test.  This module kept for backward compatibility —
+its fixture was consolidated into ``conftest.py`` to ensure engine
+cleanup runs for every test module, not just those that import this.
 """
 
 from collections.abc import Generator
@@ -15,12 +18,16 @@ from services.identity.database import reset_store
 
 @pytest.fixture(autouse=True)
 def clean_identity_state() -> Generator[None, None, None]:
-    """Reset all identity-related state before each test."""
+    """Reset all identity-related state before and after each test.
+
+    ``reset_store()`` disposes the old SQLAlchemy engine and creates a
+    fresh one, ensuring SQLite connections are not leaked between tests
+    (Python 3.13 ``ResourceWarning`` fix).
+    """
     reset_store()
     reset_passwords()
     reset_vault()
     yield
-    # Cleanup after test as well
     reset_store()
     reset_passwords()
     reset_vault()

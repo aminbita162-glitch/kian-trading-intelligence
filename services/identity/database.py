@@ -14,8 +14,10 @@ an in-memory development store, not a production database.
 
 from __future__ import annotations
 
+import os
 from datetime import UTC, datetime
 from threading import Lock
+from typing import Protocol
 
 from contracts.identity import (
     AuditEvent,
@@ -27,6 +29,46 @@ from contracts.identity import (
     User,
     UserId,
 )
+
+
+class IdentityStoreProtocol(Protocol):
+    """Protocol defining the identity store interface (F-SEC-03).
+
+    Both the in-memory ``IdentityStore`` and the ``PersistentIdentityStore``
+    implement this protocol.  Callers depend only on the protocol, not
+    on a specific implementation.
+    """
+
+    def create_tenant(self, tenant: Tenant) -> None: ...
+    def get_tenant(self, tenant_id: TenantId) -> Tenant | None: ...
+    def create_user(self, user: User) -> None: ...
+    def get_user(self, user_id: UserId) -> User | None: ...
+    def get_user_by_email(self, tenant_id: TenantId, email: str) -> User | None: ...
+    def get_users_by_tenant(self, tenant_id: TenantId) -> list[User]: ...
+    def update_user(self, user: User) -> None: ...
+    def create_profile(self, profile: TradingProfile) -> None: ...
+    def get_profile(self, profile_id: str) -> TradingProfile | None: ...
+    def get_profiles_by_tenant(self, tenant_id: TenantId) -> list[TradingProfile]: ...
+    def get_profiles_by_user(
+        self, tenant_id: TenantId, user_id: UserId
+    ) -> list[TradingProfile]: ...
+    def create_session(self, session: AuthSession) -> None: ...
+    def get_session(self, session_id: str) -> AuthSession | None: ...
+    def get_sessions_by_tenant(self, tenant_id: TenantId) -> list[AuthSession]: ...
+    def update_session(self, session: AuthSession) -> None: ...
+    def revoke_session(self, session_id: str) -> bool: ...
+    def create_device(self, device: Device) -> None: ...
+    def get_device(self, device_id: str) -> Device | None: ...
+    def get_devices_by_user(self, tenant_id: TenantId, user_id: UserId) -> list[Device]: ...
+    def update_device(self, device: Device) -> None: ...
+    def record_audit_event(self, event: AuditEvent) -> None: ...
+    def get_audit_events_by_tenant(
+        self, tenant_id: TenantId, limit: int = 100
+    ) -> list[AuditEvent]: ...
+    def get_all_audit_events(self, limit: int = 100) -> list[AuditEvent]: ...
+    def set_password_hash(self, user_id: UserId, password_hash: str, salt: str) -> None: ...
+    def get_password_hash(self, user_id: UserId) -> tuple[str, str] | None: ...
+    def reset(self) -> None: ...
 
 
 class IdentityStore:
@@ -189,6 +231,28 @@ class IdentityStore:
         with self._lock:
             return self._audit_events[-limit:]
 
+    # ── Password storage (persistent) ──
+
+    def set_password_hash(self, user_id: UserId, password_hash: str, salt: str) -> None:
+        """Store a password hash and salt (F-SEC-03).
+
+        In the in-memory store, these are kept in module-level dicts
+        in ``services.identity.auth``.  This method is a no-op here
+        because the in-memory ``IdentityStore`` does not own password
+        storage.  The ``PersistentIdentityStore`` overrides this to
+        persist to the database.
+        """
+        # No-op: passwords are handled by auth.py's in-memory dicts
+        # when the in-memory IdentityStore is used.
+
+    def get_password_hash(self, user_id: UserId) -> tuple[str, str] | None:
+        """Retrieve a password hash and salt (F-SEC-03).
+
+        Returns ``None`` for the in-memory store; the
+        ``PersistentIdentityStore`` overrides this to read from the DB.
+        """
+        return None
+
     # ── Reset (for testing) ──
 
     def reset(self) -> None:
@@ -206,22 +270,56 @@ class IdentityStore:
         return datetime.now(UTC)
 
 
-# Module-level singleton store
+# Module-level store management (F-SEC-03)
+# The store is now a PersistentIdentityStore by default (SQLite in dev,
+# PostgreSQL in production). The in-memory IdentityStore above remains
+# available for backward compatibility but is not used by get_store().
+
 _store: IdentityStore | None = None
 
 
 def get_store() -> IdentityStore:
-    """Get the singleton identity store instance."""
+    """Get the singleton identity store instance.
+
+    F-SEC-03 RESOLVED: Returns a ``PersistentIdentityStore`` backed by
+    SQLAlchemy (SQLite in development, PostgreSQL in production).
+    Falls back to the in-memory ``IdentityStore`` only if
+    ``KTI_USE_PERSISTENT_STORE`` is set to ``false``.
+    """
+    use_persistent = os.environ.get("KTI_USE_PERSISTENT_STORE", "true").lower()
+    if use_persistent == "false":
+        return _get_in_memory_store()
+    return _get_persistent_store()
+
+
+def _get_in_memory_store() -> IdentityStore:
     global _store  # noqa: PLW0603
     if _store is None:
         _store = IdentityStore()
     return _store
 
 
+def _get_persistent_store() -> IdentityStore:
+    """Return the persistent identity store (F-SEC-03).
+
+    Imports ``PersistentIdentityStore`` lazily to avoid importing
+    SQLAlchemy when it's not needed.
+    """
+    from services.identity.persistence import get_persistent_store  # noqa: PLC0415
+
+    return get_persistent_store()
+
+
 def reset_store() -> None:
     """Reset the singleton store. For testing only."""
-    global _store  # noqa: PLW0603
-    if _store is not None:
-        _store.reset()
+    use_persistent = os.environ.get("KTI_USE_PERSISTENT_STORE", "true").lower()
+    if use_persistent == "false":
+        global _store  # noqa: PLW0603
+        if _store is not None:
+            _store.reset()
+        else:
+            _store = IdentityStore()
     else:
-        _store = IdentityStore()
+        from services.identity.persistence import reset_persistent_store  # noqa: PLC0415
+
+        reset_persistent_store()
