@@ -30,6 +30,8 @@ persistent store that supports PostgreSQL (production) and SQLite
 
 from __future__ import annotations
 
+import atexit
+import contextlib
 import json as _json
 import os
 from datetime import UTC, datetime
@@ -279,6 +281,10 @@ class PersistentIdentityStore(IdentityStore):
     create/update/delete operation writes to both.
     """
 
+    # Track all live instances so test teardown can dispose their engines.
+    _instances: list[PersistentIdentityStore] = []
+    _instances_lock = Lock()
+
     def __init__(self, db_url: str | None = None) -> None:
         url = db_url or _resolve_db_url()
         self._url = url
@@ -294,12 +300,25 @@ class PersistentIdentityStore(IdentityStore):
         # Initialize the parent in-memory dicts so they serve as the
         # live object cache.
         super().__init__()
+        with PersistentIdentityStore._instances_lock:
+            PersistentIdentityStore._instances.append(self)
 
     def _initialize(self) -> None:
         """Create tables and run migrations."""
         with Session(self._engine) as session:
             _ensure_schema(session)
             session.commit()
+
+    def close(self) -> None:
+        """Dispose the underlying SQLAlchemy engine and release resources.
+
+        After ``close()``, the store must not be reused — create a new
+        instance instead.  ``reset()`` keeps the engine alive; only
+        ``close()`` tears down the connection pool.
+        """
+        self._engine.dispose()
+        with PersistentIdentityStore._instances_lock, contextlib.suppress(ValueError):
+            PersistentIdentityStore._instances.remove(self)
 
     # ── Row ↔ Domain object conversion ──
 
@@ -674,17 +693,42 @@ def get_persistent_store() -> PersistentIdentityStore:
     with _store_lock:
         if _store is None:
             _store = PersistentIdentityStore()
+            atexit.register(_cleanup_singleton)
         return _store
 
 
+def _cleanup_singleton() -> None:
+    """Dispose the singleton store's engine at interpreter exit."""
+    global _store  # noqa: PLW0603
+    if _store is not None:
+        with contextlib.suppress(Exception):
+            _store.close()
+        _store = None
+
+
+def _close_all_instances() -> None:
+    """Dispose every tracked PersistentIdentityStore engine."""
+    with PersistentIdentityStore._instances_lock:
+        instances = list(PersistentIdentityStore._instances)
+        PersistentIdentityStore._instances.clear()
+    for inst in instances:
+        with contextlib.suppress(Exception):
+            inst._engine.dispose()
+
+
 def reset_persistent_store() -> None:
-    """Reset the singleton persistent store (for testing)."""
+    """Reset the singleton persistent store (for testing).
+
+    If a store already exists, its engine is disposed before
+    replacement so that SQLite connections are not leaked.  All
+    other tracked instances (created directly by tests) are also
+    disposed to prevent ``ResourceWarning`` on Python 3.13+.
+    """
     global _store  # noqa: PLW0603
     with _store_lock:
-        if _store is not None:
-            _store.reset()
-        else:
-            _store = PersistentIdentityStore()
+        _close_all_instances()
+        _store = PersistentIdentityStore()
+        atexit.register(_cleanup_singleton)
 
 
 def get_store() -> PersistentIdentityStore:
