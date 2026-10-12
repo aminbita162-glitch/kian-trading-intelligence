@@ -20,22 +20,44 @@ from __future__ import annotations
 import shutil
 from collections.abc import Iterator
 from datetime import UTC, datetime
+from importlib.util import find_spec
+from subprocess import run
 from typing import Any
 from uuid import uuid4
 
 import pytest
 from sqlalchemy import create_engine, text
 
-# Skip all tests in this module if testcontainers or Docker is not available
+# Skip all tests in this module if testcontainers, Docker, or psycopg2 is not
+# available.  On CI (GitHub Actions) Docker is available so the testcontainers
+# tests *run* — they therefore need the psycopg2 driver that SQLAlchemy defaults
+# to for ``postgresql://`` URLs.  If the driver is missing the tests are skipped
+# rather than erroring with ``ModuleNotFoundError``.
 try:
     from testcontainers.postgres import PostgresContainer
 except ImportError:
     PostgresContainer = None  # type: ignore[assignment,misc]
 
-docker_available = shutil.which("docker") is not None
+
+def _docker_daemon_running() -> bool:
+    """Return True only if the Docker binary exists AND the daemon responds."""
+    if shutil.which("docker") is None:
+        return False
+    return (
+        run(  # noqa: S603,S607 — trusted local binary
+            ["docker", "info"],
+            capture_output=True,
+            check=False,
+        ).returncode
+        == 0
+    )
+
+
+psycopg2_available = find_spec("psycopg2") is not None
+docker_available = _docker_daemon_running()
 pytestmark = pytest.mark.skipif(
-    not docker_available or PostgresContainer is None,
-    reason="Docker or testcontainers not available",
+    not docker_available or PostgresContainer is None or not psycopg2_available,
+    reason="Docker daemon, testcontainers, or psycopg2 not available",
 )
 
 
