@@ -7,7 +7,32 @@ with prerelease identifiers during development.
 
 ---
 
-## [Unreleased]
+## [Unreleased] — E0: Truth Reset and Governance Repair
+
+### Added — E0: Truth Reset and Governance Repair
+- `status.yaml` — single source of truth for project status, phase progress, security findings, test counts, and honest labeling (REAL vs PLANNED)
+- `docs/adr/` directory with ADR templates for open engineering decisions (OPEN-02, OPEN-03, OPEN-05, OPEN-06, OPEN-08, OPEN-09)
+- `docs/adr/README.md` — ADR index, template, and governance precedence documentation
+- Directive lineage documentation (V1.0 → V1.1 → V1.2) in `status.yaml` and README
+- Repository visibility decision documented (PUBLIC — owner-decided per Addendum A14, F-SEC-01)
+- Honest REAL/SIMULATED/PLANNED labeling applied to all public claims in README and status.yaml
+- CI consistency check test (`tests/test_e0_consistency.py`) verifying every public claim links to evidence or is labeled PLANNED
+- `DIRECTIV.txt` updated to V1.2 (Elevation and Market Completion) — AD-034 through AD-040, E0 through E10
+
+### Changed — E0: Truth Reset and Governance Repair
+- `README.md` rewritten with honest status: elevation phase table (E0–E10), prior phase table (01–10), security findings table, REAL/PLANNED labeling per technology, directive lineage table
+- `CHANGELOG.md` reconstructed with all prior phases (01–10) and F-SEC-02/03 remediation
+- `docs/architecture.md` updated with AD-034 through AD-040 summary
+- `pyproject.toml` version synchronized to 0.10.0 (matching `services/core/app.py`)
+
+### Fixed — E0: Truth Reset and Governance Repair
+- Truth drift: README previously claimed "Phase 09 IN PROGRESS" and "Phase 10 PLANNED" — all prior phases 01–10 are COMPLETE (merged to main)
+- Truth drift: README previously listed F-SEC-02/03 as "unresolved release blockers" — both are RESOLVED (merged, PR #12)
+- Version inconsistency: `pyproject.toml` was 0.1.0 while `services/core/app.py` was 0.10.0 — synchronized to 0.10.0
+
+---
+
+## [0.10.0] — Prior Phases 01–10 + Security Remediation
 
 ### Added — Phase 01: Repository & Engineering Foundation
 - Repository identity and remote verification (GitHub: aminbita162-glitch/kian-trading-intelligence)
@@ -25,75 +50,144 @@ with prerelease identifiers during development.
 - Test house evidence library (`test-house/`) with structured phase directories
 - Engineering integrity policy in README.md
 
+### Added — Phase 02: Identity & Multi-Tenant Security
+- Tenant and user models with multi-tenant isolation (AD-002, AD-008, AD-010)
+- Authentication with account lockout tracking (AD-010, AD-026)
+- Authorization policies and step-up authentication (AD-026)
+- Profile management and risk policy configuration (AD-008)
+- MFA support (TOTP) with enable/verify flow (AD-026)
+- Session management with expiry and revocation (AD-026)
+- Credential vault with encryption and rotation (AD-019)
+- Tenant isolation in all data access paths (AD-002)
+- Audit event recording (AD-022)
+- Database migrations (SQLite dev / PostgreSQL prod)
+- Adversarial access-control tests
+- 127/127 pytest, 29/29 vitest, all gates clean
+
+### Added — Phase 03: Market Data Foundation
+- Market data contracts (`Symbol`, `Timeframe`, `Ticker`, `OrderBook`, `Candle`)
+- Simulated market data provider with deterministic data generation (AD-003)
+- Provider adapter interfaces with normalized event schema (AD-005, AD-021)
+- Normalized market events and timestamp/freshness checks (AD-021)
+- Duplicate handling and sequence tracking
+- Historical storage with replay engine
+- Deterministic indicators (SMA, EMA, RSI, MACD, Bollinger Bands)
+- Rate-limit handling and reconnection behavior (AD-021)
+- 245/245 pytest (127 existing + 118 new), 29/29 vitest, all gates clean
+
+### Added — Phase 04: Risk Kernel & Trading Execution
+- Risk kernel contracts (`RiskAssessment`, `RiskPolicy`, `ExposureExceededError`)
+- Risk kernel service with deterministic safety validation (AD-004, AD-013)
+- Trading session contracts (10 states, legal transitions, AD-014)
+- Exchange simulator with deterministic fill simulation (AD-023)
+- Execution engine with order lifecycle management (AD-014, AD-020)
+- Concurrency tests verifying thread-safe exposure tracking (AD-013)
+- Concentration limit and emergency-stop enforcement (AD-013)
+- 370/370 pytest (245 existing + 125 new), 29/29 vitest, all gates clean
+
+### Added — Phase 05: Financial Ledger & Profit Policies
+- Financial account model with multi-asset support (AD-007, AD-018)
+- Balanced double-entry journal with value-based balancing (AD-018)
+- Fill-to-ledger mapping with realized P&L calculation (AD-007)
+- Decimal precision throughout financial calculations (AD-018)
+- Fee accounting and unrealized P&L tracking
+- Profit thresholds and profit reservation contracts (AD-007)
+- Reconciliation service with deadlock-safe balance access
+- Withdrawal-request contracts with withdrawal prohibition (AD-019)
+- Financial invariant tests (balance, precision, idempotent posting)
+- 524/524 pytest (370 existing + 154 new), 29/29 vitest, all gates clean
+
+### Added — Phase 06: Four-Agent Intelligence
+- Four agent contracts (Market Intelligence, Strategy & Portfolio, Execution & Supervisor, Mining Operations) (AD-004)
+- Agent permission boundaries with frozenset validation (AD-020)
+- Deterministic orchestration with agent context and permission checks (AD-020)
+- Strategy versioning with state transitions (DRAFT → BACKTESTING → OUT_OF_SAMPLE → WALK_FORWARD → PAPER_TRADING → VALIDATED)
+- Backtesting, out-of-sample, walk-forward, and paper trading validation (AD-012)
+- Validated ML interfaces and LLM gateway with token budgets (AD-011, AD-025)
+- Decision traceability with `DecisionTrace` records (AD-022)
+- 631/631 pytest (524 existing + 107 new), 29/29 vitest, all gates clean
+
+### Added — Phase 07: Mining Simulation & Safety
+- Mining simulator with hash-rate and reward models (AD-015)
+- Electricity cost and depreciation calculations
+- Pool interface contracts (simulation)
+- Hardware telemetry simulation
+- Temperature policies and failure simulation
+- Mining financial integration with ledger (AD-007)
+- Controlled adapter interfaces (AD-015)
+- 769/769 pytest (631 existing + 138 new), 29/29 vitest, all gates clean
+
 ### Added — Phase 08: MacBook & iPhone Applications
 - Tauri MacBook application shell (`apps/macbook/src-tauri/`) with `tauri.conf.json`, `Cargo.toml`, Rust entry points
 - Responsive iPhone PWA (`apps/web/public/manifest.json`, PWA meta tags in `index.html`)
 - Onboarding flow with 8-step wizard (`OnboardingStep` enum)
 - Trading, mining, and financial dashboard views
 - Calendar scheduler view for trading session scheduling
-- Secure remote command service (AD-027) with step-up authentication, idempotency, and expiry for 5 high-risk commands
-- Notification hub (AD-009) with `NotificationCreateRequest` Pydantic model, preferences, and priority levels
-- Connected-account settings with withdrawal prohibition (AD-019)
-- Incident and recovery interface (AD-017) with `IncidentCreateRequest` Pydantic model, severity levels, and human-approval gate for critical incidents
-- End-to-end simulated workflow (`run_simulated_workflow`) exercising all dashboard areas
-- Phase 08 API endpoints in `services/core/app.py`
-- Client service module `services/client/__init__.py` with `RemoteCommandService`, `NotificationService`, `IncidentService`
-- Frontend client contracts (`client-contracts.ts`, `remote-commands.ts`, `notifications.ts`, `navigation.ts`)
+- Secure remote command service (AD-027) with step-up authentication, idempotency, and expiry
+- Notification hub (AD-009) with `NotificationCreateRequest`, preferences, and priority levels
+- Connected-account settings with withdrawal prohibition (AD-0019)
+- Incident and recovery interface (AD-017) with severity levels and human-approval gate
+- End-to-end simulated workflow (`run_simulated_workflow`)
 - 11 dashboard view components in `apps/web/src/views/`
-- Python tests (`tests/test_client_contracts.py`, ~40 tests) and frontend tests (4 new test files, 91 total)
-- Test-house evidence in `test-house/phase-08/evidence.md`
+- 824/824 pytest, 91/91 vitest, all gates clean
 
 ### Added — Phase 09: Security, Resilience, and Scale
-- Threat-model review with `ThreatFinding`, `ThreatModelReport`, `SecurityService` — critical/high findings block release (AD-010, AD-022)
-- Security scanning with `ScanResult`, `ScanType` (static, dependency, secret, infrastructure, license) (AD-010)
-- Tenant-isolation testing with `TenantIsolationTester` — cross-tenant access denied (AD-002, AD-010)
-- Risk stress tests with `RiskStressTester` — exposure, daily-loss, concentration, emergency-stop, concurrent authorization (AD-013)
-- Financial stress tests with `FinancialStressTester` — double-entry balance, decimal precision, idempotent posting (AD-018)
-- Backup restoration with `BackupService` — full/incremental backups, SHA-256 checksums, integrity verification (AD-028)
-- Disaster recovery with `DisasterRecoveryState` — 5-phase state machine (DETECT → ASSESS → ISOLATE → RESTORE → VERIFY), human authorization mandatory (AD-017, AD-028)
-- Split-brain simulation with `SplitBrainSimulator` — leader/follower roles, quorum detection, partition evidence (AD-016, AD-028)
-- Fault injection with `FaultInjector` — 6 fault types (network, latency, crash, disk-full, corruption, timeout) (AD-023)
-- Load testing with `LoadTestRunner` — p50/p95/p99 latency, throughput, error rate (AD-016)
-- Observability verification with `ObservabilityVerifier`, `ObservabilityMetric`, `MetricType` — structured logs, traces, metrics, SLO compliance (AD-022)
-- Cost and token evaluation with `CostEvaluator`, `CostEvaluation` — per-request cost, deterministic-first ratio (AD-025)
-- `services.security` package registered in `pyproject.toml`
-- Phase 09 API import in `services/core/app.py`, version bumped to `0.9.0`
-- 109 new Python tests (`tests/test_security_contracts.py`, `tests/test_security_services.py`) — 933 total
-- Test-house evidence in `test-house/phase-09/evidence.md`
+- Threat-model review with `ThreatFinding`, `ThreatModelReport`, `SecurityService` (AD-010, AD-022)
+- Security scanning with `ScanResult`, `ScanType` (static, dependency, secret, infrastructure, license)
+- Tenant-isolation testing — cross-tenant access denied (AD-002, AD-010)
+- Risk stress tests — exposure, daily-loss, concentration, emergency-stop, concurrent authorization (AD-013)
+- Financial stress tests — double-entry balance, decimal precision, idempotent posting (AD-018)
+- Backup restoration with SHA-256 checksums and integrity verification (AD-028)
+- Disaster recovery — 5-phase state machine, human authorization mandatory (AD-017, AD-028)
+- Split-brain simulation — leader/follower roles, quorum detection (AD-016, AD-028)
+- Fault injection — 6 fault types (network, latency, crash, disk-full, corruption, timeout) (AD-023)
+- Load testing — p50/p95/p99 latency, throughput, error rate (AD-016)
+- Observability verification — structured logs, traces, metrics, SLO compliance (AD-022)
+- Cost and token evaluation — per-request cost, deterministic-first ratio (AD-025)
+- 933/933 pytest (824 existing + 109 new), 91/91 vitest, all gates clean
 
 ### Added — Phase 10: Release Engineering and Controlled Launch
-- Final architecture review with `ReviewItem`, `ReviewCategory` (6 categories), `ReviewStatus`, `ArchitectureReviewService` with 5 gates (AD-033)
-- Dependency verification with `DependencyRecord`, `DependencyStatus`, `DependencyVerificationService` — 8 pinned standard dependencies (AD-024)
-- Release artifact integrity with `ReleaseArtifact`, `ArtifactType` (6 types), `IntegrityStatus`, SHA-256 checksum computation, `ReleaseArtifactService` (AD-024)
-- Migration verification with `MigrationRecord`, `MigrationStatus`, `MigrationVerificationService` — applied/reversible/rollback-tested tracking (AD-024)
-- Staging deployment with `StagingDeployment`, `DeploymentStatus`, `HealthCheckResult`, `StagingDeploymentService` (AD-024)
-- Shadow/canary readiness with `CanaryDeployment`, `CanaryStatus` (5-stage: PENDING→SHADOW→CANARY_10→CANARY_50→CANARY_100→PROMOTED), `CanaryMetrics`, `CanaryService` with auto-abort on bad metrics (AD-024)
-- Rollback testing with `RollbackTest`, `RollbackStatus` (PENDING is NOT blocking), `RollbackTestingService` — data integrity + financial-effects-preserved checks (AD-024)
-- 8 operational runbooks with `OperationalRunbook`, `RunbookCategory`, `RunbookStep`, `RunbookService` — emergency stop, disaster recovery, split-brain, financial reconciliation, security incident, deployment, rollback, live activation — all with human-approval gates (AD-017, AD-028)
-- User documentation with `DocumentationRecord`, `DocType`, `DocumentationService` — 3 user guides (AD-030)
-- Administrator documentation — 3 admin guides + API reference + architecture doc + runbooks + release notes + compliance doc (AD-022)
-- Release evidence package with `ReleaseEvidencePackage`, `EvidenceRecord`, `EvidenceType` (9 mandatory types), `ReleaseEvidenceService` (AD-032)
-- Final readiness report with `FinalReadinessReport`, `ReadinessDecision` (GO/NO_GO/CONDITIONAL_GO), `ReadinessReportService.generate_report()` — 5 Section-23 gates, never sets `live_authorized` (AD-033)
-- `services.release` package registered in `pyproject.toml`
-- Phase 10 API endpoints in `services/core/app.py`
-- 138 new Python tests (`tests/test_release_contracts.py`, `tests/test_release_services.py`) — 1071 total
-- Test-house evidence in `test-house/phase-10/evidence.md`
+- Final architecture review with 5 gates (AD-033)
+- Dependency verification — 8 pinned standard dependencies (AD-024)
+- Release artifact integrity — SHA-256 checksums, 6 artifact types (AD-024)
+- Migration verification — applied/reversible/rollback-tested tracking (AD-024)
+- Staging deployment with health checks (AD-024)
+- Shadow/canary readiness — 5-stage, auto-abort on bad metrics (AD-024)
+- Rollback testing — data integrity + financial-effects-preserved (AD-024)
+- 8 operational runbooks — all with human-approval gates (AD-017, AD-028)
+- User documentation — 3 guides (AD-030)
+- Administrator documentation — 3 guides + API reference + compliance (AD-022)
+- Release evidence package — 9 mandatory evidence types (AD-032)
+- Final readiness report — GO/NO_GO/CONDITIONAL_GO, never sets `live_authorized` (AD-033)
+- 1071/1071 pytest (933 existing + 138 new), 91/91 vitest, all gates clean
+
+### Security — F-SEC-02/03 Remediation
+- F-SEC-02 RESOLVED: Credential vault upgraded from XOR to AES-256-GCM envelope encryption
+  with AAD binding, key versioning, fail-closed production, and legacy XOR migration.
+  Tests: `tests/test_f_sec_02_encryption.py`. Evidence: `test-house/security/f-sec-02-03-evidence.md`
+- F-SEC-03 RESOLVED: Identity store upgraded from in-memory to SQLAlchemy-backed
+  `PersistentIdentityStore` with SQLite (dev) / PostgreSQL (prod), versioned migrations,
+  persistent password hashing, and fail-closed production. Python 3.13 ResourceWarning
+  resolved via `close()` method + instance tracking + `conftest.py` autouse fixture.
+  Tests: `tests/test_f_sec_03_persistence.py`. Evidence: `test-house/security/f-sec-02-03-evidence.md`
+- 1121/1121 pytest (1071 existing + 50 security tests), 91/91 vitest, all gates clean
+- Merged to main via PR #12 (commit 87759bd), CI all-green (Python 3.11/3.12/3.13 + Frontend)
 
 ### Security
 - No secrets, credentials, or API keys committed to the repository
 - `.gitignore` configured to prevent accidental secret commits
-- Repository visibility noted as PUBLIC (see addendum A14 — default should be PRIVATE)
+- Repository visibility: PUBLIC (owner-decided per Addendum A14 — F-SEC-01 recorded, not a blocker)
 - Critical threat-model findings block release (`has_blocking_findings`)
 - Disaster recovery requires human authorization before resumption (AD-017)
 - Backup restoration verifies SHA-256 checksums (AD-028)
 - `generate_report()` never sets `live_authorized` — verified by test
-- F-SEC-02 (XOR encryption) and F-SEC-03 (in-memory identity store) remain unresolved release blockers for live operations
+- No live trading, real mining, or real financial operations are enabled or authorized at this stage
 
 ---
 
-## [0.1.0-dev] — Not yet released
+## [0.1.0-dev] — Initial scaffold
 
-Prerelease identifier. No stable release has been made. All development is in Phase 01 (Engineering Foundation).
+Prerelease identifier. Initial engineering foundation established in Phase 01.
 
 ---
 

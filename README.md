@@ -6,33 +6,70 @@
 
 **Amin Azimi · AI Architect · End-to-End System Development Business Challenge · Azimi Innovation Lab**
 
-[![Phase](https://img.shields.io/badge/Phase-09%20Security%2C%20Resilience%20%26%20Scale-blue)]()
-[![Status](https://img.shields.io/badge/Status-IN%20PROGRESS-orange)]()
+[![Phase](https://img.shields.io/badge/Elevation-E0%20Truth%20Reset-blue)]()
+[![Status](https://img.shields.io/badge/Status-SIMULATION-orange)]()
 [![License](https://img.shields.io/badge/License-Proprietary-red)]()
 [![Python](https://img.shields.io/badge/Python-3.11%2B-blue)]()
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115%2B-009688)]()
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6%2B-3178c6)]()
+[![Directive](https://img.shields.io/badge/Directive-V1.2-purple)]()
 
 ---
 
-## Current Development Status
+## Project Status — Single Source of Truth
 
-| Component | Status | Evidence |
-|-----------|--------|----------|
-| Repository & Remote | ✅ IMPLEMENTED | GitHub: aminbita162-glitch/kian-trading-intelligence |
-| Monorepo Structure | ✅ IMPLEMENTED | `apps/ services/ agents/ packages/ infrastructure/ tests/ docs/` |
-| Python / FastAPI Foundation | ✅ IMPLEMENTED | `services/core/` with health endpoint, OpenAPI docs |
-| TypeScript Foundation | ✅ IMPLEMENTED | `apps/web/` with Vite + React + TypeScript strict |
-| Shared Contracts | ✅ IMPLEMENTED | `packages/contracts/` Pydantic models |
-| Dependency Management | ✅ IMPLEMENTED | `pyproject.toml` + `package.json` with lock files |
-| Linting & Formatting | ✅ IMPLEMENTED | Ruff (Python), ESLint + Prettier (TypeScript) |
-| Unit-Test Framework | ✅ IMPLEMENTED | pytest (Python), Vitest (TypeScript) |
-| CI Configuration | ✅ IMPLEMENTED | `.github/workflows/ci.yml` |
-| Secret-Handling Rules | ✅ IMPLEMENTED | `.gitignore` + pre-commit secret scan |
-| Architecture Documentation | ✅ IMPLEMENTED | `docs/architecture.md` |
-| Test House Evidence | ✅ IMPLEMENTED | `test-house/phase-01/` |
+The canonical project status is maintained in `status.yaml` (introduced in E0).
+All public claims in this README, CHANGELOG, and architecture docs trace to `status.yaml`
+or are explicitly labeled PLANNED.
 
-> **Production readiness**: This project is in active development (Phase 10 of 10 — all phases implemented). It is NOT production-ready. No live trading, real mining, or real financial operations are enabled or authorized. F-SEC-02 (XOR encryption) and F-SEC-03 (in-memory identity store) remain unresolved release blockers.
+**Directive version**: V1.2 (Elevation and Market Completion)
+**Software version**: 0.10.0
+**Operating mode**: SIMULATION (LIVE not authorized)
+**Repository visibility**: PUBLIC (owner-decided per Addendum A14)
+
+### Elevation Phase Status (E0–E10)
+
+| Phase | Name | Status |
+|-------|------|--------|
+| **E0** | Truth Reset and Governance Repair | IN PROGRESS |
+| **E1** | Security Blocker Removal | PLANNED |
+| **E2** | Durable Core | PLANNED |
+| **E3** | Structure and Verification Separation | PLANNED |
+| **E4** | Safety Plane Hardening | PLANNED |
+| **E5** | Simulation and Truth Infrastructure | PLANNED |
+| **E6** | Agent Runtime and Evaluation | PLANNED |
+| **E7** | Strategy Science | PLANNED |
+| **E8** | Evidence, Observability and Supply Chain | PLANNED |
+| **E9** | Graduated Autonomy, Kill Plane and Compliance Package | PLANNED |
+| **E10** | Commercial Monetization, Payment Tiers and Market Readiness | PLANNED |
+
+### Prior Phase Status (01–10 — all COMPLETE, merged to main)
+
+| Phase | Name | Status |
+|-------|------|--------|
+| 01 | Repository & Engineering Foundation | COMPLETE |
+| 02 | Identity & Multi-Tenant Security | COMPLETE |
+| 03 | Market Data Foundation | COMPLETE |
+| 04 | Risk Kernel & Trading Execution | COMPLETE |
+| 05 | Financial Ledger & Profit Policies | COMPLETE |
+| 06 | Four-Agent Intelligence | COMPLETE |
+| 07 | Mining Simulation & Safety | COMPLETE |
+| 08 | MacBook & iPhone Applications | COMPLETE |
+| 09 | Security, Resilience & Scale | COMPLETE |
+| 10 | Release Engineering & Controlled Launch | COMPLETE |
+
+### Security Findings
+
+| Finding | Description | Status |
+|---------|-------------|--------|
+| F-SEC-01 | Repository is PUBLIC (should be PRIVATE per A14) | RESOLVED — owner-decided to keep PUBLIC |
+| F-SEC-02 | XOR encryption in credential vault | RESOLVED — AES-256-GCM envelope encryption (merged, PR #12) |
+| F-SEC-03 | In-memory identity store | RESOLVED — SQLAlchemy persistent store (merged, PR #12) |
+
+> **Production readiness**: This project is in SIMULATION mode. No live trading, real mining,
+> or real financial operations are enabled or authorized. The platform is a simulation-grade
+> scaffold being elevated to production-candidate via E-phases. See `status.yaml` for the
+> complete and canonical status.
 
 ---
 
@@ -105,11 +142,11 @@ graph TB
 
 ## Operating Modes
 
-| Mode | Description | Real Money |
-|------|-------------|------------|
-| **SIMULATION** | Historical or synthetic data without real financial orders | No |
-| **PAPER** | Simulated trading using approved market data or sandbox environments | No |
-| **LIVE** | Real financial execution through explicitly authorized providers | Yes (after all gates pass) |
+| Mode | Description | Real Money | Status |
+|------|-------------|------------|--------|
+| **SIMULATION** | Historical or synthetic data without real financial orders | No | ACTIVE |
+| **PAPER** | Simulated trading using approved market data or sandbox environments | No | PLANNED |
+| **LIVE** | Real financial execution through explicitly authorized providers | Yes | PLANNED (not authorized) |
 
 > A mode change must never silently enable real-money trading. All interfaces, records, and audit events must clearly identify the active mode.
 
@@ -117,17 +154,17 @@ graph TB
 
 ## Technology Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Backend | Python 3.11+, FastAPI |
-| Interfaces | React, TypeScript 5.6+ |
-| MacBook App | Tauri |
-| iPhone | Responsive PWA |
-| Database | PostgreSQL |
-| Cache | Redis |
-| Observability | OpenTelemetry-compatible |
-| Deployment | Managed cloud (Render planned) |
-| CI/CD | GitHub Actions |
+| Layer | Technology | Status |
+|-------|-----------|--------|
+| Backend | Python 3.11+, FastAPI | REAL |
+| Interfaces | React, TypeScript 5.6+ | REAL |
+| MacBook App | Tauri | REAL (shell) |
+| iPhone | Responsive PWA | REAL |
+| Database | PostgreSQL | PLANNED (SQLite for dev) |
+| Cache | Redis | PLANNED |
+| Observability | OpenTelemetry | PLANNED |
+| Deployment | Render | PLANNED |
+| CI/CD | GitHub Actions | REAL |
 
 ---
 
@@ -142,9 +179,11 @@ kian-trading-intelligence/
 ├── infrastructure/   # Infrastructure configuration
 ├── tests/            # Integration and end-to-end tests
 ├── docs/             # Architecture and design documents
+├── docs/adr/         # ADR templates for open decisions
 ├── test-house/       # Durable evidence library
 ├── .github/workflows/ # CI pipelines
-├── DIRECTIV.txt      # Master engineering directive
+├── DIRECTIV.txt      # Master engineering directive (V1.2)
+├── status.yaml       # Single source of truth for project status
 ├── LICENSE           # Proprietary (all rights reserved)
 ├── README.md         # This file
 └── CHANGELOG.md      # Release history
@@ -197,7 +236,7 @@ cd apps/web && npm test
 This project enforces an honest, evidence-based engineering standard:
 
 1. **No fabricated evidence**: Test results, benchmarks, deployment claims, and Git evidence must reflect actual execution.
-2. **No production-readiness claims** without passing explicit release gates (Phase 10).
+2. **No production-readiness claims** without passing explicit release gates.
 3. **No false features**: Only implemented and verified features are advertised.
 4. **No hidden limitations**: Known limits and gaps are documented.
 5. **No guaranteed returns**: No strategy may be represented as guaranteed profitable.
@@ -205,20 +244,16 @@ This project enforces an honest, evidence-based engineering standard:
 
 ---
 
-## Development Phases
+## Governance and Directive Lineage
 
-| Phase | Objective | Status |
-|-------|----------|--------|
-| 01 | Repository & Engineering Foundation | ✅ COMPLETE |
-| 02 | Identity & Multi-Tenant Security | ✅ COMPLETE |
-| 03 | Market Data Foundation | ✅ COMPLETE |
-| 04 | Risk Kernel & Trading Execution | ✅ COMPLETE |
-| 05 | Financial Ledger & Profit Policies | ✅ COMPLETE |
-| 06 | Four-Agent Intelligence | ✅ COMPLETE |
-| 07 | Mining Simulation & Safety | ✅ COMPLETE |
-| 08 | MacBook & iPhone Applications | ✅ COMPLETE |
-| 09 | Security, Resilience & Scale | ✅ IN PROGRESS (branch `phase/09-security-resilience-scale`) |
-| 10 | Release Engineering & Controlled Launch | PLANNED |
+| Version | Description | Status |
+|---------|-------------|--------|
+| V1.0 | Original master engineering directive | Superseded |
+| V1.1 | Owner-approved addendum — governance and project presentation | Superseded |
+| V1.2 | Elevation and market completion — AD-034 through AD-040, E0 through E10 | Active |
+
+The full directive is preserved in `DIRECTIV.txt`. The project status single source of
+truth is `status.yaml`. ADR templates for open decisions are in `docs/adr/`.
 
 ---
 
@@ -245,7 +280,8 @@ Third-party components retain their original licenses; this project's proprietar
 ## Links
 
 - **Repository**: [github.com/aminbita162-glitch/kian-trading-intelligence](https://github.com/aminbita162-glitch/kian-trading-intelligence)
-- **Master Directive**: `DIRECTIV.txt` (preserved in repository root)
+- **Master Directive**: `DIRECTIV.txt` (V1.2, preserved in repository root)
+- **Status**: `status.yaml` (single source of truth)
 
 ---
 
@@ -257,8 +293,8 @@ Third-party components retain their original licenses; this project's proprietar
 > Azimi Innovation Lab
 >
 > **Project**: Kian Trading Intelligence
-> **Master Engineering Directive**: V1.0 with V1.1 addendum
-> **Current software version**: 0.10.0-dev (Phase 10 — Release Engineering and Controlled Launch)
+> **Master Engineering Directive**: V1.2 — Elevation and Market Completion
+> **Current software version**: 0.10.0 (E0 — Truth Reset and Governance Repair)
 >
 > Kian Trading Intelligence is a secure, auditable, cost-aware cryptocurrency trading and mining intelligence platform. It combines deterministic execution, validated quantitative intelligence, four specialized AI agents, and an independent deterministic Risk & Safety Kernel to provide human-controlled operational authority over trading and mining activities. The platform is designed for multi-tenant cloud operation with support for MacBook desktop and iPhone mobile interfaces.
 >
@@ -268,7 +304,7 @@ Third-party components retain their original licenses; this project's proprietar
 >
 > What it **DOES**: It provides market intelligence, strategy evaluation, risk management, financial ledger accounting, mining profitability simulation, and controlled trading execution — all with deterministic safety controls and human oversight.
 >
-> What it **INTENDS TO DO**: Progress through ten controlled development phases, from engineering foundation to controlled launch, with explicit human approval gates at each milestone. Live trading requires all technical, security, legal, and human approval gates to pass.
+> What it **INTENDS TO DO**: Progress through elevation phases E0 through E10, from truth reset and governance repair to commercial monetization and market readiness, with explicit human approval gates at each milestone. Live trading requires all technical, security, legal, and human approval gates to pass.
 >
 > **Disclaimers**: No guaranteed returns. No unsupported real-trading claims. This repository does not authorize third-party use. Project maturity and regulatory status are accurately represented. No live trading, real mining, or real financial operations are enabled or authorized at this stage.
 

@@ -41,6 +41,19 @@ Kian Trading Intelligence is a multi-tenant, cloud-executed cryptocurrency tradi
 | AD-031 | Python/FastAPI backend, React/TypeScript interfaces, Tauri MacBook, PostgreSQL |
 | AD-032 | Contract-first, human-gated development with evidence |
 | AD-033 | Architecture audit and readiness gates before production |
+| AD-034 | Commercial monetization and payment tiers (4 levels: free trial + USD 200/350/500 monthly) |
+| AD-035 | Evidence-backed production candidate — verification harnesses separated from runtime image |
+| AD-036 | Signed risk authorization tokens — short-lived, single-use, cryptographically signed |
+| AD-037 | Tamper-evident decision ledger — hash-chained, append-only, external anchoring |
+| AD-038 | Graduated autonomy (L0–L5) and independent kill plane |
+| AD-039 | Agent runtime mesh — tool broker, untrusted-text firewall, cost router, deterministic checker |
+| AD-040 | Statistical honesty and strategy validation gate — CPCV, PBO, Deflated Sharpe, signed model cards |
+
+## Elevation Phases (E0–E10)
+
+The V1.2 directive introduces elevation phases E0 through E10 to elevate the platform
+from simulation-grade to production-candidate, market-ready status. See `status.yaml`
+for current phase status and `DIRECTIV.txt` for full scope and acceptance criteria.
 
 ## System Layers
 

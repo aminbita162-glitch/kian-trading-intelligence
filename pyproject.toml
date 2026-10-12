@@ -1,6 +1,6 @@
 [project]
 name = "kian-trading-intelligence"
-version = "0.1.0"
+version = "0.10.0"
 description = "Secure, auditable, cost-aware cryptocurrency trading and mining intelligence platform"
 readme = "README.md"
 requires-python = ">=3.11"

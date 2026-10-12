@@ -1,0 +1,200 @@
+# Kian Trading Intelligence — Single Source of Truth
+# Master status file — all public claims must trace to this file or be labeled PLANNED.
+# Last updated: E0 (phase/e0-truth-reset)
+# Canonical directive: DIRECTIV.txt (V1.2 — Elevation and Market Completion)
+
+directive_version: "1.2"
+directive_lineage:
+  - version: "1.0"
+    description: "Original master engineering directive (owner approved for manual transfer)"
+    status: superseded
+  - version: "1.1"
+    description: "Owner-approved addendum — governance and project presentation"
+    status: superseded
+  - version: "1.2"
+    description: "Elevation and market completion — integrates V1.0 + V1.1 + KTI-ELEVATE findings, AD-034 through AD-040, E0 through E10"
+    status: active
+
+software_version: "0.10.0"
+python_version: "3.11+"
+operating_mode: SIMULATION
+live_authorized: false
+mining_authorized: false
+
+# Repository
+repository:
+  url: "https://github.com/aminbita162-glitch/kian-trading-intelligence"
+  visibility: PUBLIC
+  visibility_decision: "Owner-decided to remain PUBLIC (Addendum A14). F-SEC-01 recorded; not a blocker per owner."
+
+# Phase status (E0–E10 elevation phases)
+phases:
+  E0:
+    name: "Truth Reset and Governance Repair"
+    status: IN_PROGRESS
+    branch: phase/e0-truth-reset
+    acceptance: "CI consistency checks green; every public claim links to evidence or is labeled planned."
+  E1:
+    name: "Security Blocker Removal"
+    status: PLANNED
+    scope: "AEAD envelope encryption with KMS interface, durable identity (Alembic, Argon2id, TOTP/WebAuthn, token rotation), central policy engine (deny-by-default), adversarial tests. Close F-SEC-02/03 with evidence."
+  E2:
+    name: "Durable Core"
+    status: PLANNED
+    scope: "PostgreSQL schemas for all authoritative aggregates, versioned migrations, DB-enforced invariants, transactional outbox/inbox, testcontainers integration tests. Remove authoritative in-memory state."
+  E3:
+    name: "Structure and Verification Separation"
+    status: PLANNED
+    scope: "Split monolithic routers, move simulators/test harnesses outside deployable image, import-linter, strict typing, Decimal-only lint, API versioning and contract tests, coverage/mutation/property reporting."
+  E4:
+    name: "Safety Plane Hardening"
+    status: PLANNED
+    scope: "Signed risk authorization tokens, separate kernel and vault trust domains, policy-as-code, formal models (TLA+/P) checked in CI, Hypothesis stateful tests, hard gates."
+  E5:
+    name: "Simulation and Truth Infrastructure"
+    status: PLANNED
+    scope: "Deterministic Simulation Universe (DST) with nightly multi-seed runs, microstructure-realistic market twin, adapter conformance suite, snapshot reconciliation, real load (k6/Locust), chaos drills, real PITR restore."
+  E6:
+    name: "Agent Runtime and Evaluation"
+    status: PLANNED
+    scope: "Agent runtime specification, tool broker, untrusted-text firewall, independent numeric checker, cost router with per-tenant budgets, model/prompt registry, golden suite (>=200 scenarios), red-team arena, context isolation."
+  E7:
+    name: "Strategy Science"
+    status: PLANNED
+    scope: "Research registry, validation gate with CPCV, PBO, Deflated Sharpe, trial counter, data-quality pipeline, regime/drift monitors, champion/challenger shadow mode, stress scenario library, signed model cards."
+  E8:
+    name: "Evidence, Observability and Supply Chain"
+    status: PLANNED
+    scope: "Hash-chained decision ledger with external anchoring, decision dossiers, full OpenTelemetry, SLOs with burn-rate alerts, IaC with policy scanning, CodeQL/Semgrep/gitleaks/Dependabot, CycloneDX SBOM, Sigstore, SLSA, API fuzzing, living threat model, CI-generated badges."
+  E9:
+    name: "Graduated Autonomy, Kill Plane and Compliance Package"
+    status: PLANNED
+    scope: "Trust-level engine with signed approvals, independent kill plane with drills, platform evaluation ADR, tabletop and live drills, human-factors review, operator cockpit, legal classification memo, data inventory, DPIA, market-data terms register, external penetration test."
+  E10:
+    name: "Commercial Monetization, Payment Tiers and Market Readiness"
+    status: PLANNED
+    scope: "Four payment tiers per AD-034 (free trial + USD 200/350/500 monthly + annual options), usage metering, billing integration, tier enforcement, commercial onboarding, unit-economics dashboard, final readiness report."
+
+# Prior phases (01–10 from V1.0/V1.1) — all COMPLETE and merged to main
+prior_phases:
+  "01": { name: "Repository & Engineering Foundation", status: COMPLETE, merged: true }
+  "02": { name: "Identity & Multi-Tenant Security", status: COMPLETE, merged: true }
+  "03": { name: "Market Data Foundation", status: COMPLETE, merged: true }
+  "04": { name: "Risk Kernel & Trading Execution", status: COMPLETE, merged: true }
+  "05": { name: "Financial Ledger & Profit Policies", status: COMPLETE, merged: true }
+  "06": { name: "Four-Agent Intelligence", status: COMPLETE, merged: true }
+  "07": { name: "Mining Simulation & Safety", status: COMPLETE, merged: true }
+  "08": { name: "MacBook & iPhone Applications", status: COMPLETE, merged: true }
+  "09": { name: "Security, Resilience & Scale", status: COMPLETE, merged: true }
+  "10": { name: "Release Engineering & Controlled Launch", status: COMPLETE, merged: true }
+
+# Security findings
+security_findings:
+  F-SEC-01:
+    description: "Repository is PUBLIC — should be PRIVATE per Addendum A14."
+    status: RESOLVED
+    resolution: "Owner-decided to keep PUBLIC. Preserved, not changed."
+  F-SEC-02:
+    description: "XOR encryption in credential vault — inadequate for production."
+    status: RESOLVED
+    resolution: "AES-256-GCM envelope encryption with AAD, key versioning, fail-closed production, legacy XOR migration. Branch fix/f-sec-02-03-encryption-identity merged to main (PR #12)."
+    evidence: "test-house/security/f-sec-02-03-evidence.md, tests/test_f_sec_02_encryption.py"
+  F-SEC-03:
+    description: "In-memory identity store — no durable persistence."
+    status: RESOLVED
+    resolution: "SQLAlchemy-backed PersistentIdentityStore with SQLite (dev) / PostgreSQL (prod), versioned migrations, fail-closed production. Branch fix/f-sec-02-03-encryption-identity merged to main (PR #12)."
+    evidence: "test-house/security/f-sec-02-03-evidence.md, tests/test_f_sec_03_persistence.py"
+
+# Test counts (verified by real execution)
+test_counts:
+  python_pytest: 1121
+  vitest: 91
+  ruff: clean
+  mypy: clean
+  tsc: clean
+  eslint: clean
+  secret_scan: 0_findings
+
+# Architecture decisions
+architecture_decisions:
+  total: 40
+  range: "AD-001 through AD-040"
+  added_in_v1_2: ["AD-034", "AD-035", "AD-036", "AD-037", "AD-038", "AD-039", "AD-040"]
+
+# Open engineering decisions (ADR templates in docs/adr/)
+open_decisions:
+  - id: OPEN-01
+    title: "Actual GitHub repository URL and branch."
+    status: RESOLVED
+    resolution: "https://github.com/aminbita162-glitch/kian-trading-intelligence, branch main."
+  - id: OPEN-02
+    title: "Cloud provider and region."
+    status: OPEN
+    adrs: ["docs/adr/OPEN-02-cloud-provider.md"]
+  - id: OPEN-03
+    title: "Durable event-bus selection."
+    status: OPEN
+    adrs: ["docs/adr/OPEN-03-event-bus.md"]
+  - id: OPEN-04
+    title: "Detailed database schemas and API contracts."
+    status: PARTIALLY_RESOLVED
+    resolution: "Contracts implemented in packages/contracts/. Full DB schemas deferred to E2 (Durable Core)."
+  - id: OPEN-05
+    title: "Final workload assumptions, SLO, RPO, and RTO."
+    status: OPEN
+    adrs: ["docs/adr/OPEN-05-slo-rpo-rto.md"]
+  - id: OPEN-06
+    title: "Initial approved exchange providers."
+    status: OPEN
+    adrs: ["docs/adr/OPEN-06-exchange-providers.md"]
+  - id: OPEN-07
+    title: "Exact emergency position-management policies."
+    status: PARTIALLY_RESOLVED
+    resolution: "Emergency stop implemented (Phase 04, AD-013). Exact policies deferred to E4 (Safety Plane Hardening)."
+  - id: OPEN-08
+    title: "Legal classification and commercial-release eligibility."
+    status: OPEN
+    adrs: ["docs/adr/OPEN-08-legal-classification.md"]
+  - id: OPEN-09
+    title: "Notification delivery providers."
+    status: OPEN
+    adrs: ["docs/adr/OPEN-09-notification-providers.md"]
+  - id: OPEN-10
+    title: "Final CI commands and phase-specific test thresholds."
+    status: PARTIALLY_RESOLVED
+    resolution: "CI workflow in .github/workflows/ci.yml. Phase-specific thresholds will be defined per E-phase."
+  - id: OPEN-11
+    title: "Exact risk-reservation and execution-ownership protocols."
+    status: PARTIALLY_RESOLVED
+    resolution: "Risk Kernel implemented (Phase 04). Signed risk tokens deferred to E4 (AD-036)."
+  - id: OPEN-12
+    title: "Final reconciliation and recovery acceptance scenarios."
+    status: PARTIALLY_RESOLVED
+    resolution: "Reconciliation and DR implemented (Phase 09). Final acceptance scenarios deferred to E5/E9."
+
+# Honest labeling — every public-facing claim must use REAL or PLANNED
+# REAL = implemented, tested, and evidence-backed
+# PLANNED = not yet implemented, approved for future work
+honest_labels:
+  live_trading: PLANNED
+  real_mining: PLANNED
+  real_withdrawals: PLANNED
+  postgresql_production: PLANNED
+  redis_cache: PLANNED
+  multi_tenant_isolation: REAL
+  risk_kernel: REAL
+  financial_ledger: REAL
+  agent_orchestration: REAL
+  mining_simulation: REAL
+  macbook_tauri_shell: REAL
+  iphone_pwa: REAL
+  commercial_billing: PLANNED
+  payment_tiers: PLANNED
+  usage_metering: PLANNED
+  formal_models: PLANNED
+  signed_risk_tokens: PLANNED
+  decision_ledger: PLANNED
+  agent_runtime_mesh: PLANNED
+  strategy_validation_gate: PLANNED
+  hash_chained_audit: PLANNED
+  opentelemetry: PLANNED
