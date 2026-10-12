@@ -6,10 +6,12 @@
 |-------|-------|
 | Run ID | e1-local-20261012 |
 | Date | 2026-10-12T23:57:00Z |
-| Git SHA | (to be filled after commit) |
+| Git SHA | b795e7e |
 | Branch | phase/e1-security-blocker-removal |
 | Environment | local (macOS, Python 3.11.15) |
 | Starting SHA | 24321b2 (E0 complete) |
+| Remote SHA | b795e7e (verified — local == remote) |
+| CI Status | all-green (Python 3.11/3.12/3.13 + Frontend, run 38314200880) |
 
 ## Deliverables Implemented (7)
 
