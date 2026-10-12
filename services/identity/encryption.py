@@ -94,6 +94,7 @@ class KeyProvider(Protocol):
 # ── Local key provider (development / test) ──
 
 _DEFAULT_KEY_ID = "local-dev"
+_KMS_KEY_ID = "kms"
 _MIN_KEY_LEN = 32  # 256 bits — the minimum for AES-256
 
 
@@ -125,6 +126,77 @@ class LocalKeyProvider:
             info=f"kti-vault:{self._key_id}:v{version}".encode(),
         )
         return hkdf.derive(self._master)
+
+    def get_key(self, key_version: int) -> bytes:
+        return self._derive(key_version)
+
+    def get_current_version(self) -> int:
+        return self._current_version
+
+    def get_key_id(self) -> str:
+        return self._key_id
+
+
+# ── KMS key provider (production — simulated backend) ──
+
+
+class KMSKeyProvider:
+    """Key provider backed by a (simulated) KMS.
+
+    In production, key material would be retrieved from an external
+    key-management service (AWS KMS, GCP KMS, HashiCorp Vault, etc.).
+    This implementation *simulates* the KMS by deriving keys via HKDF
+    from KMS-provided material — no real cloud calls are made.
+
+    The KMS backend can be selected via the ``KMS_BACKEND`` env var or
+    constructed directly.  Regardless of the backend, the key_id is
+    always ``'kms'`` and keys are derived via HKDF-SHA256.
+    """
+
+    def __init__(
+        self,
+        kms_material: bytes | None = None,
+        *,
+        backend: str | None = None,
+    ) -> None:
+        backend = backend or os.environ.get("KMS_BACKEND", "simulated")
+        self._backend = backend
+        if kms_material is None:
+            kms_material = self._fetch_kms_material()
+        if len(kms_material) < _MIN_KEY_LEN:
+            raise EncryptionConfigurationError(
+                f"KMS key material must be at least {_MIN_KEY_LEN} bytes (got {len(kms_material)})."
+            )
+        self._material = kms_material
+        self._key_id = _KMS_KEY_ID
+        self._current_version = 1
+
+    def _fetch_kms_material(self) -> bytes:
+        """Simulate fetching key material from a KMS backend.
+
+        In a real implementation, this would call the cloud KMS API.
+        Here we derive deterministic material from the environment so
+        that tests are reproducible.
+        """
+        raw = os.environ.get("KTI_VAULT_KEY", "")
+        if _is_production():
+            if not raw or len(raw) < _MIN_KEY_LEN:
+                raise EncryptionConfigurationError(
+                    "KTI_VAULT_KEY is not set or too short for production KMS."
+                )
+            return raw.encode()
+        raw = raw or "phase02-dev-vault-key-change-in-prod"
+        return hashlib.sha256(raw.encode()).digest()
+
+    def _derive(self, version: int) -> bytes:
+        """Derive a 256-bit key from KMS material using HKDF-SHA256."""
+        hkdf = HKDF(
+            algorithm=hashes.SHA256(),
+            length=32,
+            salt=None,
+            info=f"kti-kms:{self._key_id}:v{version}:{self._backend}".encode(),
+        )
+        return hkdf.derive(self._material)
 
     def get_key(self, key_version: int) -> bytes:
         return self._derive(key_version)
@@ -309,6 +381,21 @@ def migrate_legacy_xor(
 
 # ── Factory ──
 
+
+def get_key_provider() -> KeyProvider:
+    """Return the appropriate key provider based on environment.
+
+    When ``KTI_KMS_PROVIDER`` is set (or in production), returns a
+    :class:`KMSKeyProvider`.  Otherwise, falls back to
+    :class:`LocalKeyProvider` for development.
+    """
+    kms_provider = os.environ.get("KTI_KMS_PROVIDER", "")
+    if kms_provider or _is_production():
+        return KMSKeyProvider()
+    material = _load_master_material()
+    return LocalKeyProvider(material)
+
+
 # Module-level singleton (lazy-initialised).
 _encryption: EnvelopeEncryption | None = None
 
@@ -321,8 +408,7 @@ def get_encryption() -> EnvelopeEncryption:
     """
     global _encryption  # noqa: PLW0603
     if _encryption is None:
-        material = _load_master_material()
-        provider = LocalKeyProvider(material)
+        provider = get_key_provider()
         _encryption = EnvelopeEncryption(provider)
     return _encryption
 

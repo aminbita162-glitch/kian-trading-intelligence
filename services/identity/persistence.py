@@ -236,16 +236,26 @@ MIGRATIONS: list[Migration] = [
 
 def _ensure_schema(session: Session) -> int:
     """Apply pending migrations. Returns the applied version."""
+    from services.identity.migrations import run_migrations  # noqa: PLC0415
+
     Base.metadata.create_all(session.get_bind(), checkfirst=True)
 
-    existing = session.get(SchemaVersionRow, CURRENT_SCHEMA_VERSION)
+    # Run versioned migrations (raw SQL) for any pending versions.
+    engine = session.get_bind()
+    # Ensure schema_version table exists for migration tracking.
+    existing = session.get(SchemaVersionRow, 1)
     if existing is None:
-        row = SchemaVersionRow(
-            version=CURRENT_SCHEMA_VERSION,
-            applied_at=datetime.now(UTC).isoformat(),
-        )
-        session.add(row)
-        session.flush()
+        # Apply migrations via the migration framework.
+        run_migrations(engine)
+        # The framework may have inserted rows; check again.
+        existing = session.get(SchemaVersionRow, 1)
+        if existing is None:
+            row = SchemaVersionRow(
+                version=CURRENT_SCHEMA_VERSION,
+                applied_at=datetime.now(UTC).isoformat(),
+            )
+            session.add(row)
+            session.flush()
     return CURRENT_SCHEMA_VERSION
 
 

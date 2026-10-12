@@ -8,10 +8,12 @@ authentication for sensitive operations (AD-026).
 
 from __future__ import annotations
 
+import secrets
 from datetime import timedelta
 from uuid import UUID
 
-from contracts.identity import AuthSession, SessionStatus, TenantId, UserId
+from contracts.identity import AuditEventType, AuthSession, SessionStatus, TenantId, UserId
+from services.identity.audit import audit
 from services.identity.database import get_store
 
 DEFAULT_SESSION_DURATION = timedelta(hours=1)
@@ -90,3 +92,54 @@ def check_step_up(session: AuthSession) -> bool:
 def get_sessions_by_tenant(tenant_id: TenantId) -> list[AuthSession]:
     """Get all sessions for a tenant."""
     return get_store().get_sessions_by_tenant(tenant_id)
+
+
+# ── Session token rotation (E1 deliverable) ──
+
+
+def generate_session_token() -> str:
+    """Generate a cryptographically random session token string."""
+    return secrets.token_urlsafe(32)
+
+
+def rotate_session_token(session_id: str) -> AuthSession:
+    """Rotate a session token, revoking the old and creating a new session.
+
+    The new session preserves tenant_id, user_id, and device_id from
+    the old session. The old session is revoked and both are persisted.
+    The rotation is audited with SESSION_REVOKED for the old session.
+
+    Raises:
+        ValueError: If the session is not found.
+    """
+    store = get_store()
+    old_session = store.get_session(session_id)
+    if old_session is None:
+        raise ValueError(f"Session not found: {session_id}")
+
+    # Revoke the old session
+    old_session.revoke()
+    store.update_session(old_session)
+    audit(
+        event_type=AuditEventType.SESSION_REVOKED,
+        tenant_id=old_session.tenant_id,
+        actor_user_id=old_session.user_id,
+        detail=f"Session rotated (old): {session_id}",
+    )
+
+    # Create a new session with a fresh ID
+    new_session = AuthSession.create(
+        tenant_id=old_session.tenant_id,
+        user_id=old_session.user_id,
+        device_id=old_session.device_id,
+        session_duration=DEFAULT_SESSION_DURATION,
+    )
+    store.create_session(new_session)
+    audit(
+        event_type=AuditEventType.SESSION_REVOKED,
+        tenant_id=new_session.tenant_id,
+        actor_user_id=new_session.user_id,
+        detail=f"Session rotated (new): {new_session.session_id}",
+    )
+
+    return new_session

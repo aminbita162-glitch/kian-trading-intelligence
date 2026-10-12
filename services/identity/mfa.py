@@ -21,11 +21,14 @@ from contracts.identity import (
     AuthSession,
     MFAMethod,
     SessionStatus,
+    TenantId,
     User,
+    UserId,
 )
 from services.identity.audit import audit
 from services.identity.database import get_store
 from services.identity.session import grant_step_up as _grant_step_up
+from services.identity.totp import generate_totp_provisioning_uri, generate_totp_secret, verify_totp
 
 MFA_CODE_DIGITS = 6
 MFA_CODE_VALIDITY_SECONDS = 30
@@ -167,3 +170,104 @@ def verify_mfa(
 
     store.update_session(session)
     return True
+
+
+# ── Tenant-scoped MFA (E1 deliverable) ──
+
+
+def enable_mfa_for_user(
+    tenant_id: TenantId,
+    user_id: UserId,
+) -> tuple[str, str]:
+    """Enable MFA for a user by tenant and user ID.
+
+    Generates a TOTP secret, stores it on the user record, and returns
+    ``(secret, provisioning_uri)``.
+    """
+    store = get_store()
+    user = store.get_user(user_id)
+    if user is None:
+        raise MFAError(f"User not found: {user_id}")
+    if user.tenant_id != tenant_id:
+        raise MFAError("Cross-tenant access blocked")
+
+    secret = generate_totp_secret()
+    user.mfa_enabled = True
+    user.mfa_method = MFAMethod.TOTP
+    user.mfa_secret = secret
+    store.update_user(user)
+
+    provisioning_uri = generate_totp_provisioning_uri(
+        email=user.email,
+        secret=secret,
+    )
+
+    audit(
+        event_type=AuditEventType.MFA_CHALLENGED,
+        tenant_id=tenant_id,
+        actor_user_id=user_id,
+        detail=f"MFA enabled for user: {user.email}",
+    )
+
+    return secret, provisioning_uri
+
+
+def verify_mfa_for_user(
+    tenant_id: TenantId,
+    user_id: UserId,
+    code: str,
+) -> bool:
+    """Verify a TOTP code for a user.
+
+    Returns True on success, raises MFAError on failure.
+    """
+    store = get_store()
+    user = store.get_user(user_id)
+    if user is None:
+        raise MFAError(f"User not found: {user_id}")
+    if user.tenant_id != tenant_id:
+        raise MFAError("Cross-tenant access blocked")
+    if not user.mfa_enabled or user.mfa_secret is None:
+        raise MFANotEnabledError("MFA is not enabled for this user")
+
+    if not verify_totp(user.mfa_secret, code):
+        audit(
+            event_type=AuditEventType.MFA_FAILED,
+            tenant_id=tenant_id,
+            actor_user_id=user_id,
+            detail="MFA verification failed",
+        )
+        raise MFAError("Invalid MFA code")
+
+    audit(
+        event_type=AuditEventType.MFA_VERIFIED,
+        tenant_id=tenant_id,
+        actor_user_id=user_id,
+        detail="MFA verification successful",
+    )
+    return True
+
+
+def disable_mfa_for_user(
+    tenant_id: TenantId,
+    user_id: UserId,
+) -> None:
+    """Disable MFA for a user by tenant and user ID."""
+    store = get_store()
+    user = store.get_user(user_id)
+    if user is None:
+        raise MFAError(f"User not found: {user_id}")
+    if user.tenant_id != tenant_id:
+        raise MFAError("Cross-tenant access blocked")
+
+    user.mfa_enabled = False
+    user.mfa_method = None
+    user.mfa_secret = None
+    store.update_user(user)
+
+    audit(
+        event_type=AuditEventType.MFA_DISABLED,
+        tenant_id=tenant_id,
+        actor_user_id=user_id,
+        detail="MFA disabled",
+    )
