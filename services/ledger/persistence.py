@@ -379,12 +379,13 @@ def _apply_rls_policies(session: Session) -> None:
     Per E2 scope: RLS (Row-Level Security) for tenant isolation at the
     database level. Only applicable to PostgreSQL.
     """
+    # Only tables that have a tenant_id column can have an RLS policy
+    # referencing it. ledger_journal_lines, ledger_idempotency_keys, and
+    # ledger_fill_mappings do NOT have tenant_id (they are linked via
+    # entry_id / idempotency_key / fill_id to parent rows that do).
     tenant_tables = [
         "ledger_accounts",
         "ledger_journal_entries",
-        "ledger_journal_lines",
-        "ledger_idempotency_keys",
-        "ledger_fill_mappings",
         "ledger_profit_thresholds",
         "ledger_profit_reservations",
         "ledger_withdrawals",
@@ -410,9 +411,6 @@ def _revert_rls_policies(session: Session) -> None:
     tenant_tables = [
         "ledger_accounts",
         "ledger_journal_entries",
-        "ledger_journal_lines",
-        "ledger_idempotency_keys",
-        "ledger_fill_mappings",
         "ledger_profit_thresholds",
         "ledger_profit_reservations",
         "ledger_withdrawals",
