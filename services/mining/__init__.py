@@ -1,4 +1,4 @@
-"""Mining simulation service for Kian Trading Intelligence.
+"""Mining service for Kian Trading Intelligence.
 
 Per Section 09 (Mining Operations):
 - 09.1: Mining simulation — hash rate, network difficulty, expected rewards,
@@ -13,12 +13,13 @@ and pool integration require explicit approval and safety controls.
 
 Per AD-023: deterministic simulation, mining simulation, and repeatable
 verification before live operations.
+
+Per E3 (Structure and Verification Separation): the concrete MiningSimulator
+has been moved to the simulation/ package (outside the deployable services/
+tree). Import the simulator from simulation.mining_simulator when needed
+for testing or simulation mode.
 """
 
 from __future__ import annotations
 
-from services.mining.simulator import MiningSimulator
-
-__all__ = [
-    "MiningSimulator",
-]
+__all__: list[str] = []

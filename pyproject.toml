@@ -26,6 +26,8 @@ dev = [
     "mypy>=1.13",
     "testcontainers[postgresql]>=4.0",
     "psycopg2-binary>=2.9",
+    "import-linter>=2.0",
+    "pytest-cov>=5.0",
 ]
 
 [build-system]
@@ -33,12 +35,13 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-packages = ["contracts", "services", "services.core", "services.identity", "services.market_data", "services.risk_kernel", "services.execution", "services.ledger", "services.agents", "services.mining", "services.client", "services.security", "services.release"]
+packages = ["contracts", "services", "services.core", "services.core.routers", "services.identity", "services.market_data", "services.risk_kernel", "services.execution", "services.ledger", "services.agents", "services.mining", "services.client", "services.security", "services.release", "simulation"]
 
 [tool.setuptools.package-dir]
 contracts = "packages/contracts"
 services = "services"
 "services.core" = "services/core"
+"services.core.routers" = "services/core/routers"
 "services.identity" = "services/identity"
 "services.market_data" = "services/market_data"
 "services.risk_kernel" = "services/risk_kernel"
@@ -49,6 +52,7 @@ services = "services"
 "services.client" = "services/client"
 "services.security" = "services/security"
 "services.release" = "services/release"
+simulation = "simulation"
 
 [tool.pytest.ini_options]
 minversion = "8.0"
@@ -82,3 +86,17 @@ python_version = "3.11"
 strict = true
 warn_return_any = true
 warn_unused_configs = true
+
+[tool.coverage.run]
+source = ["services", "packages", "simulation"]
+omit = ["tests/*", "*/__pycache__/*", ".venv/*"]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 80
+exclude_lines = [
+    "pragma: no cover",
+    "if TYPE_CHECKING:",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+]

@@ -1,5 +1,9 @@
 """Mining simulator service for Kian Trading Intelligence.
 
+Per E3 (Structure and Verification Separation): this simulator lives
+OUTSIDE the deployable services/ tree in the simulation/ package. Import
+this only in simulation mode or tests.
+
 Per Section 09.1: Mining Simulation — model hash rate, network difficulty,
 expected rewards, pool fees, electricity costs, equipment efficiency, hardware
 depreciation, temperature, downtime, net profitability and uncertainty.

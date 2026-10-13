@@ -6,6 +6,7 @@ Per Section 05.5: no exchange is automatically approved for live use.
 """
 
 import pytest
+from simulation.market_data_simulator import SimulatedMarketDataProvider
 
 from contracts.market_data import (
     OrderBookSnapshot,
@@ -18,7 +19,6 @@ from services.market_data.provider import (
     ProviderDisconnectedError,
     RateLimitExceededError,
 )
-from services.market_data.simulated import SimulatedMarketDataProvider
 
 
 @pytest.fixture()

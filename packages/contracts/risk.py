@@ -25,6 +25,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import UTC, datetime, timedelta
+from decimal import Decimal
 from enum import StrEnum
 from uuid import UUID, uuid4
 
@@ -145,22 +146,22 @@ class RiskPolicy:
     def __post_init__(self) -> None:
         if self.version < 1:
             raise ValueError("Version must be >= 1.")
-        if float(self.max_position_value) <= 0:
+        if Decimal(self.max_position_value) <= 0:
             raise ValueError("max_position_value must be positive.")
-        if float(self.max_daily_loss) <= 0:
+        if Decimal(self.max_daily_loss) <= 0:
             raise ValueError("max_daily_loss must be positive.")
-        if float(self.max_drawdown) <= 0:
+        if Decimal(self.max_drawdown) <= 0:
             raise ValueError("max_drawdown must be positive.")
-        conc = float(self.max_concentration_pct)
-        CONC_MIN = 0.0
-        CONC_MAX = 100.0
+        conc = Decimal(self.max_concentration_pct)
+        CONC_MIN = Decimal("0")
+        CONC_MAX = Decimal("100")
         if not CONC_MIN < conc <= CONC_MAX:
             raise ValueError("max_concentration_pct must be in (0, 100].")
         if self.max_position_per_symbol < 1:
             raise ValueError("max_position_per_symbol must be >= 1.")
-        if float(self.min_liquidity_usd) < 0:
+        if Decimal(self.min_liquidity_usd) < 0:
             raise ValueError("min_liquidity_usd must be non-negative.")
-        if float(self.max_volatility) < 0:
+        if Decimal(self.max_volatility) < 0:
             raise ValueError("max_volatility must be non-negative.")
         if self.created_at.tzinfo is None:
             raise ValueError("created_at must be timezone-aware (UTC).")
@@ -280,7 +281,7 @@ class RiskAuthorization:
     def __post_init__(self) -> None:
         if self.side not in ("buy", "sell"):
             raise ValueError(f"Invalid side: {self.side!r}. Must be 'buy' or 'sell'.")
-        if float(self.quantity) <= 0:
+        if Decimal(self.quantity) <= 0:
             raise ValueError("Quantity must be positive.")
         if self.created_at.tzinfo is None:
             raise ValueError("created_at must be timezone-aware (UTC).")
@@ -381,7 +382,7 @@ class RiskReservation:
     released_at: datetime | None = None
 
     def __post_init__(self) -> None:
-        if float(self.reserved_value) <= 0:
+        if Decimal(self.reserved_value) <= 0:
             raise ValueError("reserved_value must be positive.")
         if self.created_at.tzinfo is None:
             raise ValueError("created_at must be timezone-aware (UTC).")

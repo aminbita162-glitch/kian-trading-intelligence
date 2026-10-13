@@ -17,8 +17,15 @@ Per Section 05.1: the mandatory execution pipeline is:
 10. Reconcile exchange execution.
 11. Post confirmed financial effects.
 12. Update audit and notifications.
+
+Per E3 (Structure and Verification Separation): the concrete ExchangeSimulator
+has been moved to the simulation/ package (outside the deployable services/ tree).
+The ExecutionEngine depends on the ExchangeAdapter protocol, not the concrete
+simulator. Import the simulator from simulation.exchange_simulator when needed
+for testing or simulation mode.
 """
 
+from contracts.exchange_adapter import ExchangeAdapter
 from services.execution.engine import (
     ExecutionEngine,
     ExecutionError,
@@ -26,25 +33,12 @@ from services.execution.engine import (
     RiskDeniedError,
     UnknownOutcomeUnresolvedError,
 )
-from services.execution.exchange_simulator import (
-    DuplicateOrderError,
-    ExchangeAdapterError,
-    ExchangeNotConnectedError,
-    ExchangeSimulator,
-    OrderNotFoundError,
-    ReconciliationRequired,
-)
 
 __all__ = [
-    "DuplicateOrderError",
-    "ExchangeAdapterError",
-    "ExchangeNotConnectedError",
-    "ExchangeSimulator",
+    "ExchangeAdapter",
     "ExecutionEngine",
     "ExecutionError",
-    "OrderNotFoundError",
     "OrderNotInValidStateException",
-    "ReconciliationRequired",
     "RiskDeniedError",
     "UnknownOutcomeUnresolvedError",
 ]

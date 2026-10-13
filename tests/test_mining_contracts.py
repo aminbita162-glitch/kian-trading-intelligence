@@ -21,6 +21,7 @@ from datetime import UTC, datetime, timedelta
 from decimal import Decimal
 
 import pytest
+from simulation.mining_simulator import MiningSimulator
 
 from contracts.mining import (
     BlockReward,
@@ -52,7 +53,6 @@ from contracts.mining import (
     TemperatureAction,
     TemperaturePolicy,
 )
-from services.mining import MiningSimulator
 
 # ── Test fixtures ──
 

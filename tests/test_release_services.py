@@ -14,6 +14,13 @@ Per Section 17 PHASE 10 deliverables:
 
 from __future__ import annotations
 
+from simulation.release_generators import (
+    create_standard_dependencies,
+    create_standard_documentation,
+    create_standard_review_items,
+    create_standard_runbooks,
+)
+
 from contracts.release import (
     ArtifactType,
     CanaryMetrics,
@@ -44,10 +51,6 @@ from services.release import (
     RollbackTestingService,
     RunbookService,
     StagingDeploymentService,
-    create_standard_dependencies,
-    create_standard_documentation,
-    create_standard_review_items,
-    create_standard_runbooks,
 )
 
 

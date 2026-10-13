@@ -18,6 +18,18 @@ Per Section 17 PHASE 09 deliverables:
 from __future__ import annotations
 
 import pytest
+from simulation.security_simulators import (
+    BackupService,
+    CostEvaluator,
+    DisasterRecoveryService,
+    FaultInjector,
+    FinancialStressTester,
+    LoadTestRunner,
+    ObservabilityVerifier,
+    RiskStressTester,
+    SplitBrainSimulator,
+    TenantIsolationTester,
+)
 
 from contracts.security import (
     BackupType,
@@ -29,19 +41,7 @@ from contracts.security import (
     SplitBrainRole,
     ThreatSeverity,
 )
-from services.security import (
-    BackupService,
-    CostEvaluator,
-    DisasterRecoveryService,
-    FaultInjector,
-    FinancialStressTester,
-    LoadTestRunner,
-    ObservabilityVerifier,
-    RiskStressTester,
-    SecurityService,
-    SplitBrainSimulator,
-    TenantIsolationTester,
-)
+from services.security import SecurityService
 
 # ── Deliverable 1: Threat-Model Review ──
 

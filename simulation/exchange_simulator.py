@@ -1,5 +1,10 @@
 """Exchange simulator for Kian Trading Intelligence.
 
+Per E3 (Structure and Verification Separation): this simulator lives
+OUTSIDE the deployable services/ tree in the simulation/ package. The
+production ExecutionEngine depends on the ExchangeAdapter protocol, not
+this concrete class. Import this only in simulation mode or tests.
+
 Per AD-023 (Digital Twin): deterministic simulation, exchange emulation, replay,
 fault injection, and repeatable verification before live operations.
 

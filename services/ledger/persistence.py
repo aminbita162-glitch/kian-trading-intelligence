@@ -97,9 +97,9 @@ class FinancialAccountRow(LedgerBase):
     __tablename__ = "ledger_accounts"
     __table_args__ = (
         UniqueConstraint("tenant_id", "asset", name="uq_ledger_accounts_tenant_asset"),
-        CheckConstraint("balance::numeric >= 0", name="ck_ledger_accounts_balance_nonneg"),
+        CheckConstraint("CAST(balance AS NUMERIC) >= 0", name="ck_ledger_accounts_balance_nonneg"),
         CheckConstraint(
-            "reserved_balance::numeric >= 0",
+            "CAST(reserved_balance AS NUMERIC) >= 0",
             name="ck_ledger_accounts_reserved_nonneg",
         ),
     )
@@ -143,8 +143,8 @@ class JournalEntryRow(LedgerBase):
 class JournalLineRow(LedgerBase):
     __tablename__ = "ledger_journal_lines"
     __table_args__ = (
-        CheckConstraint("amount::numeric > 0", name="ck_journal_line_amount_positive"),
-        CheckConstraint("value::numeric > 0", name="ck_journal_line_value_positive"),
+        CheckConstraint("CAST(amount AS NUMERIC) > 0", name="ck_journal_line_amount_positive"),
+        CheckConstraint("CAST(value AS NUMERIC) > 0", name="ck_journal_line_value_positive"),
     )
 
     line_id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)

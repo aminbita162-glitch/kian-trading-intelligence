@@ -1,0 +1,19 @@
+[importlinter]
+root_packages =
+    contracts
+    services
+    simulation
+
+[importlinter:contracts:contracts-is-leaf]
+name = contracts must not import from services or simulation
+type = forbidden
+source_modules = contracts
+forbidden_modules =
+    services
+    simulation
+
+[importlinter:contracts:services-must-not-import-simulation]
+name = production services must not import from simulation
+type = forbidden
+source_modules = services
+forbidden_modules = simulation

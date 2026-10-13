@@ -80,7 +80,7 @@ def test_software_version_consistency() -> None:
     """status.yaml software_version must match pyproject.toml version."""
     status_content = _read_file("status.yaml")
     pyproject_content = _read_file("pyproject.toml")
-    app_content = _read_file("services/core/app.py")
+    version_content = _read_file("services/core/version.py")
 
     m = re.search(r"software_version:\s*\"([^\"]+)\"", status_content)
     assert m is not None
@@ -90,7 +90,7 @@ def test_software_version_consistency() -> None:
     assert m2 is not None
     pyproject_ver = m2.group(1)
 
-    m3 = re.search(r'__version__\s*=\s*"([^"]+)"', app_content)
+    m3 = re.search(r'__version__\s*=\s*"([^"]+)"', version_content)
     assert m3 is not None
     app_ver = m3.group(1)
 
