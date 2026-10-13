@@ -3,6 +3,7 @@ root_packages =
     contracts
     services
     simulation
+    formal
 
 [importlinter:contracts:contracts-is-leaf]
 name = contracts must not import from services or simulation
@@ -11,9 +12,16 @@ source_modules = contracts
 forbidden_modules =
     services
     simulation
+    formal
 
 [importlinter:contracts:services-must-not-import-simulation]
 name = production services must not import from simulation
 type = forbidden
 source_modules = services
+forbidden_modules = simulation
+
+[importlinter:contracts:formal-must-not-import-simulation]
+name = formal models must not import from simulation
+type = forbidden
+source_modules = formal
 forbidden_modules = simulation
