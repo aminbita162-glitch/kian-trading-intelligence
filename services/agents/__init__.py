@@ -12,6 +12,18 @@ Agents:
 The Risk Kernel (services.risk_kernel.kernel.RiskKernel) is NOT an agent.
 """
 
+from services.agents.agent_runtime import (
+    ContextIsolator,
+    CostRouter,
+    GoldenSuiteRunner,
+    ModelPromptRegistry,
+    NumericChecker,
+    RedTeamArena,
+    ToolBroker,
+    UntrustedTextFirewall,
+    generate_golden_scenarios,
+    generate_red_team_scenarios,
+)
 from services.agents.execution_supervisor import ExecutionSupervisorAgent
 from services.agents.market_intelligence import MarketIntelligenceAgent
 from services.agents.mining_operations import (
@@ -23,10 +35,20 @@ from services.agents.strategy_portfolio import StrategyPortfolioAgent
 
 __all__ = [
     "AgentOrchestrator",
+    "ContextIsolator",
+    "CostRouter",
     "ExecutionSupervisorAgent",
+    "GoldenSuiteRunner",
     "MarketIntelligenceAgent",
     "MiningOperationsAgent",
     "MiningSimulationInput",
+    "ModelPromptRegistry",
+    "NumericChecker",
     "OrchestratorResult",
+    "RedTeamArena",
     "StrategyPortfolioAgent",
+    "ToolBroker",
+    "UntrustedTextFirewall",
+    "generate_golden_scenarios",
+    "generate_red_team_scenarios",
 ]
