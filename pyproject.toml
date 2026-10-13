@@ -36,7 +36,7 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-packages = ["contracts", "services", "services.core", "services.core.routers", "services.identity", "services.market_data", "services.risk_kernel", "services.execution", "services.ledger", "services.agents", "services.mining", "services.client", "services.security", "services.release", "simulation", "formal"]
+packages = ["contracts", "services", "services.core", "services.core.routers", "services.identity", "services.market_data", "services.risk_kernel", "services.execution", "services.ledger", "services.agents", "services.mining", "services.client", "services.security", "services.release", "services.strategy_science", "simulation", "formal"]
 
 [tool.setuptools.package-dir]
 contracts = "packages/contracts"
@@ -53,6 +53,7 @@ services = "services"
 "services.client" = "services/client"
 "services.security" = "services/security"
 "services.release" = "services/release"
+"services.strategy_science" = "services/strategy_science"
 simulation = "simulation"
 formal = "formal"
 
