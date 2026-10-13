@@ -19,6 +19,12 @@ Contents:
 - security_simulators: SplitBrainSimulator, FaultInjector, LoadTestRunner
   (resilience and scale verification)
 - release_generators: create_standard_* factory functions (readiness generators)
+- dst_engine: DSTEngine (deterministic simulation universe with multi-seed runs)
+- market_twin: MarketTwin (microstructure-realistic market twin)
+- conformance_suite: AdapterConformanceSuite (adapter conformance verification)
+- snapshot_pitr: SnapshotReconciler, PITRRestorer (snapshot reconciliation + PITR)
+- load_chaos_drills: LoadDrillRunner, ChaosDrillRunner (load/chaos drills)
+- reality_gap: RealityGapTracker (reality gap tracking)
 """
 
 from __future__ import annotations
