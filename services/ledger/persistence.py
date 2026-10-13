@@ -396,9 +396,10 @@ def _apply_rls_policies(session: Session) -> None:
     ]
     for table in tenant_tables:
         session.execute(text(f"ALTER TABLE {table} ENABLE ROW LEVEL SECURITY"))
+        session.execute(text(f"DROP POLICY IF EXISTS tenant_isolation ON {table}"))
         session.execute(
             text(
-                f"CREATE POLICY IF NOT EXISTS tenant_isolation ON {table} "
+                f"CREATE POLICY tenant_isolation ON {table} "
                 f"USING (tenant_id = current_setting('app.tenant_id', true)::text)"
             )
         )
