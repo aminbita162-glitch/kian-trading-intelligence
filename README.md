@@ -6,7 +6,7 @@
 
 **Amin Azimi · AI Architect · End-to-End System Development Business Challenge · Azimi Innovation Lab**
 
-[![Phase](https://img.shields.io/badge/Elevation-E0%20Truth%20Reset-blue)]()
+[![Phase](https://img.shields.io/badge/Elevation-E10%20Commercial%20Monetization-blue)]()
 [![Status](https://img.shields.io/badge/Status-SIMULATION-orange)]()
 [![License](https://img.shields.io/badge/License-Proprietary-red)]()
 [![Python](https://img.shields.io/badge/Python-3.11%2B-blue)]()
@@ -23,7 +23,7 @@ All public claims in this README, CHANGELOG, and architecture docs trace to `sta
 or are explicitly labeled PLANNED.
 
 **Directive version**: V1.2 (Elevation and Market Completion)
-**Software version**: 0.10.0
+**Software version**: 0.19.0
 **Operating mode**: SIMULATION (LIVE not authorized)
 **Repository visibility**: PUBLIC (owner-decided per Addendum A14)
 
@@ -39,9 +39,9 @@ or are explicitly labeled PLANNED.
 | **E5** | Simulation and Truth Infrastructure | PLANNED |
 | **E6** | Agent Runtime and Evaluation | PLANNED |
 | **E7** | Strategy Science | PLANNED |
-| **E8** | Evidence, Observability and Supply Chain | PLANNED |
-| **E9** | Graduated Autonomy, Kill Plane and Compliance Package | PLANNED |
-| **E10** | Commercial Monetization, Payment Tiers and Market Readiness | PLANNED |
+| **E8** | Evidence, Observability and Supply Chain | ✅ COMPLETE |
+| **E9** | Graduated Autonomy, Kill Plane and Compliance Package | ✅ COMPLETE |
+| **E10** | Commercial Monetization, Payment Tiers and Market Readiness | ✅ COMPLETE |
 
 ### Prior Phase Status (01–10 — all COMPLETE, merged to main)
 
@@ -294,7 +294,7 @@ Third-party components retain their original licenses; this project's proprietar
 >
 > **Project**: Kian Trading Intelligence
 > **Master Engineering Directive**: V1.2 — Elevation and Market Completion
-> **Current software version**: 0.10.0 (E0 — Truth Reset and Governance Repair)
+> **Current software version**: 0.19.0 (E10 — Commercial Monetization, Payment Tiers and Market Readiness)
 >
 > Kian Trading Intelligence is a secure, auditable, cost-aware cryptocurrency trading and mining intelligence platform. It combines deterministic execution, validated quantitative intelligence, four specialized AI agents, and an independent deterministic Risk & Safety Kernel to provide human-controlled operational authority over trading and mining activities. The platform is designed for multi-tenant cloud operation with support for MacBook desktop and iPhone mobile interfaces.
 >
