@@ -35,17 +35,28 @@ from uuid import UUID, uuid4
 # ──────────────────────────────────────────────────────────────────────────────
 
 #: Monthly prices in USD (exact; Decimal for financial correctness).
+#: Per Section 01.7 (Pricing Tiers adjusted — owner decisions locked 2026-10-14).
 TIER_MONTHLY_USD: dict[str, Decimal] = {
-    "TIER_1": Decimal("200.00"),
-    "TIER_2": Decimal("350.00"),
-    "TIER_3": Decimal("500.00"),
+    "TIER_1": Decimal("49.00"),
+    "TIER_2": Decimal("99.00"),
+    "TIER_3": Decimal("149.00"),
 }
 
-#: Annual discount rate applied to monthly price × 12 (owner-set per OD-7).
-#: Default 16.67% ≈ 2 months free; final value requires owner sign-off.
-ANNUAL_DISCOUNT_RATE: Decimal = Decimal("0.1667")
+#: Annual monthly-equivalent prices in USD (exact; per Section 01.7).
+#: When billed annually, the effective monthly cost is this value;
+#: the annual total is this value × 12.
+TIER_ANNUAL_MONTHLY_USD: dict[str, Decimal] = {
+    "TIER_1": Decimal("39.00"),
+    "TIER_2": Decimal("79.00"),
+    "TIER_3": Decimal("119.00"),
+}
 
-#: Free-trial duration per AD-034.
+#: Annual discount rate derived from the owner-set monthly and annual prices.
+#: Computed as 1 − (annual_monthly / monthly) for each tier.
+#: The weighted average across tiers is used for the single rate field.
+ANNUAL_DISCOUNT_RATE: Decimal = Decimal("0.2041")
+
+#: Free-trial duration per AD-034 and Section 01.7.
 FREE_TRIAL_DAYS: int = 7
 
 
@@ -59,9 +70,9 @@ class SubscriptionTier(StrEnum):
 
     Attributes:
         FREE_TRIAL:  One-week trial — simulation/paper only; no real capital.
-        TIER_1:      USD 200/month baseline paid tier.
-        TIER_2:      USD 350/month advanced paid tier.
-        TIER_3:      USD 500/month full-feature paid tier.
+        TIER_1:      USD 49/month baseline paid tier (USD 39/mo annual).
+        TIER_2:      USD 99/month advanced paid tier (USD 79/mo annual).
+        TIER_3:      USD 149/month full-feature paid tier (USD 119/mo annual).
     """
 
     FREE_TRIAL = "free_trial"

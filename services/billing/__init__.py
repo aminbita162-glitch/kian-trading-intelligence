@@ -31,6 +31,7 @@ from uuid import UUID, uuid4
 from contracts.billing import (
     ANNUAL_DISCOUNT_RATE,
     FREE_TRIAL_DAYS,
+    TIER_ANNUAL_MONTHLY_USD,
     TIER_FEATURE_MAP,
     TIER_MONTHLY_USD,
     TIER_USAGE_LIMITS,
@@ -67,7 +68,8 @@ from contracts.billing import (
 def build_plan(tier: SubscriptionTier, period: BillingPeriod) -> SubscriptionPlan:
     """Construct a ``SubscriptionPlan`` for the given tier and billing period.
 
-    Annual plans apply the ``ANNUAL_DISCOUNT_RATE`` to the monthly price × 12.
+    Annual plans use the owner-set annual monthly-equivalent prices
+    (Section 01.7): USD 39 / 79 / 119 per month, billed annually.
     The FREE_TRIAL tier always has zero price regardless of period.
     """
     if tier == SubscriptionTier.FREE_TRIAL:
@@ -88,15 +90,13 @@ def build_plan(tier: SubscriptionTier, period: BillingPeriod) -> SubscriptionPla
             total_usd=monthly,
             annual_discount_rate=Decimal("0"),
         )
-    # Annual — apply discount
-    gross_annual = monthly * 12
-    discount_amount = (gross_annual * ANNUAL_DISCOUNT_RATE).quantize(Decimal("0.01"))
-    annual_total = gross_annual - discount_amount
-    effective_monthly = (annual_total / 12).quantize(Decimal("0.01"))
+    # Annual — use owner-set annual monthly-equivalent price (Section 01.7)
+    annual_monthly = TIER_ANNUAL_MONTHLY_USD[tier.name]
+    annual_total = (annual_monthly * 12).quantize(Decimal("0.01"))
     return SubscriptionPlan(
         tier=tier,
         period=period,
-        monthly_usd=effective_monthly,
+        monthly_usd=annual_monthly,
         total_usd=annual_total,
         annual_discount_rate=ANNUAL_DISCOUNT_RATE,
     )

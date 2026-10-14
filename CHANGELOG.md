@@ -7,6 +7,42 @@ with prerelease identifiers during development.
 
 ---
 
+## [0.20.0] — Post-E10 Residual Task 02.2: Owner Decisions from Section 01
+
+### Added — Post-E10 Residual Task 02.2
+- `packages/contracts/platform_config.py` — platform infrastructure configuration implementing all "Current (now)" owner decisions from DIRECTIV.txt Section 01:
+  - `CloudProvider` enum: RENDER (current), AWS (roadmap)
+  - `EventBusProvider` enum: REDIS_STREAMS (current), AWS_SQS_SNS (roadmap)
+  - `SLOTargets` dataclass: 99.0% / ≤15min RPO / ≤60min RTO (current), 99.9% / ≤1min / ≤15min (roadmap)
+  - `ExchangeProviderName` enum and `ExchangeProviderConfig`: Kraken + Bitvavo (current, MiCA-licensed); Binance + Bybit + OKX + Coinbase (roadmap)
+  - `LegalClassificationConfig`: EU/German MiCA/GDPR templates (current), no counsel engaged, live not authorized
+  - `NotificationProviderConfig`: SendGrid email (current); Slack + Twilio SMS (roadmap with dual-control)
+  - `PlatformConfig` aggregate: all current decisions collected; `live_trading_authorized` invariant always False
+- `tests/test_02_2_owner_decisions.py` — 44 tests covering all Section 01 owner decisions
+
+### Changed — Post-E10 Residual Task 02.2
+- `packages/contracts/billing.py` — pricing updated per Section 01.7 (Pricing Tiers adjusted):
+  - TIER_1: $200/mo → $49/mo; annual $39/mo
+  - TIER_2: $350/mo → $99/mo; annual $79/mo
+  - TIER_3: $500/mo → $149/mo; annual $119/mo
+  - `TIER_ANNUAL_MONTHLY_USD` dict added for explicit annual pricing
+  - `ANNUAL_DISCOUNT_RATE` updated from 0.1667 to 0.2041 (derived from new pricing)
+- `services/billing/__init__.py` — `build_plan()` now uses explicit annual monthly prices from Section 01.7 instead of deriving from discount rate
+- `tests/test_e10_billing.py` — all price assertions updated to match new pricing
+- `status.yaml` — directive_version 1.2 → 1.3; V1.3 added to lineage; OPEN-02/03/05/06/08/09 marked RESOLVED with owner decisions; E0 branch updated; E10 marked COMPLETE in README
+- `services/core/version.py` — version 0.19.0 → 0.20.0
+- `pyproject.toml` — version 0.19.0 → 0.20.0
+- `README.md` — directive version V1.2 → V1.3; software version 0.10.0 → 0.20.0; E10 status PLANNED → COMPLETE; governance lineage table updated
+- `tests/test_e0_consistency.py` — `test_directiv_is_v1_2` and `test_directive_version_consistency` updated to accept V1.3
+
+### Invariants enforced (non-negotiable)
+- `live_trading_authorized` is ALWAYS False in `PlatformConfig`, `ExchangeProviderConfig`, and `LegalClassificationConfig`
+- No current exchange provider is `is_live_authorized`
+- Current legal classification requires SIMULATION/PAPER only until formal legal review
+- Safety controls (Risk Kernel, kill plane, audit) are NEVER gated by any TierFeature or payment tier
+
+---
+
 ## [0.19.0] — E10: Commercial Monetization, Payment Tiers and Market Readiness
 
 ### Added — E10: Commercial Monetization, Payment Tiers and Market Readiness

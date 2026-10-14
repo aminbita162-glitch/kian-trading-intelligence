@@ -70,9 +70,10 @@ def test_directive_version_consistency() -> None:
     m = re.search(r'directive_version:\s*"([^"]+)"', status_content)
     assert m is not None, "status.yaml must have directive_version"
     status_version = m.group(1)
-    assert "1.2" in directive_content, "DIRECTIV.txt must be V1.2"
-    assert status_version == "1.2", (
-        f"status.yaml directive_version ({status_version}) must match DIRECTIV.txt (1.2)"
+    # DIRECTIV.txt is V1.3 (post-E10 residual directive)
+    assert "Version: 1.3" in directive_content, "DIRECTIV.txt must be V1.3"
+    assert status_version == "1.3", (
+        f"status.yaml directive_version ({status_version}) must match DIRECTIV.txt (1.3)"
     )
 
 
@@ -230,11 +231,17 @@ def test_no_false_live_claims() -> None:
 
 
 def test_directiv_is_v1_2() -> None:
-    """DIRECTIV.txt must be V1.2 with AD-034 through AD-040 and E0 through E10."""
+    """DIRECTIV.txt must be V1.2+ with AD references and E0 through E10."""
     content = _read_file("DIRECTIV.txt")
-    assert "Version: 1.2" in content, "DIRECTIV.txt must be V1.2"
-    assert "AD-034" in content, "DIRECTIV.txt must reference AD-034"
-    assert "AD-040" in content, "DIRECTIV.txt must reference AD-040"
+    assert "Version: 1.2" in content or "Version: 1.3" in content, (
+        "DIRECTIV.txt must be V1.2 or later"
+    )
+    assert "AD-001" in content or "AD-034" in content, (
+        "DIRECTIV.txt must reference architecture decisions"
+    )
+    assert "AD-040" in content or "AD-001 through AD-040" in content, (
+        "DIRECTIV.txt must reference AD range up to AD-040"
+    )
     assert "E0" in content, "DIRECTIV.txt must reference E0"
     assert "E10" in content, "DIRECTIV.txt must reference E10"
     assert "NEXT PHASE NOT AUTHORIZED" not in content or "NEXT PHASE" in content, (

@@ -12,7 +12,7 @@
 [![Python](https://img.shields.io/badge/Python-3.11%2B-blue)]()
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115%2B-009688)]()
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6%2B-3178c6)]()
-[![Directive](https://img.shields.io/badge/Directive-V1.2-purple)]()
+[![Directive](https://img.shields.io/badge/Directive-V1.3-purple)]()
 
 ---
 
@@ -22,8 +22,8 @@ The canonical project status is maintained in `status.yaml` (introduced in E0).
 All public claims in this README, CHANGELOG, and architecture docs trace to `status.yaml`
 or are explicitly labeled PLANNED.
 
-**Directive version**: V1.2 (Elevation and Market Completion)
-**Software version**: 0.10.0
+**Directive version**: V1.3 (Post-E10 Completion and Market Readiness)
+**Software version**: 0.20.0
 **Operating mode**: SIMULATION (LIVE not authorized)
 **Repository visibility**: PUBLIC (owner-decided per Addendum A14)
 
@@ -41,7 +41,7 @@ or are explicitly labeled PLANNED.
 | **E7** | Strategy Science | PLANNED |
 | **E8** | Evidence, Observability and Supply Chain | ✅ COMPLETE |
 | **E9** | Graduated Autonomy, Kill Plane and Compliance Package | ✅ COMPLETE |
-| **E10** | Commercial Monetization, Payment Tiers and Market Readiness | PLANNED |
+| **E10** | Commercial Monetization, Payment Tiers and Market Readiness | ✅ COMPLETE |
 
 ### Prior Phase Status (01–10 — all COMPLETE, merged to main)
 
@@ -250,7 +250,8 @@ This project enforces an honest, evidence-based engineering standard:
 |---------|-------------|--------|
 | V1.0 | Original master engineering directive | Superseded |
 | V1.1 | Owner-approved addendum — governance and project presentation | Superseded |
-| V1.2 | Elevation and market completion — AD-034 through AD-040, E0 through E10 | Active |
+| V1.2 | Elevation and market completion — AD-034 through AD-040, E0 through E10 | Superseded |
+| V1.3 | Post-E10 completion and market readiness — residual task scope | Active |
 
 The full directive is preserved in `DIRECTIV.txt`. The project status single source of
 truth is `status.yaml`. ADR templates for open decisions are in `docs/adr/`.
@@ -280,7 +281,7 @@ Third-party components retain their original licenses; this project's proprietar
 ## Links
 
 - **Repository**: [github.com/aminbita162-glitch/kian-trading-intelligence](https://github.com/aminbita162-glitch/kian-trading-intelligence)
-- **Master Directive**: `DIRECTIV.txt` (V1.2, preserved in repository root)
+- **Master Directive**: `DIRECTIV.txt` (V1.3, preserved in repository root)
 - **Status**: `status.yaml` (single source of truth)
 
 ---
@@ -293,8 +294,8 @@ Third-party components retain their original licenses; this project's proprietar
 > Azimi Innovation Lab
 >
 > **Project**: Kian Trading Intelligence
-> **Master Engineering Directive**: V1.2 — Elevation and Market Completion
-> **Current software version**: 0.10.0 (E9 — Graduated Autonomy, Kill Plane and Compliance Package)
+> **Master Engineering Directive**: V1.3 — Post-E10 Completion and Market Readiness
+> **Current software version**: 0.20.0 (Post-E10 — residual task 02.2: owner decisions)
 >
 > Kian Trading Intelligence is a secure, auditable, cost-aware cryptocurrency trading and mining intelligence platform. It combines deterministic execution, validated quantitative intelligence, four specialized AI agents, and an independent deterministic Risk & Safety Kernel to provide human-controlled operational authority over trading and mining activities. The platform is designed for multi-tenant cloud operation with support for MacBook desktop and iPhone mobile interfaces.
 >
