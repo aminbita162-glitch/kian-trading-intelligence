@@ -41,7 +41,7 @@ Kian Trading Intelligence is a multi-tenant, cloud-executed cryptocurrency tradi
 | AD-031 | Python/FastAPI backend, React/TypeScript interfaces, Tauri MacBook, PostgreSQL |
 | AD-032 | Contract-first, human-gated development with evidence |
 | AD-033 | Architecture audit and readiness gates before production |
-| AD-034 | Commercial monetization and payment tiers (4 levels: free trial + USD 200/350/500 monthly) |
+| AD-034 | Commercial monetization and payment tiers (4 levels: free trial + USD 49/99/149 monthly) |
 | AD-035 | Evidence-backed production candidate — verification harnesses separated from runtime image |
 | AD-036 | Signed risk authorization tokens — short-lived, single-use, cryptographically signed |
 | AD-037 | Tamper-evident decision ledger — hash-chained, append-only, external anchoring |

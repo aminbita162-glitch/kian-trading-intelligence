@@ -47,7 +47,7 @@ with prerelease identifiers during development.
 
 ### Added — E10: Commercial Monetization, Payment Tiers and Market Readiness
 - `packages/contracts/billing.py` — complete commercial billing contract layer per AD-034:
-  - `SubscriptionTier` enum: FREE_TRIAL (1-week), TIER_1 ($200/mo), TIER_2 ($350/mo), TIER_3 ($500/mo)
+  - `SubscriptionTier` enum: FREE_TRIAL (1-week), TIER_1 ($49/mo), TIER_2 ($99/mo), TIER_3 ($149/mo)
   - `BillingPeriod` enum: MONTHLY and ANNUAL (with owner-approved discount rate, OD-7)
   - `SubscriptionStatus` lifecycle enum (TRIALING → ACTIVE → PAST_DUE → CANCELLED / EXPIRED / SUSPENDED)
   - `MeteringDimension` enum: ORDERS, LLM_TOKENS, MARKET_DATA, COMPUTE_SEC
