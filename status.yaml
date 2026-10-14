@@ -15,7 +15,7 @@ directive_lineage:
     description: "Elevation and market completion — integrates V1.0 + V1.1 + KTI-ELEVATE findings, AD-034 through AD-040, E0 through E10"
     status: active
 
-software_version: "0.19.0"
+software_version: "0.10.0"
 python_version: "3.11+"
 operating_mode: SIMULATION
 live_authorized: false

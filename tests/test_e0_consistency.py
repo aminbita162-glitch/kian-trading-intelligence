@@ -134,7 +134,12 @@ def test_e0_in_progress() -> None:
 
 
 def test_e1_through_e10_planned() -> None:
-    """E1 through E10 must be PLANNED in status.yaml."""
+    """E1 through E10 must be PLANNED or COMPLETE in status.yaml.
+
+    Phases advance from PLANNED → IN_PROGRESS → COMPLETE as elevation
+    progresses.  This check verifies that every phase has a valid status
+    rather than enforcing PLANNED-only (which was only correct at E0).
+    """
     content = _read_file("status.yaml")
     for phase in range(1, 11):
         marker = f"E{phase}:"
@@ -146,7 +151,15 @@ def test_e1_through_e10_planned() -> None:
         if next_idx == -1:
             next_idx = len(content)
         section = content[idx:next_idx]
-        assert "status: PLANNED" in section, f"E{phase} must be PLANNED, got: {section[:100]}"
+        valid = (
+            "status: PLANNED" in section
+            or "status: COMPLETE" in section
+            or "status: IN_PROGRESS" in section
+        )
+        assert valid, (
+            f"E{phase} must have a valid status "
+            f"(PLANNED/IN_PROGRESS/COMPLETE), got: {section[:100]}"
+        )
 
 
 def test_all_prior_phases_complete() -> None:
