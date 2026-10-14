@@ -768,9 +768,9 @@ def build_market_readiness_report(  # noqa: PLR0913
         GateResult(
             gate=MarketReadinessGate.ANNUAL_DISCOUNT_OWNER_CONFIRMED,
             status=discount_gate,
-            evidence="ANNUAL_DISCOUNT_RATE default 16.67% set in contracts.billing.",
+            evidence="ANNUAL_DISCOUNT_RATE set to 0.2041 in contracts.billing.",
             notes=(
-                "Owner confirmed default 16.67% rate."
+                "Owner confirmed 0.2041 annual discount rate."
                 if annual_discount_confirmed
                 else "PENDING: Owner must confirm exact annual discount rate (OD-7)."
             ),

@@ -5,9 +5,9 @@ AD-034 (Commercial Monetization and Payment Tiers):
 
 Four tier levels:
   FREE_TRIAL   — one-week trial; simulation/paper only; no real capital.
-  TIER_1       — monthly USD 200 (or annual at owner-approved discount).
-  TIER_2       — monthly USD 350 (or annual at owner-approved discount).
-  TIER_3       — monthly USD 500 (or annual at owner-approved discount).
+  TIER_1       — monthly USD 49  (or annual USD 39/month-equivalent).
+  TIER_2       — monthly USD 99  (or annual USD 79/month-equivalent).
+  TIER_3       — monthly USD 149 (or annual USD 119/month-equivalent).
 
 Usage metering covers: orders, LLM tokens, market-data requests, compute
 seconds.  All billing events are audited and can never weaken safety
