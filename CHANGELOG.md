@@ -7,6 +7,55 @@ with prerelease identifiers during development.
 
 ---
 
+## [0.19.0] — E10: Commercial Monetization, Payment Tiers and Market Readiness
+
+### Added — E10: Commercial Monetization, Payment Tiers and Market Readiness
+- `packages/contracts/billing.py` — complete commercial billing contract layer per AD-034:
+  - `SubscriptionTier` enum: FREE_TRIAL (1-week), TIER_1 ($200/mo), TIER_2 ($350/mo), TIER_3 ($500/mo)
+  - `BillingPeriod` enum: MONTHLY and ANNUAL (with owner-approved discount rate, OD-7)
+  - `SubscriptionStatus` lifecycle enum (TRIALING → ACTIVE → PAST_DUE → CANCELLED / EXPIRED / SUSPENDED)
+  - `MeteringDimension` enum: ORDERS, LLM_TOKENS, MARKET_DATA, COMPUTE_SEC
+  - `BillingEventType` enum: 17 auditable billing lifecycle event types
+  - `OnboardingStep` enum: commercial onboarding funnel steps
+  - `TierFeature` enum: feature flags gated by tier (safety invariants never gated)
+  - `TIER_FEATURE_MAP` — immutable tier → feature set mapping; `tier_has_feature()` helper
+  - `TIER_USAGE_LIMITS` — per-tier usage limits; TIER_3 unlimited for all dimensions
+  - `SubscriptionPlan` — immutable plan with pricing invariants (FREE_TRIAL always $0)
+  - `TenantSubscription` — mutable subscription record with lifecycle fields
+  - `UsageRecord` — frozen metered usage event (quantity > 0 invariant)
+  - `UsageSummary` — aggregated usage with warning/exceeded dimension lists
+  - `BillingEvent` — frozen, SHA-256 hash-signed auditable billing event
+  - `OnboardingRecord` — append-only onboarding funnel record with required-step tracking
+  - `TierMetrics` / `UnitEconomicsDashboard` — unit-economics snapshot contracts with snapshot_hash
+  - `MarketReadinessGate` / `GateResult` / `MarketReadinessReport` — Section 23 gate contracts; `live_trading_authorized` invariant always False; `owner_sign_off_required` invariant always True
+  - `ApplePlatformDecision` — OD-8 Apple Developer Program decision record; `pwa_path_requires_apple_license` invariant always False
+  - `FeatureNotAvailableError`, `UsageLimitExceededError`, `SubscriptionNotFoundError` — domain exceptions
+- `services/billing/__init__.py` — billing, tier enforcement and onboarding services:
+  - `build_plan()` — constructs `SubscriptionPlan` with correct monthly/annual pricing
+  - `BillingEventLog` — append-only, SHA-256 hash-chain-verified billing event log; `verify_chain()` detects any tampering
+  - `UsageMeteringService` — accurate, auditable usage recording; 80% warning events; hard limit enforcement (never weakens safety); unlimited TIER_3 support
+  - `BillingService` — subscription lifecycle (start_trial, subscribe, cancel, expire_trial, renew); feature gating via `check_feature()` (safety invariants never routed here)
+  - `OnboardingService` — idempotent onboarding step completion; `ONBOARDING_COMPLETED` event on funnel completion
+  - `build_market_readiness_report()` — evaluates all Section 23 gates and produces signed `MarketReadinessReport`
+- `services/billing/unit_economics.py` — `UnitEconomicsService`: produces hashed `UnitEconomicsDashboard` snapshots with MRR, ARR, tier breakdowns, trial conversions, churn; retains snapshot history for audit
+- `tests/test_e10_billing.py` — 80 tests covering all billing/tier/metering/onboarding/market-readiness scenarios
+- `test-house/phase-e10/evidence.md` — phase evidence record
+
+### Changed — E10: Commercial Monetization, Payment Tiers and Market Readiness
+- `pyproject.toml` — version bumped to 0.19.0; `services.billing` package registered
+- `services/core/version.py` — `__version__` synchronized to 0.19.0
+- `status.yaml` — E10 COMPLETE; `commercial_billing`, `payment_tiers`, `usage_metering` honest labels changed PLANNED → REAL; test count updated to 1789; software_version header updated
+- `tests/test_e0_consistency.py` — `test_e1_through_e10_planned` renamed and updated to `test_e1_through_e10_exist_with_known_status` to correctly reflect that phases may be PLANNED, IN_PROGRESS, or COMPLETE as elevation progresses
+
+### Invariants enforced (non-negotiable, per AD-034 and Section 00.4)
+- `live_trading_authorized` is ALWAYS False in `MarketReadinessReport` and `E9OwnerReviewPackage`
+- `owner_sign_off_required` is ALWAYS True in `MarketReadinessReport`
+- `pwa_path_requires_apple_license` is ALWAYS False in `ApplePlatformDecision`
+- Safety features (Risk Kernel, kill plane, audit) are NEVER gated by `TierFeature`
+- Usage limits are enforced as domain exceptions — they NEVER affect safety controls
+
+---
+
 ## [Unreleased] — E0: Truth Reset and Governance Repair
 
 ### Added — E0: Truth Reset and Governance Repair
