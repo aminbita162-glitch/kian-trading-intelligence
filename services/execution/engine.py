@@ -24,14 +24,12 @@ from contracts.exchange import (
     ExchangeSubmissionResult,
     OrderType,
 )
+from contracts.exchange_adapter import ExchangeAdapter
 from contracts.order import OrderIntent
 from contracts.risk import (
     AuthorizationStatus,
 )
 from contracts.trading import TradingSession
-from services.execution.exchange_simulator import (
-    ExchangeSimulator,
-)
 from services.risk_kernel.kernel import (
     RiskKernel,
 )
@@ -71,10 +69,10 @@ class ExecutionEngine:
         self,
         *,
         risk_kernel: RiskKernel,
-        exchange: ExchangeSimulator,
+        exchange: ExchangeAdapter,
     ) -> None:
         self._kernel: RiskKernel = risk_kernel
-        self._exchange: ExchangeSimulator = exchange
+        self._exchange: ExchangeAdapter = exchange
         self._intent_to_client: dict[str, ClientOrderId] = {}
         self._client_to_intent: dict[str, str] = {}
 
@@ -190,6 +188,6 @@ class ExecutionEngine:
         return self._kernel
 
     @property
-    def exchange(self) -> ExchangeSimulator:
-        """Access the exchange simulator."""
+    def exchange(self) -> ExchangeAdapter:
+        """Access the exchange adapter."""
         return self._exchange

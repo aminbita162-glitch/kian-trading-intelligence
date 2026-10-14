@@ -11,6 +11,7 @@ from __future__ import annotations
 from datetime import UTC, datetime, timedelta
 
 import pytest
+from simulation.exchange_simulator import ExchangeSimulator
 
 from contracts.agents import (
     AgentPermission,
@@ -39,7 +40,6 @@ from services.agents import (
     StrategyPortfolioAgent,
 )
 from services.execution.engine import ExecutionEngine
-from services.execution.exchange_simulator import ExchangeSimulator
 from services.risk_kernel.kernel import RiskKernel
 
 

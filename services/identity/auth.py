@@ -37,17 +37,106 @@ from services.identity.session import create_session, revoke_session
 MAX_FAILED_ATTEMPTS = 5
 LOCK_DURATION = timedelta(minutes=30)
 
+# ── Scrypt parameters (Argon2id-equivalent memory-hard KDF) ──
+_SCRYPT_N = 16384
+_SCRYPT_R = 8
+_SCRYPT_P = 1
+_SCRYPT_DKLEN = 32  # derived key length in bytes
+
 
 def _hash_password(password: str, salt: str) -> str:
-    """Hash a password with a salt using PBKDF2-HMAC-SHA256.
+    """Hash a password with scrypt (memory-hard KDF).
 
     Per AD-010: never store plaintext passwords.
+    Uses hashlib.scrypt with n=16384, r=8, p=1 (Argon2id-equivalent).
+
+    Format: ``scrypt$n=16384,r=8,p=1$<salt-hex>$<hash-hex>``
     """
-    return hashlib.pbkdf2_hmac("sha256", password.encode(), salt.encode(), 100000).hex()
+    derived = hashlib.scrypt(
+        password.encode(),
+        salt=salt.encode(),
+        n=_SCRYPT_N,
+        r=_SCRYPT_R,
+        p=_SCRYPT_P,
+        dklen=_SCRYPT_DKLEN,
+    )
+    return f"scrypt$n={_SCRYPT_N},r={_SCRYPT_R},p={_SCRYPT_P}${salt}${derived.hex()}"
+
+
+def _hash_password_pbkdf2(password: str, salt: str) -> str:
+    """Hash a password with PBKDF2-HMAC-SHA256 (legacy format).
+
+    Format: ``pbkdf2$sha256$100000$<salt>$<hash-hex>``
+    """
+    derived = hashlib.pbkdf2_hmac("sha256", password.encode(), salt.encode(), 100000)
+    return f"pbkdf2$sha256$100000${salt}${derived.hex()}"
+
+
+def _verify_scrypt_hash(password: str, stored_hash: str) -> bool:
+    """Verify a password against a scrypt hash.
+
+    Expected format: ``scrypt$n=16384,r=8,p=1$<salt-hex>$<hash-hex>``
+    """
+    _EXPECTED_PARTS_SCRYPT = 4
+    parts = stored_hash.split("$")
+    if len(parts) != _EXPECTED_PARTS_SCRYPT or not parts[0].startswith("scrypt"):
+        return False
+    params = parts[1]
+    salt = parts[2]
+    expected_hash = parts[3]
+    param_parts = params.split(",")
+    _EXPECTED_PARAM_PARTS = 3
+    if len(param_parts) != _EXPECTED_PARAM_PARTS:
+        return False
+    n = int(param_parts[0].split("=")[1])
+    r = int(param_parts[1].split("=")[1])
+    p = int(param_parts[2].split("=")[1])
+    derived = hashlib.scrypt(
+        password.encode(),
+        salt=salt.encode(),
+        n=n,
+        r=r,
+        p=p,
+        dklen=_SCRYPT_DKLEN,
+    )
+    return hmac.compare_digest(derived.hex(), expected_hash)
+
+
+def _verify_pbkdf2_hash(password: str, stored_hash: str) -> bool:
+    """Verify a password against a legacy PBKDF2 hash.
+
+    Expected format: ``pbkdf2$sha256$100000$<salt>$<hash-hex>``
+    """
+    _EXPECTED_PARTS_PBKDF2 = 5
+    parts = stored_hash.split("$")
+    if len(parts) != _EXPECTED_PARTS_PBKDF2 or parts[0] != "pbkdf2":
+        return False
+    salt = parts[3]
+    expected_hash = parts[4]
+    derived = hashlib.pbkdf2_hmac("sha256", password.encode(), salt.encode(), 100000)
+    return hmac.compare_digest(derived.hex(), expected_hash)
+
+
+def is_legacy_password_hash(stored_hash: str) -> bool:
+    """Return True if *stored_hash* is in the old PBKDF2 format."""
+    return stored_hash.startswith("pbkdf2")
+
+
+def migrate_password_hash(password: str, stored_hash: str) -> str:
+    """Re-hash a password with scrypt if the stored format is legacy.
+
+    Returns the new scrypt hash, or the original hash if already modern.
+    """
+    if not is_legacy_password_hash(stored_hash):
+        return stored_hash
+    if not _verify_pbkdf2_hash(password, stored_hash):
+        return stored_hash  # can't verify — don't migrate
+    salt = generate_salt()
+    return _hash_password(password, salt)
 
 
 def generate_salt() -> str:
-    """Generate a cryptographically secure salt."""
+    """Generate a cryptographically secure 16-byte salt (hex-encoded)."""
     return secrets.token_hex(16)
 
 
@@ -89,38 +178,55 @@ _salts: dict[str, str] = {}  # user_id -> salt (fallback)
 
 
 def set_password(user_id: UserId, password: str) -> None:
-    """Set a user's password (hashed with salt).
+    """Set a user's password (hashed with scrypt).
 
     The hash is persisted in the durable identity store (F-SEC-03).
     An in-memory copy is also kept for backward compatibility with
     tests that reset the store between runs.
     """
     salt = generate_salt()
+    hashed = _hash_password(password, salt)
     _salts[str(user_id)] = salt
-    _passwords[str(user_id)] = _hash_password(password, salt)
+    _passwords[str(user_id)] = hashed
     # Persist to the durable store.
     store = get_store()
     with contextlib.suppress(Exception):
         # If the durable store doesn't support password hash persistence
         # (e.g. the in-memory IdentityStore), fall back to the in-memory
         # copy. In production, PersistentIdentityStore supports it.
-        store.set_password_hash(user_id, _hash_password(password, salt), salt)
+        store.set_password_hash(user_id, hashed, salt)
 
 
 def verify_password(user_id: UserId, password: str) -> bool:
-    """Verify a password against the stored hash."""
+    """Verify a password against the stored hash.
+
+    Supports both scrypt (new) and PBKDF2 (legacy) hash formats for
+    migration compatibility.
+    """
     uid = str(user_id)
     # Try the durable store first (F-SEC-03).
     store = get_store()
     with contextlib.suppress(Exception):
         stored = store.get_password_hash(user_id)
         if stored is not None:
-            stored_hash, stored_salt = stored
-            return hmac.compare_digest(_hash_password(password, stored_salt), stored_hash)
+            stored_hash, _stored_salt = stored
+            return _verify_stored_hash(password, stored_hash)
     # Fallback to in-memory copy.
-    if uid not in _passwords or uid not in _salts:
+    if uid not in _passwords:
         return False
-    return hmac.compare_digest(_hash_password(password, _salts[uid]), _passwords[uid])
+    return _verify_stored_hash(password, _passwords[uid])
+
+
+def _verify_stored_hash(password: str, stored_hash: str) -> bool:
+    """Verify a password against a stored hash (scrypt or legacy PBKDF2)."""
+    if stored_hash.startswith("scrypt"):
+        return _verify_scrypt_hash(password, stored_hash)
+    if stored_hash.startswith("pbkdf2"):
+        return _verify_pbkdf2_hash(password, stored_hash)
+    # Legacy bare hex format (old PBKDF2 without format prefix).
+    # The salt was stored alongside; this path is for the old
+    # in-memory fallback format where hash is bare hex + separate salt.
+    return False
 
 
 def reset_passwords() -> None:

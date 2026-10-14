@@ -8,6 +8,7 @@ unknown-outcome reconciliation.
 """
 
 import pytest
+from simulation.exchange_simulator import ExchangeSimulator
 
 from contracts.enums import OrderState
 from contracts.exchange import ClientOrderId, OrderType
@@ -18,7 +19,6 @@ from services.execution.engine import (
     ExecutionError,
     RiskDeniedError,
 )
-from services.execution.exchange_simulator import ExchangeSimulator
 from services.risk_kernel.kernel import RiskKernel
 
 

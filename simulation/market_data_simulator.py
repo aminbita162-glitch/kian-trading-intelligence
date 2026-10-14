@@ -1,5 +1,9 @@
 """Simulated market-data provider for Kian Trading Intelligence.
 
+Per E3 (Structure and Verification Separation): this simulator lives
+OUTSIDE the deployable services/ tree in the simulation/ package. Import
+this only in simulation mode or tests.
+
 Per Section 08.1: simulated data provider.
 Per AD-003 (Hybrid Low-Token Intelligence): deterministic, no LLM dependency.
 Per AD-023 (Digital Twin): deterministic simulation and replay.

@@ -7,6 +7,11 @@ Per AD-014: deterministic execution and reconciliation.
 """
 
 import pytest
+from simulation.exchange_simulator import (
+    ExchangeNotConnectedError,
+    ExchangeSimulator,
+    OrderNotFoundError,
+)
 
 from contracts.enums import OrderState
 from contracts.exchange import (
@@ -15,11 +20,6 @@ from contracts.exchange import (
     OrderType,
 )
 from contracts.order import OrderIntent
-from services.execution.exchange_simulator import (
-    ExchangeNotConnectedError,
-    ExchangeSimulator,
-    OrderNotFoundError,
-)
 
 
 @pytest.fixture
