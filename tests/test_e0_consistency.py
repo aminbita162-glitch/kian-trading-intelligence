@@ -133,13 +133,14 @@ def test_e0_in_progress() -> None:
     assert "status: IN_PROGRESS" in e0_section, "E0 must be IN_PROGRESS"
 
 
-def test_e1_through_e10_planned() -> None:
-    """E1 through E10 must be PLANNED or COMPLETE in status.yaml.
+def test_e1_through_e10_exist_with_known_status() -> None:
+    """E1 through E10 must exist in status.yaml with a recognized status.
 
-    Phases advance from PLANNED → IN_PROGRESS → COMPLETE as elevation
-    progresses.  This check verifies that every phase has a valid status
-    rather than enforcing PLANNED-only (which was only correct at E0).
+    Phases may be PLANNED, IN_PROGRESS, or COMPLETE as they progress.
+    This test only verifies existence and that each section has a status
+    field (allowing phases to advance beyond PLANNED).
     """
+    known_statuses = {"PLANNED", "IN_PROGRESS", "COMPLETE"}
     content = _read_file("status.yaml")
     for phase in range(1, 11):
         marker = f"E{phase}:"
@@ -151,15 +152,8 @@ def test_e1_through_e10_planned() -> None:
         if next_idx == -1:
             next_idx = len(content)
         section = content[idx:next_idx]
-        valid = (
-            "status: PLANNED" in section
-            or "status: COMPLETE" in section
-            or "status: IN_PROGRESS" in section
-        )
-        assert valid, (
-            f"E{phase} must have a valid status "
-            f"(PLANNED/IN_PROGRESS/COMPLETE), got: {section[:100]}"
-        )
+        found = any(f"status: {s}" in section for s in known_statuses)
+        assert found, f"E{phase} must have a recognized status, got: {section[:120]}"
 
 
 def test_all_prior_phases_complete() -> None:
