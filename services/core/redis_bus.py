@@ -74,6 +74,7 @@ class StreamEvent:
     @classmethod
     def from_fields(cls, fields: dict[str | bytes, str | bytes]) -> StreamEvent:
         """Deserialize from Redis stream fields (decode bytes if needed)."""
+
         def _s(v: str | bytes) -> str:
             return v.decode() if isinstance(v, bytes) else v
 
@@ -192,9 +193,7 @@ class RedisStreamBus:
                 ledger.mark_outbox_processed(evt["event_id"])
                 result.relayed += 1
             except Exception as exc:
-                result.errors.append(
-                    f"Failed to relay event {evt['event_id']}: {exc}"
-                )
+                result.errors.append(f"Failed to relay event {evt['event_id']}: {exc}")
                 logger.error("Relay error for event %s: %s", evt["event_id"], exc)
 
         result.remaining = max(0, result.remaining - result.relayed)

@@ -359,9 +359,7 @@ class TestEndToEndSimulationScenario:
             current_price="50000.00",
         )
 
-        assert result.risk_assessment_authorized, (
-            f"Risk must authorize: {result.errors}"
-        )
+        assert result.risk_assessment_authorized, f"Risk must authorize: {result.errors}"
         assert result.execution_state is OrderState.FILLED, (
             f"Execution must fill: state={result.execution_state}, errors={result.errors}"
         )

@@ -174,9 +174,7 @@ class EndToEndSimulationScenario:
 
         # Read back the authorization that the engine created
         try:
-            auth = self._kernel.get_authorization_for_intent(
-                str(result.order_intent.intent_id)
-            )
+            auth = self._kernel.get_authorization_for_intent(str(result.order_intent.intent_id))
             result.risk_assessment_authorized = (
                 auth.status is AuthorizationStatus.CONSUMED
                 or auth.status is AuthorizationStatus.APPROVED
@@ -189,9 +187,7 @@ class EndToEndSimulationScenario:
             result.errors.append(f"Could not read authorization: {exc}")
 
         if exec_result.state is not OrderState.FILLED:
-            result.errors.append(
-                f"Execution did not fill (state: {exec_result.state.value})"
-            )
+            result.errors.append(f"Execution did not fill (state: {exec_result.state.value})")
             # Still emit and relay the event for the scenario record
 
         # Stage 3: Record the fill in the persistent ledger
@@ -216,11 +212,7 @@ class EndToEndSimulationScenario:
 
         outbox_event_id = str(uuid4())
         result.outbox_event_id = outbox_event_id
-        fill_qty = (
-            str(exec_result.fills[0].filled_quantity)
-            if exec_result.fills
-            else quantity
-        )
+        fill_qty = str(exec_result.fills[0].filled_quantity) if exec_result.fills else quantity
         self._ledger.emit_outbox_event(
             event_id=outbox_event_id,
             aggregate_type="order",
