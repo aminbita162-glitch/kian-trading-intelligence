@@ -7,6 +7,20 @@ with prerelease identifiers during development.
 
 ---
 
+## [0.20.0] — Post-E10 Residual Task 02.4: Final README and Status Truth Reset
+
+### Changed — Post-E10 Residual Task 02.4
+- `status.yaml` — E0 status changed IN_PROGRESS → COMPLETE; E1–E7 status changed PLANNED → COMPLETE; acceptance criteria updated; test count updated 1789 → 1906; "Last updated" header updated to reflect residual task 02.4
+- `README.md` — Elevation Phase Status table updated: E0–E7 now show ✅ COMPLETE (were IN PROGRESS/PLANNED); phase badge updated from "E9 Graduated Autonomy" to "E0–E10 COMPLETE"; DIRECTIV.txt reference corrected from V1.2 to V1.3
+- `tests/test_e0_consistency.py` — `test_e0_in_progress` renamed to `test_e0_complete` and updated to assert E0 is COMPLETE; docstring updated to reflect that E0–E10 may all be COMPLETE
+
+### Invariants enforced (non-negotiable)
+- E0–E10 all show COMPLETE consistently across `status.yaml`, `README.md`, and `CHANGELOG.md`
+- `live_authorized` remains false; `operating_mode` remains SIMULATION
+- No residual discrepancies between status.yaml, README, and CHANGELOG
+
+---
+
 ## [0.20.0] — Post-E10 Residual Task 02.2: Owner Decisions from Section 01
 
 ### Added — Post-E10 Residual Task 02.2

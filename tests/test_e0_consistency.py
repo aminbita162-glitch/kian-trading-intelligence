@@ -12,7 +12,7 @@ Checks performed:
 4. status.yaml software_version matches services/core/app.py __version__.
 5. status.yaml test_counts match actual test suite (pytest count).
 6. status.yaml security findings are documented with resolutions.
-7. status.yaml phase statuses are valid (E0 IN_PROGRESS, E1-E10 PLANNED).
+7. status.yaml phase statuses are valid (E0–E10 may be COMPLETE, IN_PROGRESS, or PLANNED).
 8. status.yaml prior phases are all COMPLETE.
 9. ADR templates exist for all OPEN items listed in status.yaml.
 10. README references status.yaml as single source of truth.
@@ -127,11 +127,15 @@ def test_operating_mode_simulation() -> None:
     assert m.group(1) == "SIMULATION", "operating_mode must be SIMULATION"
 
 
-def test_e0_in_progress() -> None:
-    """E0 must be IN_PROGRESS in status.yaml."""
+def test_e0_complete() -> None:
+    """E0 must be COMPLETE in status.yaml.
+
+    E0 (Truth Reset and Governance Repair) was completed as part of
+    the post-E10 residual work (residual task 02.4).
+    """
     content = _read_file("status.yaml")
     e0_section = content[content.find("E0:") : content.find("E1:")]
-    assert "status: IN_PROGRESS" in e0_section, "E0 must be IN_PROGRESS"
+    assert "status: COMPLETE" in e0_section, "E0 must be COMPLETE"
 
 
 def test_e1_through_e10_exist_with_known_status() -> None:
