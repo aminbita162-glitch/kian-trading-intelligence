@@ -343,10 +343,7 @@ class OrderDecisionReplayService:
     def verify_integrity(self) -> bool:
         """Verify that all record hashes are intact (tamper-evidence)."""
         with self._lock:
-            return all(
-                record.record_hash == record._compute_hash()
-                for record in self._records
-            )
+            return all(record.record_hash == record._compute_hash() for record in self._records)
 
     def reset(self) -> None:
         """Reset all records (for testing)."""

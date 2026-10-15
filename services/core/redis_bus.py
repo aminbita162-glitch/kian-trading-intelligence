@@ -222,9 +222,8 @@ class RedisStreamBus:
         )
         events: list[tuple[str, StreamEvent]] = []
         for _stream_name, entries in raw:
-            for entry_id, fields in entries:
-                if isinstance(entry_id, bytes):
-                    entry_id = entry_id.decode()
+            for raw_id, fields in entries:
+                entry_id = raw_id.decode() if isinstance(raw_id, bytes) else raw_id
                 events.append((entry_id, StreamEvent.from_fields(fields)))
         return events
 
@@ -266,6 +265,6 @@ def create_redis_client(
     Per Section 00.3: no real credentials or production secrets.
     The URL points to a local/test Redis instance only.
     """
-    import redis as redis_lib
+    import redis as redis_lib  # noqa: PLC0415
 
     return redis_lib.Redis.from_url(url, decode_responses=decode_responses)

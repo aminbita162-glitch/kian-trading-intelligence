@@ -108,9 +108,9 @@ def pg_kernel(pg_container: Any) -> Iterator[Any]:
 @pytest.fixture
 def redis_bus_client(redis_container: Any) -> Iterator[Any]:
     """RedisStreamBus connected to real Redis."""
-    from services.core.redis_bus import RedisStreamBus
-
     import redis as redis_lib
+
+    from services.core.redis_bus import RedisStreamBus
 
     host = redis_container.get_container_host_ip()
     port = redis_container.get_exposed_port(6379)
@@ -142,9 +142,10 @@ class TestPostgreSQLIntegration:
 
     def test_ledger_persists_fill_postgres(self, pg_ledger: Any) -> None:
         """A fill recorded against PostgreSQL survives and updates balances."""
+        from datetime import UTC, datetime
+
         from contracts.exchange import ClientOrderId, FillResult
         from contracts.ledger import AccountType
-        from datetime import UTC, datetime
 
         pg_ledger.create_account(
             tenant_id="tenant-a",
