@@ -26,7 +26,7 @@ Section 00.4 of DIRECTIV.txt.
 
 | Contract | Purpose |
 |---|---|
-| `SubscriptionTier` | FREE_TRIAL (7 days), TIER_1 ($200/mo), TIER_2 ($350/mo), TIER_3 ($500/mo) |
+| `SubscriptionTier` | FREE_TRIAL (7 days), TIER_1 ($49/mo), TIER_2 ($99/mo), TIER_3 ($149/mo) |
 | `BillingPeriod` | MONTHLY and ANNUAL (ANNUAL_DISCOUNT_RATE 16.67% default; OD-7 pending) |
 | `SubscriptionStatus` | TRIALING → ACTIVE → PAST_DUE → CANCELLED / EXPIRED / SUSPENDED |
 | `MeteringDimension` | ORDERS, LLM_TOKENS, MARKET_DATA, COMPUTE_SEC |

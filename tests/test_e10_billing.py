@@ -101,38 +101,38 @@ def test_free_trial_plan_is_zero_price() -> None:
 
 def test_tier1_monthly_price() -> None:
     plan = build_plan(SubscriptionTier.TIER_1, BillingPeriod.MONTHLY)
-    assert plan.total_usd == Decimal("200.00")
-    assert plan.monthly_usd == Decimal("200.00")
+    assert plan.total_usd == Decimal("49.00")
+    assert plan.monthly_usd == Decimal("49.00")
     assert plan.annual_discount_rate == Decimal("0")
 
 
 def test_tier2_monthly_price() -> None:
     plan = build_plan(SubscriptionTier.TIER_2, BillingPeriod.MONTHLY)
-    assert plan.total_usd == Decimal("350.00")
+    assert plan.total_usd == Decimal("99.00")
 
 
 def test_tier3_monthly_price() -> None:
     plan = build_plan(SubscriptionTier.TIER_3, BillingPeriod.MONTHLY)
-    assert plan.total_usd == Decimal("500.00")
+    assert plan.total_usd == Decimal("149.00")
 
 
 def test_tier1_annual_total_applies_discount() -> None:
     plan = build_plan(SubscriptionTier.TIER_1, BillingPeriod.ANNUAL)
-    gross = Decimal("200.00") * 12  # 2400
-    discount = (gross * ANNUAL_DISCOUNT_RATE).quantize(Decimal("0.01"))
-    expected_total = gross - discount
+    # Annual: $39/mo × 12 = $468
+    expected_total = Decimal("39.00") * 12
     assert plan.total_usd == expected_total
+    assert plan.monthly_usd == Decimal("39.00")
     assert plan.annual_discount_rate == ANNUAL_DISCOUNT_RATE
     assert plan.period == BillingPeriod.ANNUAL
     # Annual is always cheaper than 12 × monthly
-    assert plan.total_usd < gross
+    assert plan.total_usd < Decimal("49.00") * 12
 
 
 def test_tier3_annual_total_applies_discount() -> None:
     plan = build_plan(SubscriptionTier.TIER_3, BillingPeriod.ANNUAL)
-    gross = Decimal("500.00") * 12
-    discount = (gross * ANNUAL_DISCOUNT_RATE).quantize(Decimal("0.01"))
-    assert plan.total_usd == gross - discount
+    # Annual: $119/mo × 12 = $1428
+    expected_total = Decimal("119.00") * 12
+    assert plan.total_usd == expected_total
 
 
 def test_annual_discount_rate_in_valid_range() -> None:
@@ -201,7 +201,7 @@ def test_subscribe_monthly_creates_active_subscription() -> None:
     )
     assert sub.tier == SubscriptionTier.TIER_1
     assert sub.status == SubscriptionStatus.ACTIVE
-    assert sub.plan.total_usd == Decimal("200.00")
+    assert sub.plan.total_usd == Decimal("49.00")
 
 
 def test_subscribe_annual_creates_active_subscription() -> None:
@@ -778,7 +778,7 @@ def test_unit_economics_snapshot_mrr_sums_active_tiers() -> None:
     billing.subscribe(tenant_id=t3, tier=SubscriptionTier.TIER_3, period=BillingPeriod.MONTHLY)
 
     snap = ue.snapshot()
-    expected_mrr = Decimal("200.00") + Decimal("350.00") + Decimal("500.00")
+    expected_mrr = Decimal("49.00") + Decimal("99.00") + Decimal("149.00")
     assert snap.total_mrr_usd == expected_mrr
     assert snap.total_arr_usd == expected_mrr * 12
     assert snap.total_tenants == 3
@@ -796,7 +796,7 @@ def test_unit_economics_cancelled_tenant_excluded_from_mrr() -> None:
 
     snap = ue.snapshot()
     # Only t1 contributes to MRR
-    assert snap.total_mrr_usd == Decimal("200.00")
+    assert snap.total_mrr_usd == Decimal("49.00")
     assert snap.total_tenants == 2
     assert snap.active_tenants == 1
 
@@ -1053,7 +1053,7 @@ def test_billing_event_hash_not_empty() -> None:
     event = BillingEvent(
         tenant_id=uuid4(),
         event_type=BillingEventType.PAYMENT_SUCCEEDED,
-        payload={"amount_usd": "200.00"},
+        payload={"amount_usd": "49.00"},
     )
     assert event.event_hash != ""
     assert len(event.event_hash) == 64

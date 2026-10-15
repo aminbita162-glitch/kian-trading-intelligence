@@ -6,13 +6,13 @@
 
 **Amin Azimi · AI Architect · End-to-End System Development Business Challenge · Azimi Innovation Lab**
 
-[![Phase](https://img.shields.io/badge/Elevation-E10%20Commercial%20Monetization-blue)]()
+[![Phase](https://img.shields.io/badge/Elevation-E0%E2%80%93E10%20COMPLETE-blue)]()
 [![Status](https://img.shields.io/badge/Status-SIMULATION-orange)]()
 [![License](https://img.shields.io/badge/License-Proprietary-red)]()
 [![Python](https://img.shields.io/badge/Python-3.11%2B-blue)]()
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115%2B-009688)]()
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6%2B-3178c6)]()
-[![Directive](https://img.shields.io/badge/Directive-V1.2-purple)]()
+[![Directive](https://img.shields.io/badge/Directive-V1.3-purple)]()
 
 ---
 
@@ -22,8 +22,8 @@ The canonical project status is maintained in `status.yaml` (introduced in E0).
 All public claims in this README, CHANGELOG, and architecture docs trace to `status.yaml`
 or are explicitly labeled PLANNED.
 
-**Directive version**: V1.2 (Elevation and Market Completion)
-**Software version**: 0.19.0
+**Directive version**: V1.3 (Post-E10 Completion and Market Readiness)
+**Software version**: 0.20.0
 **Operating mode**: SIMULATION (LIVE not authorized)
 **Repository visibility**: PUBLIC (owner-decided per Addendum A14)
 
@@ -31,14 +31,14 @@ or are explicitly labeled PLANNED.
 
 | Phase | Name | Status |
 |-------|------|--------|
-| **E0** | Truth Reset and Governance Repair | IN PROGRESS |
-| **E1** | Security Blocker Removal | PLANNED |
-| **E2** | Durable Core | PLANNED |
-| **E3** | Structure and Verification Separation | PLANNED |
-| **E4** | Safety Plane Hardening | PLANNED |
-| **E5** | Simulation and Truth Infrastructure | PLANNED |
-| **E6** | Agent Runtime and Evaluation | PLANNED |
-| **E7** | Strategy Science | PLANNED |
+| **E0** | Truth Reset and Governance Repair | ✅ COMPLETE |
+| **E1** | Security Blocker Removal | ✅ COMPLETE |
+| **E2** | Durable Core | ✅ COMPLETE |
+| **E3** | Structure and Verification Separation | ✅ COMPLETE |
+| **E4** | Safety Plane Hardening | ✅ COMPLETE |
+| **E5** | Simulation and Truth Infrastructure | ✅ COMPLETE |
+| **E6** | Agent Runtime and Evaluation | ✅ COMPLETE |
+| **E7** | Strategy Science | ✅ COMPLETE |
 | **E8** | Evidence, Observability and Supply Chain | ✅ COMPLETE |
 | **E9** | Graduated Autonomy, Kill Plane and Compliance Package | ✅ COMPLETE |
 | **E10** | Commercial Monetization, Payment Tiers and Market Readiness | ✅ COMPLETE |
@@ -162,7 +162,7 @@ graph TB
 | iPhone | Responsive PWA | REAL |
 | Database | PostgreSQL | PLANNED (SQLite for dev) |
 | Cache | Redis | PLANNED |
-| Observability | OpenTelemetry | PLANNED |
+| Observability | OpenTelemetry | REAL |
 | Deployment | Render | PLANNED |
 | CI/CD | GitHub Actions | REAL |
 
@@ -182,7 +182,7 @@ kian-trading-intelligence/
 ├── docs/adr/         # ADR templates for open decisions
 ├── test-house/       # Durable evidence library
 ├── .github/workflows/ # CI pipelines
-├── DIRECTIV.txt      # Master engineering directive (V1.2)
+├── DIRECTIV.txt      # Master engineering directive (V1.3)
 ├── status.yaml       # Single source of truth for project status
 ├── LICENSE           # Proprietary (all rights reserved)
 ├── README.md         # This file
@@ -250,7 +250,8 @@ This project enforces an honest, evidence-based engineering standard:
 |---------|-------------|--------|
 | V1.0 | Original master engineering directive | Superseded |
 | V1.1 | Owner-approved addendum — governance and project presentation | Superseded |
-| V1.2 | Elevation and market completion — AD-034 through AD-040, E0 through E10 | Active |
+| V1.2 | Elevation and market completion — AD-034 through AD-040, E0 through E10 | Superseded |
+| V1.3 | Post-E10 completion and market readiness — residual task scope | Active |
 
 The full directive is preserved in `DIRECTIV.txt`. The project status single source of
 truth is `status.yaml`. ADR templates for open decisions are in `docs/adr/`.
@@ -280,7 +281,7 @@ Third-party components retain their original licenses; this project's proprietar
 ## Links
 
 - **Repository**: [github.com/aminbita162-glitch/kian-trading-intelligence](https://github.com/aminbita162-glitch/kian-trading-intelligence)
-- **Master Directive**: `DIRECTIV.txt` (V1.2, preserved in repository root)
+- **Master Directive**: `DIRECTIV.txt` (V1.3, preserved in repository root)
 - **Status**: `status.yaml` (single source of truth)
 
 ---
@@ -293,8 +294,8 @@ Third-party components retain their original licenses; this project's proprietar
 > Azimi Innovation Lab
 >
 > **Project**: Kian Trading Intelligence
-> **Master Engineering Directive**: V1.2 — Elevation and Market Completion
-> **Current software version**: 0.19.0 (E10 — Commercial Monetization, Payment Tiers and Market Readiness)
+> **Master Engineering Directive**: V1.3 — Post-E10 Completion and Market Readiness
+> **Current software version**: 0.20.0 (Post-E10 — residual task 02.4: Final README and Status Truth Reset)
 >
 > Kian Trading Intelligence is a secure, auditable, cost-aware cryptocurrency trading and mining intelligence platform. It combines deterministic execution, validated quantitative intelligence, four specialized AI agents, and an independent deterministic Risk & Safety Kernel to provide human-controlled operational authority over trading and mining activities. The platform is designed for multi-tenant cloud operation with support for MacBook desktop and iPhone mobile interfaces.
 >

@@ -12,7 +12,7 @@ Checks performed:
 4. status.yaml software_version matches services/core/app.py __version__.
 5. status.yaml test_counts match actual test suite (pytest count).
 6. status.yaml security findings are documented with resolutions.
-7. status.yaml phase statuses are valid (E0 IN_PROGRESS, E1-E10 PLANNED).
+7. status.yaml phase statuses are valid (E0–E10 may be COMPLETE, IN_PROGRESS, or PLANNED).
 8. status.yaml prior phases are all COMPLETE.
 9. ADR templates exist for all OPEN items listed in status.yaml.
 10. README references status.yaml as single source of truth.
@@ -70,9 +70,10 @@ def test_directive_version_consistency() -> None:
     m = re.search(r'directive_version:\s*"([^"]+)"', status_content)
     assert m is not None, "status.yaml must have directive_version"
     status_version = m.group(1)
-    assert "1.2" in directive_content, "DIRECTIV.txt must be V1.2"
-    assert status_version == "1.2", (
-        f"status.yaml directive_version ({status_version}) must match DIRECTIV.txt (1.2)"
+    # DIRECTIV.txt is V1.3 (post-E10 residual directive)
+    assert "Version: 1.3" in directive_content, "DIRECTIV.txt must be V1.3"
+    assert status_version == "1.3", (
+        f"status.yaml directive_version ({status_version}) must match DIRECTIV.txt (1.3)"
     )
 
 
@@ -126,11 +127,15 @@ def test_operating_mode_simulation() -> None:
     assert m.group(1) == "SIMULATION", "operating_mode must be SIMULATION"
 
 
-def test_e0_in_progress() -> None:
-    """E0 must be IN_PROGRESS in status.yaml."""
+def test_e0_complete() -> None:
+    """E0 must be COMPLETE in status.yaml.
+
+    E0 (Truth Reset and Governance Repair) was completed as part of
+    the post-E10 residual work (residual task 02.4).
+    """
     content = _read_file("status.yaml")
     e0_section = content[content.find("E0:") : content.find("E1:")]
-    assert "status: IN_PROGRESS" in e0_section, "E0 must be IN_PROGRESS"
+    assert "status: COMPLETE" in e0_section, "E0 must be COMPLETE"
 
 
 def test_e1_through_e10_exist_with_known_status() -> None:
@@ -230,11 +235,17 @@ def test_no_false_live_claims() -> None:
 
 
 def test_directiv_is_v1_2() -> None:
-    """DIRECTIV.txt must be V1.2 with AD-034 through AD-040 and E0 through E10."""
+    """DIRECTIV.txt must be V1.2+ with AD references and E0 through E10."""
     content = _read_file("DIRECTIV.txt")
-    assert "Version: 1.2" in content, "DIRECTIV.txt must be V1.2"
-    assert "AD-034" in content, "DIRECTIV.txt must reference AD-034"
-    assert "AD-040" in content, "DIRECTIV.txt must reference AD-040"
+    assert "Version: 1.2" in content or "Version: 1.3" in content, (
+        "DIRECTIV.txt must be V1.2 or later"
+    )
+    assert "AD-001" in content or "AD-034" in content, (
+        "DIRECTIV.txt must reference architecture decisions"
+    )
+    assert "AD-040" in content or "AD-001 through AD-040" in content, (
+        "DIRECTIV.txt must reference AD range up to AD-040"
+    )
     assert "E0" in content, "DIRECTIV.txt must reference E0"
     assert "E10" in content, "DIRECTIV.txt must reference E10"
     assert "NEXT PHASE NOT AUTHORIZED" not in content or "NEXT PHASE" in content, (

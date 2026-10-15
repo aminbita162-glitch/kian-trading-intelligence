@@ -1,9 +1,9 @@
 # Kian Trading Intelligence — Single Source of Truth
 # Master status file — all public claims must trace to this file or be labeled PLANNED.
-# Last updated: E10 (phase/e10-commercial-monetization)
-# Canonical directive: DIRECTIV.txt (V1.2 — Elevation and Market Completion)
+# Last updated: Post-E10 (phase/e9-graduated-autonomy-kill-plane-compliance — residual task 02.4: Final README and Status Truth Reset)
+# Canonical directive: DIRECTIV.txt (V1.3 — Post-E10 Completion and Market Readiness)
 
-directive_version: "1.2"
+directive_version: "1.3"
 directive_lineage:
   - version: "1.0"
     description: "Original master engineering directive (owner approved for manual transfer)"
@@ -13,9 +13,12 @@ directive_lineage:
     status: superseded
   - version: "1.2"
     description: "Elevation and market completion — integrates V1.0 + V1.1 + KTI-ELEVATE findings, AD-034 through AD-040, E0 through E10"
+    status: superseded
+  - version: "1.3"
+    description: "Post-E10 completion and market readiness — owner-authorized final completion addendum with residual task scope"
     status: active
 
-software_version: "0.19.0"
+software_version: "0.20.0"
 python_version: "3.11+"
 operating_mode: SIMULATION
 live_authorized: false
@@ -31,36 +34,50 @@ repository:
 phases:
   E0:
     name: "Truth Reset and Governance Repair"
-    status: IN_PROGRESS
-    branch: phase/e0-truth-reset
-    acceptance: "CI consistency checks green; every public claim links to evidence or is labeled planned."
+    status: COMPLETE
+    branch: phase/e9-graduated-autonomy-kill-plane-compliance
+    acceptance: "CI consistency checks green; every public claim links to evidence or is labeled planned. Post-E10 residual tasks 02.1-02.4: owner decisions and locked ideas implemented, README and status truth reset complete."
   E1:
     name: "Security Blocker Removal"
-    status: PLANNED
+    status: COMPLETE
+    branch: phase/e9-graduated-autonomy-kill-plane-compliance
+    acceptance: "AEAD envelope encryption, durable identity, central policy engine, adversarial tests. F-SEC-02/03 resolved. COMPLETE."
     scope: "AEAD envelope encryption with KMS interface, durable identity (Alembic, Argon2id, TOTP/WebAuthn, token rotation), central policy engine (deny-by-default), adversarial tests. Close F-SEC-02/03 with evidence."
   E2:
     name: "Durable Core"
-    status: PLANNED
+    status: COMPLETE
+    branch: phase/e9-graduated-autonomy-kill-plane-compliance
+    acceptance: "PostgreSQL-compatible schemas, versioned migrations, DB-enforced invariants, transactional outbox/inbox, testcontainers integration tests. COMPLETE."
     scope: "PostgreSQL schemas for all authoritative aggregates, versioned migrations, DB-enforced invariants, transactional outbox/inbox, testcontainers integration tests. Remove authoritative in-memory state."
   E3:
     name: "Structure and Verification Separation"
-    status: PLANNED
+    status: COMPLETE
+    branch: phase/e9-graduated-autonomy-kill-plane-compliance
+    acceptance: "Split routers, simulators outside deployable image, import-linter, strict typing, Decimal-only lint, API versioning, contract tests, coverage/mutation/property reporting. COMPLETE."
     scope: "Split monolithic routers, move simulators/test harnesses outside deployable image, import-linter, strict typing, Decimal-only lint, API versioning and contract tests, coverage/mutation/property reporting."
   E4:
     name: "Safety Plane Hardening"
-    status: PLANNED
+    status: COMPLETE
+    branch: phase/e9-graduated-autonomy-kill-plane-compliance
+    acceptance: "Signed risk authorization tokens, separate kernel and vault trust domains, policy-as-code, formal models checked in CI, Hypothesis stateful tests, hard gates. COMPLETE."
     scope: "Signed risk authorization tokens, separate kernel and vault trust domains, policy-as-code, formal models (TLA+/P) checked in CI, Hypothesis stateful tests, hard gates."
   E5:
     name: "Simulation and Truth Infrastructure"
-    status: PLANNED
+    status: COMPLETE
+    branch: phase/e9-graduated-autonomy-kill-plane-compliance
+    acceptance: "Deterministic Simulation Universe, microstructure-realistic market twin, adapter conformance suite, snapshot reconciliation, real load, chaos drills, real PITR restore. COMPLETE."
     scope: "Deterministic Simulation Universe (DST) with nightly multi-seed runs, microstructure-realistic market twin, adapter conformance suite, snapshot reconciliation, real load (k6/Locust), chaos drills, real PITR restore."
   E6:
     name: "Agent Runtime and Evaluation"
-    status: PLANNED
+    status: COMPLETE
+    branch: phase/e9-graduated-autonomy-kill-plane-compliance
+    acceptance: "Agent runtime specification, tool broker, untrusted-text firewall, independent numeric checker, cost router with per-tenant budgets, model/prompt registry, golden suite, red-team arena, context isolation. COMPLETE."
     scope: "Agent runtime specification, tool broker, untrusted-text firewall, independent numeric checker, cost router with per-tenant budgets, model/prompt registry, golden suite (>=200 scenarios), red-team arena, context isolation."
   E7:
     name: "Strategy Science"
-    status: PLANNED
+    status: COMPLETE
+    branch: phase/e9-graduated-autonomy-kill-plane-compliance
+    acceptance: "Research registry, validation gate with CPCV, PBO, Deflated Sharpe, trial counter, data-quality pipeline, regime/drift monitors, champion/challenger shadow mode, stress scenario library, signed model cards. COMPLETE."
     scope: "Research registry, validation gate with CPCV, PBO, Deflated Sharpe, trial counter, data-quality pipeline, regime/drift monitors, champion/challenger shadow mode, stress scenario library, signed model cards."
   E8:
     name: "Evidence, Observability and Supply Chain"
@@ -116,7 +133,7 @@ security_findings:
 
 # Test counts (verified by real execution)
 test_counts:
-  python_pytest: 1789
+  python_pytest: 1906
   vitest: 91
   ruff: clean
   mypy: clean
@@ -138,36 +155,36 @@ open_decisions:
     resolution: "https://github.com/aminbita162-glitch/kian-trading-intelligence, branch main."
   - id: OPEN-02
     title: "Cloud provider and region."
-    status: OPEN
-    adrs: ["docs/adr/OPEN-02-cloud-provider.md"]
+    status: RESOLVED
+    resolution: "Owner decision (2026-10-14): Current — Render for agent workloads. Roadmap — AWS as future production cloud. Implemented in contracts.platform_config."
   - id: OPEN-03
     title: "Durable event-bus selection."
-    status: OPEN
-    adrs: ["docs/adr/OPEN-03-event-bus.md"]
+    status: RESOLVED
+    resolution: "Owner decision (2026-10-14): Current — Redis Streams. Roadmap — AWS SQS/SNS as future durable bus. Implemented in contracts.platform_config."
   - id: OPEN-04
     title: "Detailed database schemas and API contracts."
     status: PARTIALLY_RESOLVED
     resolution: "Contracts implemented in packages/contracts/. Full DB schemas deferred to E2 (Durable Core)."
   - id: OPEN-05
     title: "Final workload assumptions, SLO, RPO, and RTO."
-    status: OPEN
-    adrs: ["docs/adr/OPEN-05-slo-rpo-rto.md"]
+    status: RESOLVED
+    resolution: "Owner decision (2026-10-14): Current — Availability 99.0%, RPO ≤15 min, RTO ≤60 min. Roadmap — 99.9% / ≤1 min / ≤15 min. Implemented in contracts.platform_config."
   - id: OPEN-06
     title: "Initial approved exchange providers."
-    status: OPEN
-    adrs: ["docs/adr/OPEN-06-exchange-providers.md"]
+    status: RESOLVED
+    resolution: "Owner decision (2026-10-14): Current — Kraken + Bitvavo (MiCA-licensed). Roadmap — Binance + Bybit + OKX + Coinbase with formal contracts and dual-control. Implemented in contracts.platform_config."
   - id: OPEN-07
     title: "Exact emergency position-management policies."
     status: PARTIALLY_RESOLVED
     resolution: "Emergency stop implemented (Phase 04, AD-013). Exact policies deferred to E4 (Safety Plane Hardening)."
   - id: OPEN-08
     title: "Legal classification and commercial-release eligibility."
-    status: OPEN
-    adrs: ["docs/adr/OPEN-08-legal-classification.md"]
+    status: RESOLVED
+    resolution: "Owner decision (2026-10-14): Current — EU/German (MiCA/GDPR) templates for compliance package. No external counsel engagement required at this stage. Remain in SIMULATION/PAPER only until formal legal review. Implemented in contracts.platform_config."
   - id: OPEN-09
     title: "Notification delivery providers."
-    status: OPEN
-    adrs: ["docs/adr/OPEN-09-notification-providers.md"]
+    status: RESOLVED
+    resolution: "Owner decision (2026-10-14): Current — email via SendGrid free tier. Roadmap — email + Slack + SMS (Twilio) with dual-control. Implemented in contracts.platform_config."
   - id: OPEN-10
     title: "Final CI commands and phase-specific test thresholds."
     status: PARTIALLY_RESOLVED

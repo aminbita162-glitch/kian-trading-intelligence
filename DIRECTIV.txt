@@ -1,228 +1,127 @@
 KIAN TRADING INTELLIGENCE
-MASTER ENGINEERING DIRECTIVE — ELEVATION AND MARKET COMPLETION
-Version: 1.2 — Owner-Authorized Elevation Addendum (integrates V1.0 + V1.1 + KTI-ELEVATE findings)
+POST-E10 COMPLETION AND MARKET READINESS DIRECTIVE
+Version: 1.3 — Owner-Authorized Final Completion Addendum
 Canonical Filename: DIRECTIV.txt
 Project Root: KIAN-TRADING-INTELLIGENCE
 Status: EXECUTION LOCKED — EXPLICIT PHASE AUTHORIZATION REQUIRED
-Architecture Decisions: AD-001 through AD-040 (extended)
-Implementation Phases: Elevation E0 through E10 (market completion)
-Document Language: English (canonical per prior A01)
+Architecture Decisions: AD-001 through AD-040 (binding)
+Implementation Scope: Post-E10 residual work only (E0–E10 already complete)
+Document Language: English (canonical)
 Implementation-Agent Identity: Neutral (any agent may continue; no agent-specific content)
 
 ======================================================================
-SECTION 00 — MASTER AUTHORITY, EXECUTION LOCK AND ABSOLUTE PROHIBITIONS
+SECTION 00 — MASTER AUTHORITY AND ABSOLUTE PROHIBITIONS
 ======================================================================
 
 00.1 Purpose
-This document is the single master engineering directive for elevating Kian Trading Intelligence from a well-governed simulation-grade scaffold to an evidence-backed, production-candidate, multi-tenant, cost-aware cryptocurrency trading and mining intelligence platform ready for controlled initial market entry (sellable initial version). It incorporates all prior architecture decisions, integrity policies, and independent audit findings. It defines binding requirements, non-negotiable invariants, elevation phases, commercial readiness, and mandatory verification.
-
-This document remains independent of any specific development agent, model, vendor or AI coding assistant. Different agents may continue work sequentially without conflict provided all rules are followed.
+This document authorizes only the residual work required after completion of elevation phases E0–E10. It incorporates all owner decisions locked on 2026-10-14, remaining locked ideas, open ADR resolutions, README truth reset, PR remediation, and final market-readiness packaging. It does not reopen completed phases.
 
 00.2 Execution Authorization
-Presence of this file does not authorize development. Implementation requires explicit written instruction from the human project owner specifying the authorized phase, permitted scope and any additional restrictions. Without explicit authorization the agent may inspect and report readiness but must not modify the project.
+Presence of this file does not authorize development. Implementation requires explicit written instruction from the human project owner specifying the authorized residual phase or task. Without explicit authorization the agent may inspect and report but must not modify the project.
 
-00.3 Authority and Conflict Resolution
-Applicable law, provider restrictions, mandatory security controls and explicit owner approvals govern. The approved architecture must not be silently changed. Stricter rule applies in any conflict. Default to hard stops and Absolute Prohibitions.
+00.3 Absolute Prohibitions (non-negotiable)
+- No unauthorized phase or residual-task progression.
+- No live trading authorization (live_trading_authorized remains ALWAYS False until separate written owner decision).
+- No bypass of Risk & Safety Kernel, kill plane, or audit trail.
+- No fabricated evidence.
+- No force-push or destructive Git operations.
+- No production spending or real credentials without separate owner + counsel authorization.
+- Safety controls are NEVER gated by any TierFeature.
 
-00.4 Absolute Prohibitions (non-negotiable; violation stops all work)
-- No unauthorized phase progression.
-- No unapproved live trading, real mining operations or real withdrawals.
-- No direct LLM-controlled financial execution.
-- No bypass of the independent Risk & Safety Kernel.
-- No autonomous withdrawals or exposure-increasing actions without valid signed authorization.
-- No plaintext secrets in source code, Git or ordinary logs.
+00.4 Post-Completion Directive Handling
+Upon owner acceptance of all residual work and market readiness, empty or remove DIRECTIV.txt from the public repository root. Engineering process must not remain publicly visible.
+
+======================================================================
+SECTION 01 — OWNER DECISIONS LOCKED 2026-10-14 (BINDING)
+======================================================================
+
+01.1 OPEN-02 Cloud Provider
+- Current (now): Render for agent workloads (connect and use).
+- Roadmap: AWS as future production cloud.
+
+01.2 OPEN-03 Event Bus
+- Current (now): Redis Streams.
+- Roadmap: AWS SQS/SNS as future durable bus.
+
+01.3 OPEN-05 SLO / RPO / RTO
+- Current (test/use): Availability 99.0%, RPO ≤15 min, RTO ≤60 min.
+- Roadmap (high): Availability 99.9%, RPO ≤1 min, RTO ≤15 min.
+
+01.4 OPEN-06 Exchange Providers
+- Current: Kraken + Bitvavo (MiCA-licensed).
+- Roadmap: Binance + Bybit + OKX + Coinbase with formal contracts and dual-control.
+
+01.5 OPEN-08 Legal Classification
+- Use standard EU/German (MiCA/GDPR) templates for compliance package.
+- No external counsel engagement required at this stage.
+- Classification may be updated later.
+- Remain in SIMULATION/PAPER only until formal legal review.
+
+01.6 OPEN-09 Notification Providers
+- Current: email via SendGrid free tier.
+- Roadmap: email + Slack + SMS (Twilio) with dual-control.
+
+01.7 Pricing Tiers (adjusted)
+- Free: 1-week trial.
+- Tier 1: $49/mo ($39 annual).
+- Tier 2: $99/mo ($79 annual).
+- Tier 3: $149/mo ($119 annual).
+
+01.8 Approved Locked Ideas (all 10 confirmed by owner for implementation)
+1. LLM metering + Token Budget Governor
+2. Structured digest + delta context
+3. Short-lived capability credentials + Dual-LLM quarantine
+4. Event-driven invocation
+5. Decision Replay + uncertainty dossier
+6. Dual Control (WebAuthn)
+7. Shadow-Live + point-in-time Feature Store
+8. Schema-First Bus + Eval-Driven Development
+9. Live Unit Economics + per-tenant kill/restart
+10. Continuous chaos for exchange scenarios + operator cockpit
+
+======================================================================
+SECTION 02 — RESIDUAL TASKS (AUTHORIZED SCOPE)
+======================================================================
+
+02.1 Immediate Remediation (must complete first)
+- Fix CI failures on PR #13 (phase/e9-graduated-autonomy-kill-plane-compliance). Identify and resolve the failing Python Tests & Lint checks. Push fixes. Confirm CI green. Do not merge until green.
+- After PR #13 is green and merged (or owner instructs merge), update README.md phase status table to reflect actual completed state of E0–E10. Synchronize software version and status claims with status.yaml. Remove outdated “IN PROGRESS / PLANNED” entries for completed phases.
+
+02.2 Implement Owner Decisions
+Implement the “Current (now)” choices from Section 01 into configuration, adapters, and documentation without activating LIVE. Roadmap items are recorded only; do not implement them unless explicitly authorized later.
+
+02.3 Implement Approved Locked Ideas
+Implement the 10 approved ideas from Section 01.8 as additive, non-breaking enhancements that preserve all existing invariants and safety controls. Each idea must have tests and evidence.
+
+02.4 Final README and Status Truth Reset
+At the end of the last residual task, update README.md so that the Elevation Phase Status table accurately shows E0–E10 as COMPLETE (or the true current state). Ensure status.yaml, CHANGELOG.md, and README are consistent. No residual discrepancies.
+
+02.5 Evidence and Hard Stop
+For every residual task: run full quality gates, write test-house evidence, commit, push, verify remote SHA and CI green, then hard stop. NEXT TASK NOT AUTHORIZED until owner issues the next instruction.
+
+======================================================================
+SECTION 03 — NON-NEGOTIABLE INVARIANTS
+======================================================================
+
+- live_trading_authorized is ALWAYS False.
+- owner_sign_off_required is ALWAYS True for market readiness.
+- Safety controls (Risk Kernel, kill plane, audit trail) are NEVER gated by any TierFeature or payment tier.
 - No cross-tenant data access.
-- No blind retries of uncertain exchange orders.
-- No automatic trading restart after critical failure.
-- No force-push, history rewrite or destructive operations without approval.
-- No fabricated test, benchmark, deployment, legal or Git evidence.
-- No silent removal or reinterpretation of approved requirements.
-- No claiming phase completion when mandatory verification fails.
-- No production spending, real credentials or live activation without separate written owner + counsel authorization.
-- No permanent storage of this development directive process in public project artifacts after final market completion (see Section 25).
-
-00.5 Post-Completion Directive Handling
-Upon full completion of all elevation phases and owner acceptance of market readiness, the contents of DIRECTIV.txt (or its successor) in the project root must be emptied or the file removed from the public repository. The engineering process itself must not remain publicly visible. Evidence of completion is retained only in private test-house records or owner-controlled locations.
+- All usage limits and metering must not weaken safety controls.
 
 ======================================================================
-SECTION 01 — PRODUCT MISSION, OPERATING MODES AND COMMERCIAL SCOPE
+SECTION 04 — COMPLETION CRITERIA
 ======================================================================
 
-01.1 Mission
-Build a secure, auditable, scalable, cost-aware trading and mining intelligence platform combining deterministic execution, validated quantitative intelligence, specialized agents and human-controlled operational authority. Target: highest-level agentic platform in this domain, ready for initial commercial release.
+Residual work is complete only when:
+- PR #13 CI is green and merged (or owner explicitly accepts otherwise).
+- README phase table matches actual completed state of E0–E10.
+- All “Current (now)” owner decisions from Section 01 are implemented and tested.
+- All 10 approved locked ideas are implemented, tested, and evidenced.
+- status.yaml, README, and CHANGELOG are consistent.
+- Full test suite and quality gates are green on the final commit.
+- Owner has reviewed and accepted the residual work.
 
-01.2 Initial Product Scope
-Cryptocurrency spot-market intelligence and trading; simulation and paper trading; mining profitability simulation; controlled future mining hardware/pool integration (deferred for physical); MacBook desktop application; iPhone-compatible remote dashboard (PWA + optional native considerations); cloud-based trading execution and scheduling; multi-tenant management; financial accounting, profit policies and notifications; independent safety, security, audit and compliance controls; commercial monetization with defined tiers.
+Upon owner acceptance, empty or remove DIRECTIV.txt from the public repository root per Section 00.4.
 
-Architecture supports future expansion; stocks, forex, derivatives, leverage and other products are not authorized for initial live operation.
-
-01.3 Operating Modes
-SIMULATION: Historical or synthetic data without real financial orders.
-PAPER: Simulated trading using approved market data or sandbox environments.
-LIVE: Real financial execution through explicitly authorized providers after all technical, security, legal and human approval gates pass.
-All interfaces, records and audit events must clearly identify the active mode. A mode change must never silently enable real-money trading.
-
-01.4 Scale and Commercial Objective
-Design for multi-tenant operation. Target capacity-planning objective: 10,000 users (validated by measured benchmarks, not claimed). Commercial initial version must support the defined payment tiers and be sellable as a controlled product.
-
-======================================================================
-SECTION 02 — ARCHITECTURE DECISION REGISTER (AD-001 to AD-040)
-======================================================================
-
-All prior AD-001 to AD-033 remain binding. New decisions:
-
-AD-034 — Commercial Monetization and Payment Tiers
-Four levels: (1) Free one-week trial (limited features, no real capital, simulation/paper only); (2) Paid Tier 1 — monthly starting at USD 200 (usage-dependent; basic advanced features); (3) Paid Tier 2 — monthly USD 350; (4) Paid Tier 3 — monthly USD 500. Annual options available for each paid tier at discounted rate (exact discount owner-approved). Usage metering (compute, LLM tokens, data, orders) must be accurate, auditable and enforceable. No paid feature may weaken safety invariants. Withdrawal of funds remains separately gated.
-
-AD-035 — Evidence-Backed Production Candidate
-All verification harnesses must be separated from runtime image. Durable transactional storage mandatory for authoritative state. Simulated verification is insufficient for production claims.
-
-AD-036 — Signed Risk Authorization Tokens
-Risk Kernel issues short-lived, single-use, cryptographically signed authorization tokens bound to exact order parameters. Exchange adapters reject any order lacking valid token. Agents hold no signing key.
-
-AD-037 — Tamper-Evident Decision Ledger
-Hash-chained append-only decision and financial ledger with external anchoring capability. Decision dossiers for every trade.
-
-AD-038 — Graduated Autonomy and Independent Kill Plane
-Formal trust levels (L0 observe to L5 higher-cap live) with automatic demotion and signed human approval for increases. Separate out-of-band kill plane capable of cancelling orders and blocking new exposure even if main platform is down.
-
-AD-039 — Agent Runtime Mesh
-All agent capabilities flow through a tool broker, untrusted-text firewall, cost router and independent deterministic checker. No direct agent access to exchanges, databases or network.
-
-AD-040 — Statistical Honesty and Strategy Validation Gate
-Mandatory pre-registration, trial counter, purged/embargoed CV, Probability of Backtest Overfitting, Deflated Sharpe Ratio and signed model cards. No strategy enters paper or live without passing gate.
-
-Decision Integrity: Every decision maps to requirements, tests and evidence. No decision may be silently removed.
-
-======================================================================
-SECTION 03 — SYSTEM ARCHITECTURE (UPDATED)
-======================================================================
-
-Client Layer: MacBook (Tauri) and iPhone PWA (responsive). Clients are not trusted financial execution authorities.
-Cloud Control Plane: Identity, tenants, profiles, compliance, calendar/sessions, secure remote commands, commercial billing and tier enforcement.
-Cloud Execution Plane: Market data, strategy evaluation, independent Risk Kernel, order submission/reconciliation, financial ledger, mining coordination (simulation-first).
-Data Plane: PostgreSQL (durable), Redis (non-authoritative cache), event bus (selected via ADR), encrypted secret references, hash-chained audit.
-Agent Layer: Four specialized agents + independent Risk Kernel, mediated by runtime mesh (AD-039).
-
-======================================================================
-SECTION 04 — FOUR SPECIALIZED AGENTS + RISK KERNEL (UNCHANGED INVARIANTS)
-======================================================================
-
-Market Intelligence Agent: observations, features, bounded research. Prohibited: direct trade execution.
-Strategy & Portfolio Agent: evaluation, proposals, versioned intents. Prohibited: risk override or self-authorization.
-Execution & Supervisor Agent: order lifecycle, adapters, reconciliation. Prohibited: bypassing risk authorization.
-Mining Operations Agent: simulation, profitability, telemetry. Prohibited: unrestricted trading-account access.
-Risk & Safety Kernel (not an agent): deterministic validation of tenant, session, capital, exposure, compliance, freshness, emergency-stop. Invariant: no exposure-increasing order reaches an adapter without valid signed risk authorization.
-
-======================================================================
-SECTION 05 — TRADING EXECUTION CONTRACT (STRENGTHENED)
-======================================================================
-
-Mandatory pipeline remains. Additions: signed risk tokens (AD-036), snapshot reconciliation, exchange-side protections where available, formal state-machine models checked in CI.
-
-======================================================================
-SECTION 06 to 16 — PRIOR SECTIONS REMAIN BINDING
-======================================================================
-Cloud scheduler, financial ledger, market data, mining, security, data/events/infrastructure, DR, observability, performance/cost, compliance, MacBook/iPhone experience — all prior requirements remain. Strengthened by elevation phases below.
-
-======================================================================
-SECTION 17 — ELEVATION PHASES E0 THROUGH E10
-======================================================================
-
-All development follows the Universal Phase Execution Protocol (preflight, implement only authorized scope, test, commit, push, verify remote, report ending with "NEXT PHASE NOT AUTHORIZED", HARD STOP).
-
-E0 — TRUTH RESET AND GOVERNANCE REPAIR
-Scope: Truth drift, version consistency, CHANGELOG reconstruction, directive lineage, governance precedence, status.yaml as single source of truth, ADR templates for open items, repository visibility decision, honest REAL/SIMULATED/PLANNED labeling.
-Acceptance: CI consistency checks green; every public claim links to evidence or is labeled planned.
-
-E1 — SECURITY BLOCKER REMOVAL
-Scope: AEAD envelope encryption with KMS interface, durable identity (Alembic, Argon2id, TOTP/WebAuthn, token rotation), central policy engine (deny-by-default), adversarial tests. Close F-SEC-02/03 with evidence.
-Acceptance: Cross-tenant rejected at API and DB; old weak crypto removed; tamper tests fail closed.
-
-E2 — DURABLE CORE
-Scope: PostgreSQL schemas for all authoritative aggregates, versioned migrations with up/down tests, DB-enforced invariants (balanced journals, unique idempotency, append-only, RLS), transactional outbox/inbox, testcontainers integration tests. Remove authoritative in-memory state.
-Acceptance: Crash at transaction boundaries leaves consistent state; no duplicate effects on replay.
-
-E3 — STRUCTURE AND VERIFICATION SEPARATION
-Scope: Split monolithic routers; move all simulators, fault injectors, readiness generators and test harnesses outside the deployable image; import-linter; strict typing; Decimal-only lint on financial modules; API versioning and contract tests; coverage/mutation/property reporting.
-Acceptance: Production image contains no verification code; layer violations fail CI.
-
-E4 — SAFETY PLANE HARDENING
-Scope: Signed risk authorization tokens; separate kernel and vault trust domains; policy-as-code; formal models (TLA+/P) for order/session/reservation/SAFE_HALT checked in CI; Hypothesis stateful tests; hard gates.
-Acceptance: Tampered/expired/replayed tokens rejected; formal invariants hold.
-
-E5 — SIMULATION AND TRUTH INFRASTRUCTURE
-Scope: Deterministic Simulation Universe (DST) with nightly multi-seed runs and replay; microstructure-realistic market twin; adapter conformance suite; snapshot reconciliation; real load (k6/Locust) and chaos drills in ephemeral environments; real PITR restore with ledger diff.
-Acceptance: Same seed produces identical results; reality gap tracked; performance evidence recorded.
-
-E6 — AGENT RUNTIME AND EVALUATION
-Scope: Agent runtime specification; tool broker (allowlist, schema, rate, budget, logging); untrusted-text firewall and injection corpus; independent numeric checker; cost router with per-tenant budgets and graceful degradation; model/prompt registry; golden suite (≥200 scenarios) and red-team arena; context isolation.
-Acceptance: Zero policy violations on suite; no direct agent imports of exchange/DB/network; budget exhaustion degrades safely.
-
-E7 — STRATEGY SCIENCE
-Scope: Research registry; validation gate with CPCV, PBO, Deflated Sharpe, trial counter (hash-chained); data-quality pipeline; regime/drift monitors; champion/challenger shadow mode with counterfactual attribution; stress scenario library; signed model cards.
-Acceptance: Deliberately overfitted strategy is rejected; no strategy enters paper without signed gate report. Explicit statement: passing is not a claim of profitability.
-
-E8 — EVIDENCE, OBSERVABILITY AND SUPPLY CHAIN
-Scope: Hash-chained decision ledger with external anchoring and verifier CLI; decision dossiers; full OpenTelemetry; SLOs with burn-rate alerts; IaC with policy scanning; CodeQL/Semgrep/gitleaks/Dependabot; CycloneDX SBOM; Sigstore signing; SLSA provenance; API fuzzing; living threat model (STRIDE + agent-specific); CI-generated badges.
-Acceptance: Audit chain detects any single-byte edit; supply-chain targets met; game-day records exist.
-
-E9 — GRADUATED AUTONOMY, KILL PLANE AND COMPLIANCE PACKAGE
-Scope: Trust-level engine with signed approvals and automatic demotion; independent kill plane with drills; platform evaluation ADR; tabletop and live drills for all runbooks; human-factors review of dangerous actions; operator cockpit; legal classification memo from counsel (OPEN-08); data inventory, DPIA, market-data terms register; external penetration test.
-Acceptance: Kill-plane cancels orders with main platform down; owner review package complete. Completing E9 does NOT authorize live trading.
-
-E10 — COMMERCIAL MONETIZATION, PAYMENT TIERS AND MARKET READINESS
-Scope: Implement four levels per AD-034 (free one-week trial + three paid monthly tiers starting at USD 200 / 350 / 500 with annual options). Usage metering (orders, LLM tokens, data, compute) accurate and auditable. Billing integration (owner-selected provider), tier enforcement that cannot weaken safety, commercial onboarding flow, unit-economics dashboard, final readiness report against Section 23 gates. Include any remaining owner-confirmation items (cloud provider final, exact annual discount, legal sign-off). Apple Developer Program license ($99/year) may be used if Tauri MacBook distribution or future native iOS wrapper is pursued and architecture/compliance allows; evaluate and document decision. PWA path does not require it for basic iPhone access.
-Acceptance: Tiers enforceable in simulation; billing events audited; owner signs final market-readiness package. Project is complete for initial sellable version. Live activation remains separate written decision.
-
-======================================================================
-SECTION 18 — UNIVERSAL PHASE EXECUTION PROTOCOL (UNCHANGED + STRENGTHENED)
-======================================================================
-Every phase: Preflight (confirm [VERIFY] items, record in test-house), implement only authorized scope, full test suite (unit, integration, contract, safety, secret scan), commit, push, remote SHA verification, completion report ending with explicit "NEXT PHASE NOT AUTHORIZED", HARD STOP. No next phase begins without new owner authorization.
-
-======================================================================
-SECTION 19–24 — PRIOR GOVERNANCE, GIT, CHANGE CONTROL, OPEN DECISIONS, RELEASE GATES REMAIN
-======================================================================
-Strengthened by E-phases. Section 23 gates must all pass with evidence before any commercial claim of readiness. CONDITIONAL_GO requires owner-signed waiver listing residual risks.
-
-======================================================================
-SECTION 25 — FINAL NON-NEGOTIABLE COMMAND AND COMPLETION
-======================================================================
-
-BUILD ONLY WHAT IS AUTHORIZED.
-NEVER SACRIFICE FINANCIAL CORRECTNESS, SECURITY OR COMPLIANCE FOR SPEED OR COST.
-NEVER CLAIM SUCCESS WITHOUT EVIDENCE.
-COMPLETE ONE PHASE. TEST IT. REVIEW IT. COMMIT IT. PUSH IT. VERIFY IT. REPORT IT. STOP.
-THE NEXT PHASE BEGINS ONLY AFTER EXPLICIT HUMAN APPROVAL.
-
-Upon owner acceptance of E10 completion and market-readiness package:
-- Empty or remove DIRECTIV.txt from the public repository root.
-- Retain private evidence only.
-- Project is ready for initial commercial version (sellable under defined tiers, simulation/paper first; live separately gated).
-
-END OF KIAN TRADING INTELLIGENCE — MASTER ENGINEERING DIRECTIVE V1.2
-Amin Azimi | AI Architect | End-to-End System Development Business Challenge | Azimi Innovation Lab
-
-======================================================================
-OWNER DECISIONS REQUIRED (record before or during E0)
-======================================================================
-OD-1: Approve this V1.2 elevation directive under Section 21.
-OD-2: Confirm hard stops remain in force.
-OD-3: Repository visibility (recommended private or reduced public disclosure).
-OD-4: Authorize E0 as first phase.
-OD-5: Cloud/platform shortlist.
-OD-6: Mining scope (recommended simulation-only for initial version).
-OD-7: Exact annual discount rates and usage metering rules.
-OD-8: Apple Developer Program license usage decision (document compatibility with Tauri/PWA architecture).
-OD-9: Engage legal counsel for commercial classification before any paid live feature.
-
-======================================================================
-CHANGE CONTROL RECORD
-======================================================================
-Documented reason: Independent audit + owner requirement for highest-level completion, commercial tiers and market-ready initial version.
-Affected ADs: All prior + AD-034 to AD-040. No decision removed; several strengthened.
-Financial/security impact: Net positive; no new unauthorized fund-movement capability.
-Dependency analysis: Adds cryptography (AEAD), Alembic, Hypothesis, policy engine, model checker, testcontainers, load/chaos tools, Sigstore, billing provider (owner-selected). License review required.
-Test-plan impact: Adds DST, property, mutation, conformance, chaos, red-team, formal and commercial metering suites.
-Explicit human approval: PENDING.
-Version: Master Directive V1.2.
+HARD STOP. NEXT TASK NOT AUTHORIZED.
