@@ -31,7 +31,7 @@ from __future__ import annotations
 import json
 import logging
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, cast
 
 if TYPE_CHECKING:
     from services.ledger.persistent_ledger import PersistentLedger
@@ -155,7 +155,7 @@ class RedisStreamBus:
         # redis-py returns bytes when decode_responses=False
         if isinstance(entry_id, bytes):
             entry_id = entry_id.decode()
-        return entry_id
+        return cast("str", entry_id)
 
     def relay_outbox(
         self,
