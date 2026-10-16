@@ -754,7 +754,7 @@ class TestEventSchemaValidator:
     def test_validate_all_batch(self) -> None:
         """Batch validation of multiple events."""
         validator = EventSchemaValidator()
-        events = [
+        events: list[tuple[str, dict[str, Any]]] = [
             (
                 "order.created",
                 {"tenant_id": "t1", "symbol": "BTC/USDT", "side": "buy", "quantity": "0.01"},
@@ -922,7 +922,7 @@ class TestEventSchemaIntegrationWithRedisBus:
         validator = EventSchemaValidator()
 
         # All the event types that the E2E simulation can emit
-        test_events = [
+        test_events: list[tuple[str, dict[str, Any]]] = [
             (
                 "order.created",
                 {"tenant_id": "t1", "symbol": "BTC/USDT", "side": "buy", "quantity": "0.01"},
