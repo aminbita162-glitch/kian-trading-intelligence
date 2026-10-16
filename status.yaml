@@ -117,6 +117,13 @@ phases:
     acceptance: "Three items implemented with real service code, integration tests, and runtime connection. 52 new tests. All safety invariants preserved."
     evidence: "test-house/phase-b/evidence.md"
     note: "COMPLETING PHASE B DOES NOT AUTHORIZE LIVE TRADING OR THE NEXT PHASE."
+  Phase_C:
+    name: "Safety Hardening and Evidence (Signed Risk Tokens, Chaos/PITR, Adversarial Tests)"
+    status: COMPLETE
+    branch: phase/c-safety-hardening
+    acceptance: "Signed tokens required and verified on the simulation path. Chaos and PITR results recorded. Adversarial and stateful tests for Risk Kernel and kill plane."
+    evidence: "test-house/phase-c/evidence.md"
+    note: "COMPLETING PHASE C DOES NOT AUTHORIZE LIVE TRADING OR THE NEXT PHASE."
 
 # Prior phases (01–10 from V1.0/V1.1) — all COMPLETE and merged to main
 prior_phases:
@@ -150,7 +157,7 @@ security_findings:
 
 # Test counts (verified by real execution)
 test_counts:
-  python_pytest: 1958
+  python_pytest: 2003
   vitest: 91
   ruff: clean
   mypy: clean
@@ -240,7 +247,7 @@ honest_labels:
   decision_replay: REAL
   event_schema_validation: REAL
   formal_models: PLANNED
-  signed_risk_tokens: PLANNED
+  signed_risk_tokens: REAL
   decision_ledger: PLANNED
   agent_runtime_mesh: PLANNED
   strategy_validation_gate: PLANNED
