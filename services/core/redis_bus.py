@@ -31,7 +31,7 @@ from __future__ import annotations
 import json
 import logging
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, cast
 
 if TYPE_CHECKING:
     from services.ledger.persistent_ledger import PersistentLedger
@@ -74,6 +74,7 @@ class StreamEvent:
     @classmethod
     def from_fields(cls, fields: dict[str | bytes, str | bytes]) -> StreamEvent:
         """Deserialize from Redis stream fields (decode bytes if needed)."""
+
         def _s(v: str | bytes) -> str:
             return v.decode() if isinstance(v, bytes) else v
 
@@ -154,7 +155,7 @@ class RedisStreamBus:
         # redis-py returns bytes when decode_responses=False
         if isinstance(entry_id, bytes):
             entry_id = entry_id.decode()
-        return entry_id
+        return cast("str", entry_id)
 
     def relay_outbox(
         self,
@@ -192,9 +193,7 @@ class RedisStreamBus:
                 ledger.mark_outbox_processed(evt["event_id"])
                 result.relayed += 1
             except Exception as exc:
-                result.errors.append(
-                    f"Failed to relay event {evt['event_id']}: {exc}"
-                )
+                result.errors.append(f"Failed to relay event {evt['event_id']}: {exc}")
                 logger.error("Relay error for event %s: %s", evt["event_id"], exc)
 
         result.remaining = max(0, result.remaining - result.relayed)
@@ -223,9 +222,8 @@ class RedisStreamBus:
         )
         events: list[tuple[str, StreamEvent]] = []
         for _stream_name, entries in raw:
-            for entry_id, fields in entries:
-                if isinstance(entry_id, bytes):
-                    entry_id = entry_id.decode()
+            for raw_id, fields in entries:
+                entry_id = raw_id.decode() if isinstance(raw_id, bytes) else raw_id
                 events.append((entry_id, StreamEvent.from_fields(fields)))
         return events
 
@@ -267,6 +265,6 @@ def create_redis_client(
     Per Section 00.3: no real credentials or production secrets.
     The URL points to a local/test Redis instance only.
     """
-    import redis as redis_lib
+    import redis as redis_lib  # noqa: PLC0415
 
     return redis_lib.Redis.from_url(url, decode_responses=decode_responses)

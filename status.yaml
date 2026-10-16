@@ -1,6 +1,6 @@
 # Kian Trading Intelligence — Single Source of Truth
 # Master status file — all public claims must trace to this file or be labeled PLANNED.
-# Last updated: Phase A (Real Infrastructure) — PostgreSQL + Redis Streams integration
+# Last updated: Phase B (Operational Locked Ideas) — Token Budget Governor, Decision Replay, Schema-First Bus
 # Canonical directive: DIRECTIV.txt (V1.4 — Post-E10 Elevation Plan A-D: Real Infrastructure and Locked Ideas)
 
 directive_version: "1.4"
@@ -104,6 +104,20 @@ phases:
     evidence: "test-house/phase-e10/evidence.md"
     note: "COMPLETING E10 DOES NOT AUTHORIZE LIVE TRADING. Live activation requires separate written owner decision."
 
+  Phase_A:
+    name: "Real Infrastructure (PostgreSQL + Redis Streams)"
+    status: COMPLETE
+    branch: phase/b-operational-locked-ideas
+    acceptance: "Integration tests against real PostgreSQL and Redis pass. End-to-end simulation scenario succeeds. No LIVE capability enabled."
+    evidence: "test-house/phase-a/evidence.md"
+  Phase_B:
+    name: "Operational Locked Ideas (Token Budget Governor, Decision Replay, Schema-First Bus)"
+    status: COMPLETE
+    branch: phase/b-operational-locked-ideas
+    acceptance: "Three items implemented with real service code, integration tests, and runtime connection. 52 new tests. All safety invariants preserved."
+    evidence: "test-house/phase-b/evidence.md"
+    note: "COMPLETING PHASE B DOES NOT AUTHORIZE LIVE TRADING OR THE NEXT PHASE."
+
 # Prior phases (01–10 from V1.0/V1.1) — all COMPLETE and merged to main
 prior_phases:
   "01": { name: "Repository & Engineering Foundation", status: COMPLETE, merged: true }
@@ -136,7 +150,7 @@ security_findings:
 
 # Test counts (verified by real execution)
 test_counts:
-  python_pytest: 1915
+  python_pytest: 1958
   vitest: 91
   ruff: clean
   mypy: clean
@@ -222,6 +236,9 @@ honest_labels:
   commercial_billing: REAL
   payment_tiers: REAL
   usage_metering: REAL
+  token_budget_governor: REAL
+  decision_replay: REAL
+  event_schema_validation: REAL
   formal_models: PLANNED
   signed_risk_tokens: PLANNED
   decision_ledger: PLANNED

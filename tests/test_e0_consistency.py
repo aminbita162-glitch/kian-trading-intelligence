@@ -237,11 +237,9 @@ def test_no_false_live_claims() -> None:
 def test_directiv_is_v1_2() -> None:
     """DIRECTIV.txt must be V1.2+ with phase references."""
     content = _read_file("DIRECTIV.txt")
-    assert (
-        "Version: 1.2" in content
-        or "Version: 1.3" in content
-        or "Version: 1.4" in content
-    ), "DIRECTIV.txt must be V1.2 or later"
+    assert "Version: 1.2" in content or "Version: 1.3" in content or "Version: 1.4" in content, (
+        "DIRECTIV.txt must be V1.2 or later"
+    )
     assert "E0" in content, "DIRECTIV.txt must reference E0"
     assert "E10" in content, "DIRECTIV.txt must reference E10"
     assert "PHASE" in content or "Phase" in content, (

@@ -23,8 +23,10 @@ import contextlib
 import logging
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any
+from uuid import uuid4
 
 from contracts.enums import OrderState
+from contracts.ledger import AccountType
 from contracts.order import OrderIntent
 from contracts.risk import AuthorizationStatus, RiskPolicy
 from services.core.redis_bus import (
@@ -117,8 +119,6 @@ class EndToEndSimulationScenario:
         self._kernel.register_policy(policy)
 
         # Fund the tenant's USDT account
-        from contracts.ledger import AccountType
-
         with contextlib.suppress(Exception):
             # Account may already exist if called twice
             self._ledger.create_account(
@@ -174,9 +174,7 @@ class EndToEndSimulationScenario:
 
         # Read back the authorization that the engine created
         try:
-            auth = self._kernel.get_authorization_for_intent(
-                str(result.order_intent.intent_id)
-            )
+            auth = self._kernel.get_authorization_for_intent(str(result.order_intent.intent_id))
             result.risk_assessment_authorized = (
                 auth.status is AuthorizationStatus.CONSUMED
                 or auth.status is AuthorizationStatus.APPROVED
@@ -189,9 +187,7 @@ class EndToEndSimulationScenario:
             result.errors.append(f"Could not read authorization: {exc}")
 
         if exec_result.state is not OrderState.FILLED:
-            result.errors.append(
-                f"Execution did not fill (state: {exec_result.state.value})"
-            )
+            result.errors.append(f"Execution did not fill (state: {exec_result.state.value})")
             # Still emit and relay the event for the scenario record
 
         # Stage 3: Record the fill in the persistent ledger
@@ -212,15 +208,9 @@ class EndToEndSimulationScenario:
         result.ledger_entry_count = self._ledger.entry_count
 
         # Stage 4: Emit an event to the DB transactional outbox
-        from uuid import uuid4
-
         outbox_event_id = str(uuid4())
         result.outbox_event_id = outbox_event_id
-        fill_qty = (
-            str(exec_result.fills[0].filled_quantity)
-            if exec_result.fills
-            else quantity
-        )
+        fill_qty = str(exec_result.fills[0].filled_quantity) if exec_result.fills else quantity
         self._ledger.emit_outbox_event(
             event_id=outbox_event_id,
             aggregate_type="order",

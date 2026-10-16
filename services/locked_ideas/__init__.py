@@ -46,6 +46,8 @@ from contracts.locked_ideas import (
     MeteringDimension,
     MeteringRecord,
     MeteringRecordId,
+    SchemaBusTopic,
+    SchemaBusTopicId,
     ShadowLiveMode,
     ShadowLiveResult,
     StructuredDigest,
@@ -454,7 +456,7 @@ class DecisionReplayService:
         self._lock = threading.Lock()
         self._records: list[DecisionReplayRecord] = []
 
-    def record_decision(
+    def record_decision(  # noqa: PLR0913, PLR0917
         self,
         decision_type: DecisionType,
         tenant_id: str,
@@ -543,7 +545,8 @@ class DualControlService:
                 raise ValueError(f"Request {request_id} not found.")
             # Create a new request with the added assertion (frozen dataclass)
             new_assertions = list(request.assertions) + [assertion]
-            approved = len({a.approver_id for a in new_assertions}) >= 2
+            _MIN_APPROVERS = 2
+            approved = len({a.approver_id for a in new_assertions}) >= _MIN_APPROVERS
             new_request = DualControlRequest(
                 request_id=request.request_id,
                 action=request.action,
@@ -697,8 +700,6 @@ class SchemaBusService:
         validator: ValidatorFn | None = None,
     ) -> Any:
         """Register a new topic with a JSON schema."""
-        from contracts.locked_ideas import SchemaBusTopic, SchemaBusTopicId
-
         with self._lock:
             if name in self._topics:
                 raise ValueError(f"Topic {name} already registered.")
@@ -736,8 +737,6 @@ class SchemaBusService:
         passed: bool,
     ) -> EvalGateResult:
         """Run an evaluation gate for a schema change."""
-        from contracts.locked_ideas import SchemaBusTopicId
-
         with self._lock:
             topic = self._topics.get(topic_name)
             if topic is None:
@@ -999,6 +998,8 @@ class ContinuousChaosService:
 # Safety invariant helpers
 # ──────────────────────────────────────────────────────────────────────────────
 
+_EXPECTED_IDEA_COUNT = 10
+
 
 def verify_safety_invariants() -> dict[str, bool]:
     """Verify that the locked-idea features preserve all safety invariants.
@@ -1007,6 +1008,6 @@ def verify_safety_invariants() -> dict[str, bool]:
     """
     return {
         "live_trading_authorized_is_false": LOCKED_IDEAS_LIVE_TRADING_AUTHORIZED is False,
-        "ten_ideas_implemented": len(APPROVED_LOCKED_IDEAS) == 10,
+        "ten_ideas_implemented": len(APPROVED_LOCKED_IDEAS) == _EXPECTED_IDEA_COUNT,
         "kill_plane_scope_supports_tenant": KillPlaneScope.TENANT.value == "tenant",
     }
