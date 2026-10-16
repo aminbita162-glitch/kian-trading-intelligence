@@ -18,7 +18,7 @@ Checks performed:
 10. README references status.yaml as single source of truth.
 11. CHANGELOG has an Unreleased entry for E0.
 12. No public claim asserts LIVE trading, real mining, or real withdrawals.
-13. DIRECTIV.txt is V1.2 (contains AD-034 through AD-040 and E0 through E10).
+13. DIRECTIV.txt is the reserved two-line file (process details removed per Phase D).
 """
 
 from __future__ import annotations
@@ -64,16 +64,18 @@ def test_status_yaml_required_keys() -> None:
 
 
 def test_directive_version_consistency() -> None:
-    """status.yaml directive_version must match DIRECTIV.txt version."""
+    """status.yaml directive_version must be 1.4 (V1.4 post-E10 elevation plan).
+
+    DIRECTIV.txt has been replaced with a reserved two-line file per Phase D
+    acceptance criteria. The directive version is now tracked solely in
+    status.yaml as the single source of truth.
+    """
     status_content = _read_file("status.yaml")
-    directive_content = _read_file("DIRECTIV.txt")
     m = re.search(r'directive_version:\s*"([^"]+)"', status_content)
     assert m is not None, "status.yaml must have directive_version"
     status_version = m.group(1)
-    # DIRECTIV.txt is V1.4 (post-E10 elevation plan A-D)
-    assert "Version: 1.4" in directive_content, "DIRECTIV.txt must be V1.4"
     assert status_version == "1.4", (
-        f"status.yaml directive_version ({status_version}) must match DIRECTIV.txt (1.4)"
+        f"status.yaml directive_version ({status_version}) must be 1.4"
     )
 
 
@@ -234,16 +236,21 @@ def test_no_false_live_claims() -> None:
         ), f"{fname} must contain disclaimer about live trading not being authorized/enabled"
 
 
-def test_directiv_is_v1_2() -> None:
-    """DIRECTIV.txt must be V1.2+ with phase references."""
+def test_directiv_is_reserved_file() -> None:
+    """DIRECTIV.txt must be the reserved two-line file (per Phase D).
+
+    After Phase D, DIRECTIV.txt was replaced with exactly:
+      This file is reserved for future engineering directives.
+      Do not store process details or development history in the public repository.
+    The directive version and phase definitions are now tracked solely in
+    status.yaml as the single source of truth.
+    """
     content = _read_file("DIRECTIV.txt")
-    assert "Version: 1.2" in content or "Version: 1.3" in content or "Version: 1.4" in content, (
-        "DIRECTIV.txt must be V1.2 or later"
+    assert "reserved for future engineering directives" in content, (
+        "DIRECTIV.txt must contain the reserved-file notice"
     )
-    assert "E0" in content, "DIRECTIV.txt must reference E0"
-    assert "E10" in content, "DIRECTIV.txt must reference E10"
-    assert "PHASE" in content or "Phase" in content, (
-        "DIRECTIV.txt must define phase authorization protocol"
+    assert "Do not store process details" in content, (
+        "DIRECTIV.txt must contain the no-process-details notice"
     )
 
 

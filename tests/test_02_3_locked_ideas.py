@@ -1,6 +1,6 @@
 """Tests for Post-E10 residual task 02.3 — 10 approved locked ideas.
 
-Per DIRECTIV.txt V1.3 Section 01.8 — all 10 ideas confirmed by the owner
+Per DIRECTIV.txt V1.4 Section 01.8 — all 10 ideas confirmed by the owner
 for implementation as additive, non-breaking enhancements.
 
 Verifies that each idea:

@@ -1,6 +1,6 @@
 # Kian Trading Intelligence — Single Source of Truth
 # Master status file — all public claims must trace to this file or be labeled PLANNED.
-# Last updated: Phase C (Safety Hardening and Evidence) — signed risk tokens, chaos drill, PITR, adversarial tests
+# Last updated: Phase D (Final Truth Reset and Status Update) — all public claims consistent with real state after Phases A–C
 # Canonical directive: DIRECTIV.txt (V1.4 — Post-E10 Elevation Plan A-D: Real Infrastructure and Locked Ideas)
 
 directive_version: "1.4"
@@ -124,6 +124,13 @@ phases:
     acceptance: "Signed tokens required and verified on the simulation path. Chaos and PITR results recorded. Adversarial and stateful tests for Risk Kernel and kill plane."
     evidence: "test-house/phase-c/evidence.md"
     note: "COMPLETING PHASE C DOES NOT AUTHORIZE LIVE TRADING OR THE NEXT PHASE."
+  Phase_D:
+    name: "Final Truth Reset and Status Update"
+    status: COMPLETE
+    branch: main
+    acceptance: "All public files (README, status.yaml, CHANGELOG, architecture.md) consistent with actual implemented state after Phases A-C. Stale references removed. status.yaml remains single source of truth. Evidence in test-house/phase-d/evidence.md."
+    evidence: "test-house/phase-d/evidence.md"
+    note: "COMPLETING PHASE D DOES NOT AUTHORIZE LIVE TRADING OR ANY FUTURE PHASE."
 
 # Prior phases (01–10 from V1.0/V1.1) — all COMPLETE and merged to main
 prior_phases:

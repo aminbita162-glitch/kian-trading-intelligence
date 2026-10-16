@@ -1,6 +1,6 @@
 """Approved locked-idea contracts for Kian Trading Intelligence.
 
-Per DIRECTIV.txt V1.3 Section 01.8 — all 10 ideas confirmed by the owner
+Per DIRECTIV.txt V1.4 Section 01.8 — all 10 ideas confirmed by the owner
 for implementation as additive, non-breaking enhancements.
 
 Each idea preserves all existing invariants and safety controls:

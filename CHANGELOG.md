@@ -7,6 +7,31 @@ with prerelease identifiers during development.
 
 ---
 
+## [0.20.0] — Phase D: Final Truth Reset and Status Update
+
+### Changed — Phase D: Final Truth Reset and Status Update
+- `status.yaml` — Phase_D added as COMPLETE; "Last updated" header updated to Phase D; directive lineage V1.3 marked superseded, V1.4 active
+- `README.md` — Directive badge V1.3 → V1.4; directive version line V1.3 → V1.4; Post-E10 Elevation Phases (A–D) table added; Technology Stack: PostgreSQL and Redis changed PLANNED → REAL; Deployment updated to reflect Render configured as target; governance lineage table updated (V1.3 superseded, V1.4 active); all directive references V1.3 → V1.4
+- `docs/architecture.md` — Deployment line updated: "Render planned" → "Render — configured as target, not yet deployed"
+- `DIRECTIV.txt` — Replaced with the two-line reserved file (per Phase D acceptance criteria)
+
+### Added — Phase D
+- `test-house/phase-d/evidence.md` — Phase D evidence record (scan results, pricing-value assessment)
+
+### Pricing-Value Assessment
+- Current pricing: TIER_1 $49/mo, TIER_2 $99/mo, TIER_3 $149/mo (annual: $39/$79/$119)
+- Old pricing ($200/$350/$500) was replaced in residual task 02.2 per Section 01.7
+- No automatic price change in Phase D; owner decides future pricing
+- Assessment: Current pricing is competitive for a simulation-grade multi-tenant trading intelligence platform with per-tenant budget governance, decision replay, signed risk tokens, and real PostgreSQL/Redis infrastructure
+
+### Invariants enforced (non-negotiable)
+- All public files consistent with actual implemented state after Phases A–C
+- No stale references to old pricing (200/350/500) as current values
+- `status.yaml` remains the single source of truth
+- `live_authorized` remains false; `operating_mode` remains SIMULATION
+
+---
+
 ## [0.20.0] — Post-E10 Residual Task 02.4: Final README and Status Truth Reset
 
 ### Changed — Post-E10 Residual Task 02.4

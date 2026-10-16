@@ -146,7 +146,7 @@ for current phase status and `DIRECTIV.txt` for full scope and acceptance criter
 | Database | PostgreSQL |
 | Cache | Redis |
 | Observability | OpenTelemetry |
-| Deployment | Managed cloud (Render planned) |
+| Deployment | Managed cloud (Render — configured as target, not yet deployed) |
 
 ## Phase 01 Implementation
 
