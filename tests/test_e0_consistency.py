@@ -74,9 +74,7 @@ def test_directive_version_consistency() -> None:
     m = re.search(r'directive_version:\s*"([^"]+)"', status_content)
     assert m is not None, "status.yaml must have directive_version"
     status_version = m.group(1)
-    assert status_version == "1.4", (
-        f"status.yaml directive_version ({status_version}) must be 1.4"
-    )
+    assert status_version == "1.4", f"status.yaml directive_version ({status_version}) must be 1.4"
 
 
 def test_software_version_consistency() -> None:
