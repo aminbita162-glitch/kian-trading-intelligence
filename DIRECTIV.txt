@@ -1,2 +1,106 @@
+KIAN TRADING INTELLIGENCE
+POST-E10 ELEVATION PLAN A–D — REAL INFRASTRUCTURE AND LOCKED IDEAS
+Version: 1.4 — Owner-Authorized Implementation Directive
+Canonical Filename: DIRECTIV.txt
+Project Root: KIAN-TRADING-INTELLIGENCE
+Status: EXECUTION LOCKED — EXPLICIT PHASE AUTHORIZATION REQUIRED
+Document Language: English (canonical)
+Implementation-Agent Identity: Neutral (any agent may continue; no agent-specific content)
+
+======================================================================
+SECTION 00 — MASTER AUTHORITY AND ABSOLUTE PROHIBITIONS
+======================================================================
+
+00.1 Purpose
+This document authorizes only the residual elevation work defined in Phases A–D below. All prior E0–E10 phases and residual tasks 02.1–02.4 are complete. This plan closes the gap between COMPLETE labels and real operational capability while remaining strictly in SIMULATION mode.
+
+00.2 Execution Authorization
+Presence of this file does not authorize any work. Implementation requires explicit written instruction from the human project owner naming the exact phase (A, B, C, or D) and confirming scope. Without that instruction the agent must stop.
+
+00.3 Absolute Prohibitions (non-negotiable; any violation requires immediate hard stop)
+- No LIVE trading, real mining, real withdrawals, or real financial operations of any kind.
+- No use of real credentials, production secrets, or live exchange keys.
+- No deletion of any file unless that exact deletion is explicitly listed in the authorized phase scope.
+- No work outside the single authorized phase.
+- No silent addition of features, refactors, or “improvements” not listed in the phase.
+- No force-push, history rewrite, or destructive git operations.
+- No fabrication of test results, evidence, or deployment claims.
+- No storage of this directive process or development history in public artifacts after the final phase.
+- If any ambiguity, conflict, missing dependency, or need for a decision outside the phase scope appears, stop immediately and ask the owner. Do not guess.
+
+00.4 Hard Stop Protocol
+At the end of every phase the agent must:
+1. Run the full test suite and fix any failures caused by the phase.
+2. Commit with a clear message.
+3. Push to the remote.
+4. Write or update evidence in test-house/.
+5. Report status and end with the exact sentence: NEXT PHASE NOT AUTHORIZED.
+6. Hard stop. Do not begin the next phase.
+
+======================================================================
+SECTION 01 — PHASE A: REAL INFRASTRUCTURE
+======================================================================
+
+Scope (only these items):
+- Connect and configure Render for agent workloads using the existing owner decision (current target).
+- Provision and connect a real PostgreSQL instance and a real Redis instance on Render (or equivalent owner-approved service).
+- Replace the primary development path from SQLite to PostgreSQL with versioned migrations and integration tests.
+- Activate Redis Streams as the operational event bus with transactional outbox/inbox.
+- Implement and verify one end-to-end simulation scenario: a single tenant submits an order that flows from agent through Risk Kernel to ledger with real persistence.
+- Keep all data synthetic. No real money, no real exchange keys.
+
+Acceptance criteria:
+- Integration tests against real PostgreSQL and Redis pass.
+- The end-to-end simulation scenario succeeds and is recorded in test-house/phase-a/evidence.md.
+- No LIVE capability is enabled.
+- All tests green, commit pushed, evidence written, hard stop.
+
+======================================================================
+SECTION 02 — PHASE B: OPERATIONAL LOCKED IDEAS
+======================================================================
+
+Scope (only these three ideas, fully implemented, not skeletons):
+1. Token Budget Governor + accurate metering (LLM tokens, compute, orders) with per-tenant budgets and graceful degradation.
+2. Decision Replay + uncertainty dossier for the order path (replayable, auditable decision records).
+3. Schema-First Bus: contract validation of all event schemas in CI.
+
+Acceptance criteria:
+- Each of the three items has real service code, integration tests, and connection to the runtime.
+- Evidence recorded in test-house/phase-b/evidence.md.
+- Full test suite green, commit pushed, hard stop.
+
+======================================================================
+SECTION 03 — PHASE C: SAFETY HARDENING AND EVIDENCE
+======================================================================
+
+Scope (only these items):
+- Activate signed risk authorization tokens on the simulation order path (short-lived, single-use, cryptographically signed, bound to exact order parameters).
+- Execute at least one chaos drill and one PITR restore against the real PostgreSQL instance using synthetic data; record results.
+- Add adversarial and stateful tests for the Risk Kernel and kill plane.
+
+Acceptance criteria:
+- Signed tokens are required and verified on the simulation path.
+- Chaos and PITR results are recorded in test-house/phase-c/evidence.md.
+- Full test suite green, commit pushed, hard stop.
+
+======================================================================
+SECTION 04 — PHASE D: FINAL TRUTH RESET AND STATUS UPDATE
+======================================================================
+
+Scope (only these items):
+- Scan the entire repository and update every public claim, README, status.yaml, CHANGELOG, and honest_labels so they accurately reflect the real state after Phases A–C.
+- Remove any remaining stale references to old pricing (200/350/500) or outdated phase status.
+- Produce a short pricing-value assessment report (no automatic price change; owner decides later).
+- Ensure status.yaml remains the single source of truth.
+
+Acceptance criteria:
+- All public files are consistent with the actual implemented state.
+- Evidence of the scan and updates recorded in test-house/phase-d/evidence.md.
+- Full test suite green, commit pushed, hard stop.
+- After this phase the agent must also replace the contents of DIRECTIV.txt with exactly these two lines and nothing else:
 This file is reserved for future engineering directives.
 Do not store process details or development history in the public repository.
+
+======================================================================
+END OF DIRECTIVE
+======================================================================
